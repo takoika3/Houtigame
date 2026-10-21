@@ -1,907 +1,1857 @@
-:root {
-  --bg: #070a16;
-  --panel: rgba(17, 23, 43, 0.93);
-  --line: #344264;
-  --text: #f4f0ff;
-  --muted: #9eabc9;
-
-  --violet: #8b67ff;
-  --cyan: #55d8ff;
-  --gold: #ffc857;
-
-  --war: #ff657a;
-  --guard: #54d8ac;
-  --fate: #a879ff;
-}
-
 * {
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+
+  --dark:
+    #080a12;
+
+  --panel:
+    #161b2c;
+
+  --gold:
+    #e8b94e;
+
+  --purple:
+    #7256c8;
+
+  --war:
+    #e94d59;
+
+  --guard:
+    #50c77b;
+
+  --magic:
+    #457de8;
+
+  --fate:
+    #a759dc;
+
+  --astral:
+    #3fc8cc;
+
+  --rebirth:
+    #ece2aa;
 }
 
 body {
+
   margin: 0;
 
-  min-height: 100vh;
-
   background:
-    radial-gradient(
-      circle at 50% 0%,
-      #202c58 0%,
-      #0b1023 38%,
-      var(--bg) 85%
-    );
+    #090b12;
 
-  color: var(--text);
+  color:
+    white;
 
   font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
+    Arial,
     "Yu Gothic",
     sans-serif;
 }
 
-/* =========================
-   星空背景
-========================= */
-
-.stars {
-  position: fixed;
-
-  inset: 0;
-
-  pointer-events: none;
-
-  opacity: 0.35;
-
-  background-image:
-    radial-gradient(
-      white 1px,
-      transparent 1px
-    );
-
-  background-size: 45px 45px;
-
-  mask-image:
-    linear-gradient(
-      black,
-      transparent 85%
-    );
-}
-
-/* =========================
-   全体
-========================= */
-
-.app {
-  position: relative;
-
-  max-width: 1180px;
-
-  margin: auto;
-
-  padding: 24px;
-}
-
-/* =========================
-   ヘッダー
-========================= */
-
-.top {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 20px;
-}
-
-.top h1 {
-  margin: 2px 0;
-
-  font-size:
-    clamp(
-      24px,
-      4vw,
-      42px
-    );
-}
-
-small {
-  color: var(--muted);
-}
-
-/* =========================
-   所持アイテム
-========================= */
-
-.wallet {
-  display: flex;
-
-  gap: 8px;
-
-  flex-wrap: wrap;
-}
-
-.wallet span {
-  padding: 10px 14px;
-
-  background: #171f39;
-
-  border:
-    1px solid
-    var(--line);
-
-  border-radius: 12px;
-}
-
-/* =========================
-   プレイヤー情報
-========================= */
-
-.hero {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  gap: 20px;
-
-  margin: 20px 0;
-
-  padding: 18px 22px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(20, 28, 52, 0.93),
-      rgba(15, 20, 39, 0.93)
-    );
-
-  border:
-    1px solid
-    var(--line);
-
-  border-radius: 22px;
-
-  box-shadow:
-    0 20px 50px
-    rgba(0, 0, 0, 0.4);
-}
-
-.hero h2 {
-  margin: 4px 0;
-}
-
-/* =========================
-   HP・EXPバー
-========================= */
-
-.bar {
-  width: 100%;
-
-  height: 9px;
-
-  overflow: hidden;
-
-  background: #050814;
-
-  border-radius: 20px;
-}
-
-.bar i {
-  display: block;
-
-  width: 0%;
-
-  height: 100%;
-
-  transition: 0.3s;
-
-  background:
-    linear-gradient(
-      90deg,
-      var(--violet),
-      var(--cyan)
-    );
-}
-
-.enemybar i {
-  background:
-    linear-gradient(
-      90deg,
-      #cf3b66,
-      #ff8c6e
-    );
-}
-
-/* =========================
-   メニュー
-========================= */
-
-nav {
-  display: grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
-  gap: 8px;
-
-  margin-bottom: 16px;
-}
-
-/* =========================
-   ボタン
-========================= */
-
 button {
-  padding: 12px;
 
-  border:
-    1px solid
-    #3d4a70;
-
-  border-radius: 12px;
-
-  background: #1a2442;
-
-  color: var(--text);
-
-  font-weight: 750;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.2s,
-    border-color 0.2s,
-    box-shadow 0.2s;
-}
-
-button:hover {
-  transform:
-    translateY(-2px);
-
-  border-color:
-    #8291c4;
-}
-
-button:disabled {
-  opacity: 0.4;
+  font-family:
+    inherit;
 
   cursor:
-    not-allowed;
-
-  transform: none;
+    pointer;
 }
 
-nav button.active,
-.primary {
-  background:
-    linear-gradient(
-      135deg,
-      #7655ec,
-      #288eca
-    );
+.game {
 
-  box-shadow:
-    0 8px 25px
-    rgba(101, 75, 215, 0.27);
+  width: 100%;
+
+  min-height:
+    100vh;
+
+  padding-bottom:
+    80px;
 }
 
-.gold {
-  background:
-    linear-gradient(
-      135deg,
-      #9c6415,
-      #f2bd49
-    );
-
-  color: #241706;
-}
-
-.danger {
-  background: #5b2637;
-}
-
-.ghost {
-  background: transparent;
-
-  margin-top: 8px;
-}
 
 /* =========================
-   タブ
+   TOP
 ========================= */
 
-.tab {
-  display: none;
-}
+.topBar {
 
-.tab.active {
-  display: block;
-}
+  height: 70px;
 
-/* =========================
-   冒険画面
-========================= */
-
-.grid {
-  display: grid;
-
-  grid-template-columns:
-    1.1fr 1fr 0.9fr;
-
-  gap: 14px;
-}
-
-/* =========================
-   パネル
-========================= */
-
-.panel {
-  padding: 20px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(20, 28, 52, 0.93),
-      rgba(15, 20, 39, 0.93)
-    );
-
-  border:
-    1px solid
-    var(--line);
-
-  border-radius: 22px;
-
-  box-shadow:
-    0 20px 50px
-    rgba(0, 0, 0, 0.4);
-}
-
-.panel h3 {
-  margin-top: 22px;
-}
-
-.battle {
-  text-align: center;
-}
-
-/* =========================
-   モンスター
-========================= */
-
-.monster {
-  margin: 10px;
-
-  font-size: 82px;
-
-  filter:
-    drop-shadow(
-      0 10px 12px
-      black
-    );
-}
-
-/* =========================
-   戦闘ログ
-========================= */
-
-.log {
-  height: 165px;
-
-  overflow: auto;
-
-  margin: 12px 0;
-
-  padding: 10px;
-
-  text-align: left;
-
-  background: #070b18;
-
-  border:
-    1px solid
-    #263251;
-
-  border-radius: 12px;
-
-  font-size: 13px;
-}
-
-/* =========================
-   職業
-========================= */
-
-.jobs {
   display: flex;
 
-  gap: 7px;
+  align-items: center;
+
+  justify-content:
+    space-between;
+
+  padding:
+    8px 15px;
+
+  background:
+    linear-gradient(
+      #674da9,
+      #36285f
+    );
+
+  border-bottom:
+    3px solid
+    #21183c;
 }
 
-.jobs button {
-  flex: 1;
+.profile {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
 }
 
-.jobs button.active {
-  background: #5c4a8d;
+.avatar {
 
-  border-color:
-    #c4a8ff;
+  width: 45px;
+  height: 45px;
+
+  display: grid;
+
+  place-items:
+    center;
+
+  border-radius:
+    50%;
+
+  background:
+    white;
+
+  font-size:
+    24px;
 }
+
+.profile small,
+.profile strong {
+
+  display:
+    block;
+}
+
+.resources {
+
+  display:
+    flex;
+
+  gap:
+    6px;
+}
+
+.resource {
+
+  padding:
+    7px 10px;
+
+  background:
+    #30234f;
+
+  border-radius:
+    15px;
+
+  font-size:
+    12px;
+}
+
 
 /* =========================
-   ステータス
+   PAGE
 ========================= */
 
-.statgrid {
-  display: grid;
+.page {
+
+  display:
+    none;
+
+  min-height:
+    calc(
+      100vh - 150px
+    );
+}
+
+.page.active {
+
+  display:
+    block;
+}
+
+
+/* =========================
+   ADVENTURE
+========================= */
+
+.stageTitle {
+
+  text-align:
+    center;
+
+  padding:
+    10px;
+
+  color:
+    white;
+
+  background:
+    #61bcd9;
+}
+
+.stageTitle small {
+
+  font-weight:
+    bold;
+}
+
+.stageTitle h1 {
+
+  margin:
+    2px;
+}
+
+
+.battleField {
+
+  height:
+    410px;
+
+  position:
+    relative;
+
+  overflow:
+    hidden;
+
+  background:
+
+    linear-gradient(
+      transparent 63%,
+      #6bae58 63%,
+      #75af54 69%,
+      #d8b46e 69%
+    ),
+
+    linear-gradient(
+      #74cee9,
+      #b9ebef
+    );
+}
+
+.enemy {
+
+  position:
+    absolute;
+
+  top:
+    55px;
+
+  left:
+    50%;
+
+  transform:
+    translateX(-50%);
+
+  text-align:
+    center;
+}
+
+.enemyTitle {
+
+  padding:
+    5px 12px;
+
+  background:
+    #392d44;
+
+  border:
+    2px solid
+    white;
+
+  border-radius:
+    15px;
+
+  font-weight:
+    bold;
+}
+
+.enemyHpBar {
+
+  width:
+    220px;
+
+  height:
+    15px;
+
+  margin:
+    7px auto 2px;
+
+  overflow:
+    hidden;
+
+  background:
+    #3b2530;
+
+  border:
+    3px solid
+    white;
+
+  border-radius:
+    20px;
+}
+
+.enemyHpBar i {
+
+  display:
+    block;
+
+  width:
+    100%;
+
+  height:
+    100%;
+
+  background:
+    linear-gradient(
+      #ff685e,
+      #cd2536
+    );
+}
+
+.enemySprite {
+
+  margin-top:
+    15px;
+
+  font-size:
+    100px;
+}
+
+.heroSprite {
+
+  position:
+    absolute;
+
+  left:
+    50%;
+
+  bottom:
+    28px;
+
+  transform:
+    translateX(-50%);
+
+  font-size:
+    70px;
+}
+
+.battleEffect {
+
+  position:
+    absolute;
+
+  left:
+    50%;
+
+  top:
+    50%;
+
+  z-index:
+    10;
+
+  transform:
+    translate(-50%, -50%);
+
+  font-size:
+    120px;
+
+  opacity:
+    0;
+}
+
+.battleEffect.active {
+
+  animation:
+    effect .45s;
+}
+
+@keyframes effect {
+
+  0% {
+
+    opacity:
+      0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(.2);
+  }
+
+  45% {
+
+    opacity:
+      1;
+  }
+
+  100% {
+
+    opacity:
+      0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.8);
+  }
+}
+
+.battleLog {
+
+  padding:
+    9px;
+
+  background:
+    #2d3024;
+
+  color:
+    #ffe9ae;
+
+  font-size:
+    12px;
+}
+
+.quest {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    45px 1fr auto;
+
+  align-items:
+    center;
+
+  padding:
+    8px 15px;
+
+  background:
+    #294029;
+}
+
+.quest strong,
+.quest span {
+
+  display:
+    block;
+}
+
+.quest strong {
+
+  color:
+    #ffe358;
+}
+
+.powerPanel {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    10px;
+
+  padding:
+    8px;
+
+  background:
+    #4c367f;
+}
+
+.powerPanel div {
+
+  flex:
+    1;
+
+  text-align:
+    center;
+}
+
+.powerPanel strong {
+
+  display:
+    block;
+
+  color:
+    #ffe45e;
+
+  font-size:
+    20px;
+}
+
+.powerPanel button {
+
+  flex:
+    2;
+
+  padding:
+    15px;
+
+  border:
+    3px solid
+    #fff0a2;
+
+  border-radius:
+    15px;
+
+  background:
+    linear-gradient(
+      #ffd85a,
+      #e78326
+    );
+
+  color:
+    #5a3719;
+
+  font-size:
+    18px;
+
+  font-weight:
+    bold;
+}
+
+.statusRow {
+
+  display:
+    grid;
 
   grid-template-columns:
     repeat(3, 1fr);
 
-  gap: 8px;
-
-  margin: 12px 0;
+  background:
+    #402c6a;
 }
 
-.statgrid div {
-  padding: 10px;
+.statusRow div {
 
-  text-align: center;
+  text-align:
+    center;
 
-  color: var(--muted);
+  padding:
+    8px;
 
-  background: #0c1225;
-
-  border:
+  border-right:
     1px solid
-    #293452;
-
-  border-radius: 12px;
+    #71589c;
 }
 
-.statgrid b {
-  display: block;
+.statusRow small,
+.statusRow b {
 
-  margin-top: 3px;
-
-  color: var(--text);
-
-  font-size: 18px;
+  display:
+    block;
 }
 
-/* =========================
-   スキル
-========================= */
+.statusRow b {
 
-.skills {
-  display: grid;
-
-  gap: 7px;
+  color:
+    #ffe65d;
 }
 
-.skill {
-  display: flex;
+.expBox {
 
-  justify-content: space-between;
+  padding:
+    8px 12px;
 
-  align-items: center;
+  background:
+    #f1dca8;
+
+  color:
+    #553b24;
 }
 
-.skill strong {
-  padding: 2px 8px;
+.expBar {
 
-  background: #6048a3;
+  height:
+    10px;
 
-  border-radius: 30px;
+  margin-top:
+    5px;
+
+  overflow:
+    hidden;
+
+  background:
+    #726044;
+
+  border-radius:
+    10px;
 }
 
-.muted {
-  color: var(--muted);
+.expBar i {
+
+  display:
+    block;
+
+  height:
+    100%;
+
+  width:
+    0;
+
+  background:
+    #5c9df8;
 }
 
-/* =========================
-   放置報酬
-========================= */
+.upgradeGrid {
 
-.reward {
-  margin-bottom: 8px;
-
-  padding: 14px;
-
-  text-align: center;
-
-  background: #171f39;
-
-  border:
-    1px solid
-    var(--line);
-
-  border-radius: 12px;
-}
-
-/* =========================
-   小見出し
-========================= */
-
-.eyebrow {
-  color: var(--cyan);
-
-  font-size: 11px;
-
-  letter-spacing: 2px;
-}
-
-/* =========================
-   スキルツリー
-========================= */
-
-.treePanel {
-  min-height: 700px;
-}
-
-.treeHead {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 20px;
-}
-
-.legend {
-  display: flex;
-
-  gap: 18px;
-
-  flex-wrap: wrap;
-
-  margin: 18px 0;
-
-  color: var(--muted);
-}
-
-.war {
-  color: var(--war);
-}
-
-.guard {
-  color: var(--guard);
-}
-
-.fate {
-  color: var(--fate);
-}
-
-.treeBoard {
-  display: grid;
+  display:
+    grid;
 
   grid-template-columns:
-    repeat(7, 1fr);
+    repeat(4, 1fr);
 
-  grid-template-rows:
-    repeat(5, 105px);
+  gap:
+    5px;
 
-  gap: 12px;
+  padding:
+    6px;
 
-  min-height: 570px;
+  background:
+    #e8c888;
+}
 
-  padding: 18px;
+.upgradeGrid button {
 
-  overflow: auto;
+  min-height:
+    120px;
+
+  padding:
+    7px 2px;
+
+  border:
+    3px solid
+    white;
+
+  border-radius:
+    16px;
+
+  background:
+    linear-gradient(
+      #675abe,
+      #3c347f
+    );
+
+  color:
+    white;
+}
+
+.upgradeGrid span,
+.upgradeGrid strong,
+.upgradeGrid small,
+.upgradeGrid b {
+
+  display:
+    block;
+}
+
+.upgradeGrid > button > span {
+
+  font-size:
+    30px;
+}
+
+.upgradeGrid b {
+
+  margin-top:
+    6px;
+
+  padding:
+    5px;
+
+  color:
+    #50371d;
+
+  background:
+    #ffd756;
+
+  border-radius:
+    6px;
+}
+
+
+/* =========================
+   GIANT TREE
+========================= */
+
+.treePage {
+
+  background:
+    #07080a;
+}
+
+.treeHeader {
+
+  height:
+    70px;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    60px 1fr 100px;
+
+  align-items:
+    center;
+
+  padding:
+    6px 12px;
+
+  background:
+    linear-gradient(
+      #332718,
+      #17120c
+    );
+
+  border-bottom:
+    2px solid
+    #785d31;
+}
+
+.treeHeader small {
+
+  color:
+    #c6a875;
+}
+
+.treeHeader h2 {
+
+  margin:
+    2px 0;
+}
+
+.backButton {
+
+  width:
+    45px;
+
+  height:
+    45px;
+
+  border-radius:
+    50%;
+
+  color:
+    white;
+
+  background:
+    #47351f;
+
+  border:
+    2px solid
+    #a57d3c;
+
+  font-size:
+    20px;
+}
+
+.treeCurrency {
+
+  text-align:
+    right;
+
+  font-size:
+    21px;
+
+  font-weight:
+    bold;
+}
+
+
+/* TOOLBAR */
+
+.treeToolbar {
+
+  min-height:
+    58px;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  gap:
+    8px;
+
+  padding:
+    8px 12px;
+
+  background:
+    #100e0a;
+
+  border-bottom:
+    1px solid
+    #514229;
+}
+
+.searchBox {
+
+  flex:
+    1;
+
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  padding:
+    7px;
+
+  border:
+    2px solid
+    #70582f;
+
+  background:
+    #1b160e;
+}
+
+.searchBox input {
+
+  width:
+    100%;
+
+  border:
+    0;
+
+  outline:
+    0;
+
+  background:
+    transparent;
+
+  color:
+    white;
+}
+
+.zoomButtons {
+
+  display:
+    flex;
+
+  align-items:
+    center;
+}
+
+.zoomButtons button,
+.toolButton {
+
+  min-width:
+    40px;
+
+  height:
+    38px;
+
+  color:
+    white;
+
+  background:
+    #382b19;
+
+  border:
+    2px solid
+    #806438;
+}
+
+.zoomButtons span {
+
+  padding:
+    0 8px;
+
+  font-size:
+    12px;
+}
+
+.danger {
+
+  color:
+    #ffc9c9;
+}
+
+
+/* TREE LEGEND */
+
+.treeLegend {
+
+  display:
+    flex;
+
+  gap:
+    5px;
+
+  overflow-x:
+    auto;
+
+  padding:
+    7px;
+
+  background:
+    #0b0a08;
+}
+
+.treeLegend button {
+
+  flex:
+    0 0 auto;
+
+  padding:
+    7px 10px;
+
+  background:
+    #201a11;
+
+  border:
+    1px solid
+    #5e4b2d;
+
+  border-radius:
+    13px;
+
+  color:
+    white;
+}
+
+.warText {
+  color:
+    #ff626a !important;
+}
+
+.guardText {
+  color:
+    #65e490 !important;
+}
+
+.magicText {
+  color:
+    #62a0ff !important;
+}
+
+.fateText {
+  color:
+    #cb7aff !important;
+}
+
+.astralText {
+  color:
+    #62e8df !important;
+}
+
+.rebirthText {
+  color:
+    #fff0ad !important;
+}
+
+
+/* VIEWPORT */
+
+.treeViewport {
+
+  width:
+    100%;
+
+  height:
+    calc(100vh - 280px);
+
+  min-height:
+    550px;
+
+  position:
+    relative;
+
+  overflow:
+    hidden;
+
+  cursor:
+    grab;
+
+  background:
+
+    radial-gradient(
+      circle at center,
+      rgba(120,80,20,.15),
+      transparent 30%
+    ),
+
+    radial-gradient(
+      #5a4a28 1px,
+      transparent 1px
+    ),
+
+    #070806;
+
+  background-size:
+    auto,
+    50px 50px;
+}
+
+.treeViewport:active {
+
+  cursor:
+    grabbing;
+}
+
+
+/* WORLD */
+
+.treeWorld {
+
+  width:
+    2400px;
+
+  height:
+    2400px;
+
+  position:
+    absolute;
+
+  left:
+    0;
+
+  top:
+    0;
+
+  transform-origin:
+    0 0;
+}
+
+
+/* SVG CONNECTIONS */
+
+.treeLines {
+
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  pointer-events:
+    none;
+}
+
+.treeLine {
+
+  stroke:
+    #53432b;
+
+  stroke-width:
+    3;
+
+  opacity:
+    .8;
+}
+
+.treeLine.active {
+
+  stroke:
+    #ffbd45;
+
+  stroke-width:
+    6;
+
+  filter:
+    drop-shadow(
+      0 0 4px
+      #ff992f
+    );
+}
+
+
+/* NODES */
+
+.treeNode {
+
+  position:
+    absolute;
+
+  width:
+    38px;
+
+  height:
+    38px;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  transform:
+    translate(-50%, -50%);
+
+  border-radius:
+    50%;
+
+  border:
+    3px solid
+    #776343;
 
   background:
     radial-gradient(
       circle,
-      rgba(28, 40, 80, 0.7),
-      #090e20 65%
+      #35352a,
+      #11120d
     );
 
-  border:
-    1px solid
-    #2b385b;
-
-  border-radius: 18px;
-}
-
-/* =========================
-   ツリーノード
-========================= */
-
-.node {
-  width: 86px;
-
-  height: 86px;
-
-  align-self: center;
-
-  justify-self: center;
-
-  padding: 7px;
-
-  border-radius: 50%;
-
-  font-size: 11px;
+  color:
+    white;
 
   box-shadow:
-    0 0 0 5px #0a1020,
-    0 0 22px black;
+    0 0 0 3px
+    #1a150d;
+
+  z-index:
+    10;
 }
 
-.node b {
-  display: block;
+.treeNode.medium {
 
-  font-size: 20px;
+  width:
+    48px;
+
+  height:
+    48px;
 }
 
-.node small {
-  display: block;
+.treeNode.major {
 
-  margin-top: 3px;
+  width:
+    62px;
+
+  height:
+    62px;
+
+  border-width:
+    4px;
 }
 
-.node.war {
+.treeNode.keystone {
+
+  width:
+    78px;
+
+  height:
+    78px;
+
+  border-width:
+    5px;
+
+  font-size:
+    27px;
+}
+
+.treeNode.core {
+
+  width:
+    100px;
+
+  height:
+    100px;
+
+  border:
+    7px solid
+    #efa93c;
+
+  background:
+    radial-gradient(
+      circle,
+      #ffcb50,
+      #dc6927 55%,
+      #3e1609
+    );
+
+  font-size:
+    38px;
+
+  box-shadow:
+
+    0 0 15px
+    #ff9c30,
+
+    0 0 50px
+    rgba(
+      255,
+      128,
+      30,
+      .8
+    );
+}
+
+.treeNode.war {
+
   border-color:
     var(--war);
-
-  box-shadow:
-    0 0 0 5px #0a1020,
-    0 0 22px
-    rgba(255, 101, 122, 0.27);
 }
 
-.node.guard {
+.treeNode.guard {
+
   border-color:
     var(--guard);
-
-  box-shadow:
-    0 0 0 5px #0a1020,
-    0 0 22px
-    rgba(84, 216, 172, 0.27);
 }
 
-.node.fate {
+.treeNode.magic {
+
+  border-color:
+    var(--magic);
+}
+
+.treeNode.fate {
+
   border-color:
     var(--fate);
-
-  box-shadow:
-    0 0 0 5px #0a1020,
-    0 0 22px
-    rgba(168, 121, 255, 0.27);
 }
 
-.node.locked {
-  opacity: 0.35;
+.treeNode.astral {
+
+  border-color:
+    var(--astral);
+}
+
+.treeNode.rebirth {
+
+  border-color:
+    var(--rebirth);
+}
+
+.treeNode.locked {
 
   filter:
     grayscale(1);
+
+  opacity:
+    .38;
 }
 
-.node.maxed {
+.treeNode.available {
+
+  animation:
+    availablePulse
+    1.5s infinite;
+}
+
+@keyframes availablePulse {
+
+  50% {
+
+    box-shadow:
+
+      0 0 0 3px
+      #332817,
+
+      0 0 20px
+      currentColor;
+  }
+}
+
+.treeNode.owned {
+
   background:
-    linear-gradient(
-      145deg,
-      #6654ac,
-      #243d79
+    radial-gradient(
+      circle,
+      #fff3a0,
+      #ef9d2c 50%,
+      #5c310f
+    );
+
+  border-color:
+    #ffe075;
+
+  box-shadow:
+    0 0 12px
+    #ffbd4c;
+}
+
+.treeNode.searchHit {
+
+  outline:
+    6px solid
+    white;
+
+  z-index:
+    20;
+}
+
+
+/* NODE DETAIL */
+
+.nodeDetail {
+
+  position:
+    fixed;
+
+  left:
+    50%;
+
+  bottom:
+    82px;
+
+  width:
+    min(
+      650px,
+      calc(100% - 20px)
+    );
+
+  transform:
+    translateX(-50%);
+
+  z-index:
+    150;
+
+  display:
+    flex;
+
+  gap:
+    12px;
+
+  align-items:
+    center;
+
+  padding:
+    12px 15px;
+
+  background:
+    rgba(
+      18,
+      15,
+      10,
+      .97
+    );
+
+  border:
+    3px solid
+    #95723e;
+
+  border-radius:
+    12px;
+
+  box-shadow:
+    0 7px 30px
+    black;
+}
+
+.detailIcon {
+
+  width:
+    50px;
+
+  height:
+    50px;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  flex:
+    0 0 auto;
+
+  border-radius:
+    50%;
+
+  background:
+    #3a2f1d;
+
+  font-size:
+    27px;
+}
+
+.nodeDetail p {
+
+  margin:
+    3px 0;
+
+  color:
+    #d7c7a8;
+
+  font-size:
+    12px;
+}
+
+
+/* =========================
+   SUMMON
+========================= */
+
+.subHeader {
+
+  height:
+    70px;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    60px 1fr 80px;
+
+  align-items:
+    center;
+
+  padding:
+    8px;
+
+  background:
+    #4b3a8d;
+}
+
+.subHeader button {
+
+  width:
+    42px;
+
+  height:
+    42px;
+
+  border-radius:
+    50%;
+
+  color:
+    white;
+
+  background:
+    #342561;
+
+  border:
+    2px solid
+    white;
+}
+
+.summonArea {
+
+  min-height:
+    430px;
+
+  padding-top:
+    70px;
+
+  text-align:
+    center;
+
+  background:
+
+    radial-gradient(
+      circle,
+      #7784f5,
+      #373067 45%,
+      #11132c 75%
     );
 }
 
-.node.selected {
-  outline:
-    3px solid white;
-}
+.summonStar {
 
-/* =========================
-   ノード詳細
-========================= */
+  font-size:
+    120px;
 
-.nodeDetail {
-  position: sticky;
-
-  bottom: 8px;
-
-  max-width: 700px;
-
-  margin: 14px auto 0;
-
-  padding: 14px 18px;
-
-  text-align: center;
-
-  background:
-    rgba(9, 14, 32, 0.96);
-
-  border:
-    1px solid
-    #56658d;
-
-  border-radius: 15px;
-}
-
-/* =========================
-   ガチャ
-========================= */
-
-.summon,
-.rebirth {
-  max-width: 760px;
-
-  margin: auto;
-
-  text-align: center;
-}
-
-.orb {
-  margin: 14px;
-
-  color: #e9d2ff;
-
-  font-size: 100px;
+  color:
+    #fff3a9;
 
   text-shadow:
     0 0 40px
-    #8c5cff;
+    white;
 }
 
-.actions {
-  display: flex;
+.summonButtons {
 
-  gap: 10px;
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:
+    8px;
+
+  padding:
+    10px;
 }
 
-.actions button {
-  flex: 1;
+.summonButtons button {
+
+  padding:
+    15px;
+
+  color:
+    white;
+
+  border:
+    3px solid
+    white;
+
+  border-radius:
+    13px;
+
+  background:
+    #6e4dc5;
+}
+
+.summonButtons strong {
+
+  display:
+    block;
 }
 
 .results {
-  display: flex;
 
-  gap: 8px;
+  display:
+    grid;
 
-  flex-wrap: wrap;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(90px, 1fr)
+    );
 
-  margin: 18px 0;
+  gap:
+    7px;
+
+  padding:
+    10px;
 }
-
-/* =========================
-   ガチャカード
-========================= */
 
 .card {
-  flex:
-    1 0 120px;
 
-  padding: 12px;
+  min-height:
+    75px;
 
-  background: #18213d;
+  padding:
+    9px;
+
+  text-align:
+    center;
+
+  background:
+    #302851;
 
   border:
-    1px solid
-    #52608c;
+    3px solid
+    #aaa;
 
-  border-radius: 12px;
+  border-radius:
+    9px;
 }
 
-.R {
-  color: #c9d0de;
+.card.SR {
+
+  border-color:
+    #b86bff;
 }
 
-.SR {
-  color: #d499ff;
+.card.SSR {
+
+  border-color:
+    #ffd64c;
+
+  box-shadow:
+    0 0 12px
+    #ffbc3d;
 }
 
-.SSR {
-  color: #ffd45c;
-}
 
 /* =========================
-   通知
+   REBIRTH
+========================= */
+
+.rebirthArea {
+
+  min-height:
+    700px;
+
+  text-align:
+    center;
+
+  padding:
+    70px 20px;
+
+  background:
+
+    radial-gradient(
+      circle,
+      #5d4aa2,
+      #161833 65%
+    );
+}
+
+.rebirthCrystal {
+
+  width:
+    160px;
+
+  height:
+    160px;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  margin:
+    auto;
+
+  border-radius:
+    50%;
+
+  border:
+    5px solid
+    #ffe274;
+
+  font-size:
+    75px;
+
+  box-shadow:
+    0 0 50px
+    #8e5def;
+}
+
+.rebirthStats {
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap:
+    8px;
+
+  margin:
+    30px 0;
+}
+
+.rebirthStats div {
+
+  padding:
+    14px 4px;
+
+  background:
+    rgba(0,0,0,.25);
+
+  border:
+    2px solid
+    #755fa8;
+
+  border-radius:
+    10px;
+}
+
+.rebirthStats small,
+.rebirthStats strong {
+
+  display:
+    block;
+}
+
+.rebirthButton {
+
+  width:
+    100%;
+
+  max-width:
+    500px;
+
+  padding:
+    18px;
+
+  color:
+    #503316;
+
+  background:
+    linear-gradient(
+      #ffe661,
+      #e89732
+    );
+
+  border:
+    4px solid
+    #fff0a2;
+
+  border-radius:
+    15px;
+
+  font-size:
+    20px;
+
+  font-weight:
+    bold;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.bottomNav {
+
+  position:
+    fixed;
+
+  left:
+    0;
+
+  right:
+    0;
+
+  bottom:
+    0;
+
+  height:
+    75px;
+
+  z-index:
+    100;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  background:
+    #7c4c29;
+
+  border-top:
+    4px solid
+    #492a15;
+}
+
+.bottomNav button {
+
+  color:
+    #dab07b;
+
+  border:
+    0;
+
+  border-right:
+    1px solid
+    #5d351c;
+
+  background:
+    transparent;
+
+  font-size:
+    22px;
+}
+
+.bottomNav button.active {
+
+  color:
+    white;
+
+  background:
+    #a56935;
+}
+
+.bottomNav span {
+
+  display:
+    block;
+
+  font-size:
+    11px;
+}
+
+
+/* =========================
+   TOAST
 ========================= */
 
 #toast {
-  position: fixed;
 
-  right: 24px;
+  position:
+    fixed;
 
-  bottom: 24px;
+  left:
+    50%;
 
-  z-index: 999;
+  bottom:
+    95px;
 
-  padding: 13px 18px;
-
-  opacity: 0;
+  z-index:
+    300;
 
   transform:
-    translateY(20px);
+    translateX(-50%);
 
-  pointer-events: none;
+  padding:
+    10px 17px;
 
-  background: #111a31;
+  color:
+    white;
+
+  background:
+    #332651;
 
   border:
-    1px solid
-    #586a9b;
+    2px solid
+    #9a7cdd;
 
-  border-radius: 12px;
+  border-radius:
+    20px;
 
-  transition: 0.25s;
+  opacity:
+    0;
+
+  pointer-events:
+    none;
+
+  transition:
+    .2s;
 }
 
 #toast.show {
-  opacity: 1;
 
-  transform: none;
+  opacity:
+    1;
 }
 
-/* =========================
-   フッター
-========================= */
-
-footer {
-  margin-top: 15px;
-
-  text-align: right;
-}
 
 /* =========================
-   タブレット
+   MOBILE
 ========================= */
 
-@media (max-width: 900px) {
+@media (
+  max-width: 650px
+) {
 
-  .grid {
-    grid-template-columns: 1fr;
+  .treeToolbar {
+
+    flex-wrap:
+      wrap;
   }
 
-  .top,
-  .treeHead {
-    align-items: flex-start;
+  .searchBox {
 
-    flex-direction: column;
+    flex-basis:
+      100%;
   }
 
-  .treePanel {
-    overflow: auto;
+  .treeViewport {
+
+    height:
+      calc(100vh - 345px);
   }
 
-  .treeBoard {
-    min-width: 760px;
-  }
-}
+  .toolButton {
 
-/* =========================
-   スマートフォン
-========================= */
-
-@media (max-width: 600px) {
-
-  .app {
-    padding: 12px;
+    font-size:
+      10px;
   }
 
-  nav {
-    grid-template-columns:
-      1fr 1fr;
-  }
-
-  .wallet {
-    font-size: 13px;
-  }
-
-  .panel {
-    padding: 14px;
-  }
-
-  .actions {
-    flex-direction: column;
-  }
-
-  .statgrid {
-    grid-template-columns: 1fr;
-  }
 }
