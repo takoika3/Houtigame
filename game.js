@@ -1,499 +1,17 @@
-// ============================================
+// ========================================
 // 星剣と魔導書のクロニクル
-// ゲーム本体
-// ============================================
+// ========================================
 
 
-// ============================================
-// 基本スキル
-// ============================================
+const $ = id =>
+  document.getElementById(id);
 
-const baseSkills = [
-  {
-    name: "火炎弾",
-    tag: "炎",
-    power: 1.35
-  },
 
-  {
-    name: "油壺",
-    tag: "油",
-    power: 0.65
-  },
+// ========================================
+// GAME DATA
+// ========================================
 
-  {
-    name: "爆裂",
-    tag: "爆発",
-    power: 1.2
-  },
-
-  {
-    name: "氷槍",
-    tag: "凍結",
-    power: 1.05
-  },
-
-  {
-    name: "雷撃",
-    tag: "雷",
-    power: 1.15
-  },
-
-  {
-    name: "生命吸収",
-    tag: "吸血",
-    power: 0.9
-  }
-];
-
-
-// ============================================
-// ガチャ限定スキル
-// ============================================
-
-const specialSkills = [
-  {
-    name: "星落とし",
-    tag: "光",
-    power: 1.9
-  },
-
-  {
-    name: "深淵斬り",
-    tag: "闇",
-    power: 1.75
-  },
-
-  {
-    name: "神風連撃",
-    tag: "風",
-    power: 1.55
-  },
-
-  {
-    name: "天雷",
-    tag: "雷",
-    power: 2.0
-  },
-
-  {
-    name: "獄炎",
-    tag: "炎",
-    power: 2.1
-  }
-];
-
-
-// ============================================
-// 職業
-// ============================================
-
-const jobs = {
-
-  "剣士": {
-    attack: 1.0,
-    defense: 1.35,
-    hp: 1.35
-  },
-
-  "魔導士": {
-    attack: 1.35,
-    defense: 0.85,
-    hp: 0.9
-  },
-
-  "狩人": {
-    attack: 1.18,
-    defense: 1.0,
-    hp: 1.0
-  }
-
-};
-
-
-// ============================================
-// 星魂スキルツリー
-// ============================================
-
-const treeNodes = [
-
-  // ==========================
-  // 闘争
-  // ==========================
-
-  {
-    id: "w1",
-    name: "猛攻",
-    icon: "⚔",
-    type: "war",
-
-    description:
-      "攻撃力を上昇させる。",
-
-    effect: "attack",
-
-    value: 0.06,
-
-    maxRank: 3,
-
-    cost: 1,
-
-    x: 2,
-    y: 1
-  },
-
-
-  {
-    id: "w2",
-    name: "破甲",
-    icon: "🗡️",
-    type: "war",
-
-    description:
-      "最終ダメージを強化する。",
-
-    effect: "damage",
-
-    value: 0.05,
-
-    maxRank: 3,
-
-    cost: 2,
-
-    required: ["w1"],
-
-    x: 2,
-    y: 2
-  },
-
-
-  {
-    id: "w3",
-    name: "会心眼",
-    icon: "◉",
-    type: "war",
-
-    description:
-      "さらに攻撃性能を高める。",
-
-    effect: "damage",
-
-    value: 0.07,
-
-    maxRank: 2,
-
-    cost: 3,
-
-    required: ["w2"],
-
-    x: 1,
-    y: 3
-  },
-
-
-  {
-    id: "w4",
-    name: "狂戦士",
-    icon: "🔥",
-    type: "war",
-
-    description:
-      "攻撃力を大幅強化する。守護神とは同時取得できない。",
-
-    effect: "attack",
-
-    value: 0.25,
-
-    maxRank: 1,
-
-    cost: 6,
-
-    required: ["w3"],
-
-    exclude: "g4",
-
-    x: 2,
-    y: 4
-  },
-
-
-  {
-    id: "w5",
-    name: "処刑星",
-    icon: "☄️",
-    type: "war",
-
-    description:
-      "ボスへの最終ダメージを大幅に強化する。",
-
-    effect: "damage",
-
-    value: 0.18,
-
-    maxRank: 1,
-
-    cost: 8,
-
-    required: ["w4"],
-
-    x: 1,
-    y: 5
-  },
-
-
-  // ==========================
-  // 守護
-  // ==========================
-
-  {
-    id: "g1",
-    name: "生命",
-    icon: "♥",
-    type: "guard",
-
-    description:
-      "最大HPを上昇させる。",
-
-    effect: "hp",
-
-    value: 0.08,
-
-    maxRank: 3,
-
-    cost: 1,
-
-    x: 4,
-    y: 1
-  },
-
-
-  {
-    id: "g2",
-    name: "堅牢",
-    icon: "🛡️",
-    type: "guard",
-
-    description:
-      "防御力を上昇させる。",
-
-    effect: "defense",
-
-    value: 0.07,
-
-    maxRank: 3,
-
-    cost: 2,
-
-    required: ["g1"],
-
-    x: 4,
-    y: 2
-  },
-
-
-  {
-    id: "g3",
-    name: "再生",
-    icon: "✚",
-    type: "guard",
-
-    description:
-      "HPと防御力を同時に強化する。",
-
-    effect: "tank",
-
-    value: 0.08,
-
-    maxRank: 2,
-
-    cost: 3,
-
-    required: ["g2"],
-
-    x: 5,
-    y: 3
-  },
-
-
-  {
-    id: "g4",
-    name: "守護神",
-    icon: "♜",
-    type: "guard",
-
-    description:
-      "HPと防御を大幅強化する。狂戦士とは同時取得できない。",
-
-    effect: "tank",
-
-    value: 0.25,
-
-    maxRank: 1,
-
-    cost: 6,
-
-    required: ["g3"],
-
-    exclude: "w4",
-
-    x: 4,
-    y: 4
-  },
-
-
-  {
-    id: "g5",
-    name: "不死星",
-    icon: "✦",
-    type: "guard",
-
-    description:
-      "HPと防御をさらに強化する。",
-
-    effect: "tank",
-
-    value: 0.18,
-
-    maxRank: 1,
-
-    cost: 8,
-
-    required: ["g4"],
-
-    x: 5,
-    y: 5
-  },
-
-
-  // ==========================
-  // 運命
-  // ==========================
-
-  {
-    id: "f1",
-    name: "黄金律",
-    icon: "◆",
-    type: "fate",
-
-    description:
-      "ゴールド獲得量を増加させる。",
-
-    effect: "gold",
-
-    value: 0.10,
-
-    maxRank: 3,
-
-    cost: 1,
-
-    x: 6,
-    y: 1
-  },
-
-
-  {
-    id: "f2",
-    name: "時流",
-    icon: "⌛",
-    type: "fate",
-
-    description:
-      "放置報酬を増加させる。",
-
-    effect: "idle",
-
-    value: 0.12,
-
-    maxRank: 3,
-
-    cost: 2,
-
-    required: ["f1"],
-
-    x: 6,
-    y: 2
-  },
-
-
-  {
-    id: "f3",
-    name: "星の恩寵",
-    icon: "✧",
-    type: "fate",
-
-    description:
-      "攻撃・防御・HPをすべて強化する。",
-
-    effect: "all",
-
-    value: 0.04,
-
-    maxRank: 3,
-
-    cost: 3,
-
-    required: ["f2"],
-
-    x: 7,
-    y: 3
-  },
-
-
-  {
-    id: "f4",
-    name: "運命改変",
-    icon: "♢",
-    type: "fate",
-
-    description:
-      "すべての基本能力を大幅強化する。",
-
-    effect: "all",
-
-    value: 0.12,
-
-    maxRank: 1,
-
-    cost: 6,
-
-    required: ["f3"],
-
-    x: 6,
-    y: 4
-  },
-
-
-  {
-    id: "f5",
-    name: "輪廻星",
-    icon: "∞",
-    type: "fate",
-
-    description:
-      "転生者の全能力をさらに強化する。",
-
-    effect: "all",
-
-    value: 0.15,
-
-    maxRank: 1,
-
-    cost: 8,
-
-    required: ["f4"],
-
-    x: 7,
-    y: 5
-  }
-
-];
-
-
-// ============================================
-// 初期データ
-// ============================================
-
-function createNewData() {
+function newGame() {
 
   return {
 
@@ -505,30 +23,23 @@ function createNewData() {
 
     crystal: 1000,
 
-    soul: 0,
+    soul: 25,
 
     stage: 1,
 
-    job: "剣士",
+    attackLevel: 0,
 
-    attackUpgrade: 0,
-
-    defenseUpgrade: 0,
-
-    skills:
-      JSON.parse(
-        JSON.stringify(baseSkills)
-      ),
-
-    owned: [],
-
-    gear: [],
-
-    tree: {},
+    defenseLevel: 0,
 
     rebirths: 0,
 
     bank: 0,
+
+    tree: {
+      core: 1
+    },
+
+    inventory: [],
 
     lastSave:
       Date.now()
@@ -538,98 +49,39 @@ function createNewData() {
 }
 
 
-// ============================================
-// セーブ読み込み
-// ============================================
+let game =
+  newGame();
 
-let game = createNewData();
 
-const storedData =
+const saved =
   localStorage.getItem(
-    "starSwordSave"
+    "astralIdleSave"
   );
 
-if (storedData) {
+
+if (saved) {
 
   try {
 
-    const loaded =
-      JSON.parse(
-        storedData
-      );
-
     game = {
       ...game,
-      ...loaded
+      ...JSON.parse(saved)
     };
 
-  } catch (error) {
+  }
 
-    console.error(
-      "セーブデータを読み込めませんでした。",
-      error
-    );
+  catch (error) {
+
+    console.error(error);
 
   }
 
 }
 
 
-// ============================================
-// 古いデータ対策
-// ============================================
-
-if (
-  !game.tree ||
-  Array.isArray(game.tree)
-) {
-
-  game.tree = {};
-
-}
-
-if (
-  !Array.isArray(game.skills)
-) {
-
-  game.skills =
-    JSON.parse(
-      JSON.stringify(baseSkills)
-    );
-
-}
-
-if (
-  !Array.isArray(game.gear)
-) {
-
-  game.gear = [];
-
-}
-
-if (
-  !Array.isArray(game.owned)
-) {
-
-  game.owned = [];
-
-}
-
-
-// ============================================
-// DOM取得
-// ============================================
-
-function element(id) {
-
-  return document.getElementById(id);
-
-}
-
-
-// ============================================
-// セーブ
-// ============================================
+// ========================================
+// SAVE
+// ========================================
 
 function saveGame() {
 
@@ -637,485 +89,975 @@ function saveGame() {
     Date.now();
 
   localStorage.setItem(
-    "starSwordSave",
+    "astralIdleSave",
     JSON.stringify(game)
   );
 
 }
 
 
-// ============================================
-// スキルツリーランク
-// ============================================
+// ========================================
+// SKILL TREE
+// ========================================
 
-function getTreeRank(id) {
+const treeNodes = [];
 
-  return game.tree[id] || 0;
+const treeEdges = [];
+
+
+/*
+中心座標
+*/
+
+const TREE_CENTER = {
+  x: 1200,
+  y: 1200
+};
+
+
+// ========================================
+// CORE
+// ========================================
+
+treeNodes.push({
+
+  id: "core",
+
+  name:
+    "星魂の核",
+
+  icon:
+    "☀",
+
+  type:
+    "core",
+
+  size:
+    "core",
+
+  x:
+    TREE_CENTER.x,
+
+  y:
+    TREE_CENTER.y,
+
+  maxRank:
+    1,
+
+  cost:
+    0,
+
+  effect:
+    "all",
+
+  value:
+    0,
+
+  description:
+    "すべての星魂能力の起点。"
+
+});
+
+
+// ========================================
+// BRANCH CONFIG
+// ========================================
+
+const branches = [
+
+  {
+    id:
+      "war",
+
+    name:
+      "闘争",
+
+    icon:
+      "⚔",
+
+    angle:
+      -150,
+
+    color:
+      "#e94d59",
+
+    effect:
+      "attack",
+
+    labels: [
+      "猛攻",
+      "剣気",
+      "破甲",
+      "連撃",
+      "会心",
+      "怒涛",
+      "武神",
+      "死線",
+      "狂戦",
+      "処刑"
+    ]
+  },
+
+
+  {
+    id:
+      "guard",
+
+    name:
+      "守護",
+
+    icon:
+      "🛡",
+
+    angle:
+      150,
+
+    color:
+      "#50c77b",
+
+    effect:
+      "defense",
+
+    labels: [
+      "生命",
+      "堅牢",
+      "再生",
+      "鉄壁",
+      "抵抗",
+      "活力",
+      "守護",
+      "不屈",
+      "聖盾",
+      "不死"
+    ]
+  },
+
+
+  {
+    id:
+      "magic",
+
+    name:
+      "魔導",
+
+    icon:
+      "🔮",
+
+    angle:
+      -90,
+
+    color:
+      "#457de8",
+
+    effect:
+      "magic",
+
+    labels: [
+      "魔力",
+      "元素",
+      "集中",
+      "詠唱",
+      "炎術",
+      "雷術",
+      "氷術",
+      "秘術",
+      "大魔導",
+      "星魔"
+    ]
+  },
+
+
+  {
+    id:
+      "fate",
+
+    name:
+      "運命",
+
+    icon:
+      "✦",
+
+    angle:
+      90,
+
+    color:
+      "#a759dc",
+
+    effect:
+      "idle",
+
+    labels: [
+      "黄金",
+      "経験",
+      "幸運",
+      "時流",
+      "祝福",
+      "繁栄",
+      "加速",
+      "恩寵",
+      "運命",
+      "豊穣"
+    ]
+  },
+
+
+  {
+    id:
+      "astral",
+
+    name:
+      "星界",
+
+    icon:
+      "💎",
+
+    angle:
+      -30,
+
+    color:
+      "#3fc8cc",
+
+    effect:
+      "loot",
+
+    labels: [
+      "星石",
+      "宝運",
+      "装備",
+      "希少",
+      "秘宝",
+      "星光",
+      "共鳴",
+      "星辰",
+      "奇跡",
+      "天星"
+    ]
+  },
+
+
+  {
+    id:
+      "rebirth",
+
+    name:
+      "輪廻",
+
+    icon:
+      "♾",
+
+    angle:
+      30,
+
+    color:
+      "#ece2aa",
+
+    effect:
+      "rebirth",
+
+    labels: [
+      "魂",
+      "記憶",
+      "輪廻",
+      "再誕",
+      "転生",
+      "超越",
+      "永劫",
+      "星魂",
+      "神化",
+      "無限"
+    ]
+  }
+
+];
+
+
+// ========================================
+// CREATE LARGE TREE
+// ========================================
+
+function createTree() {
+
+  branches.forEach(
+    branch => {
+
+      createBranch(
+        branch
+      );
+
+    }
+  );
 
 }
 
 
-// ============================================
-// ツリーボーナス
-// ============================================
+function createBranch(
+  branch
+) {
 
-function getTreeBonus(effect) {
+  const radians =
+    branch.angle *
+    Math.PI /
+    180;
 
-  let total = 0;
+
+  let previous =
+    "core";
+
+
+  /*
+  メイン幹 10ノード
+  */
+
+  for (
+    let i = 1;
+    i <= 10;
+    i++
+  ) {
+
+    const distance =
+      130 +
+      i *
+      105;
+
+
+    const spread =
+      Math.sin(
+        i * 1.4
+      ) *
+      45;
+
+
+    const x =
+      TREE_CENTER.x +
+      Math.cos(
+        radians
+      ) *
+      distance +
+      Math.cos(
+        radians +
+        Math.PI / 2
+      ) *
+      spread;
+
+
+    const y =
+      TREE_CENTER.y +
+      Math.sin(
+        radians
+      ) *
+      distance +
+      Math.sin(
+        radians +
+        Math.PI / 2
+      ) *
+      spread;
+
+
+    const id =
+      branch.id +
+      "_main_" +
+      i;
+
+
+    let size =
+      "small";
+
+
+    if (
+      i === 4 ||
+      i === 7
+    ) {
+
+      size =
+        "medium";
+
+    }
+
+
+    if (
+      i === 10
+    ) {
+
+      size =
+        "keystone";
+
+    }
+
+
+    treeNodes.push({
+
+      id,
+
+      name:
+        branch.labels[
+          i - 1
+        ],
+
+      icon:
+        i === 10
+          ?
+          branch.icon
+          :
+          "●",
+
+      type:
+        branch.id,
+
+      size,
+
+      x,
+
+      y,
+
+      maxRank:
+        size ===
+        "keystone"
+          ?
+          1
+          :
+          3,
+
+      cost:
+        Math.ceil(
+          i / 2
+        ),
+
+      effect:
+        branch.effect,
+
+      value:
+        size ===
+        "keystone"
+          ?
+          0.25
+          :
+          0.025 +
+          i *
+          0.004,
+
+      required:
+        previous,
+
+      description:
+        branch.name +
+        "系能力を強化する。"
+
+    });
+
+
+    treeEdges.push({
+
+      from:
+        previous,
+
+      to:
+        id
+
+    });
+
+
+    /*
+    各メインノードから
+    小枝を1～2本生成
+    */
+
+    if (
+      i >= 2
+    ) {
+
+      createSideNodes(
+        branch,
+        id,
+        x,
+        y,
+        radians,
+        i
+      );
+
+    }
+
+
+    previous =
+      id;
+
+  }
+
+}
+
+
+// ========================================
+// SIDE BRANCHES
+// ========================================
+
+function createSideNodes(
+  branch,
+  parentId,
+  parentX,
+  parentY,
+  radians,
+  level
+) {
+
+  const sideCount =
+    level % 3 === 0
+      ?
+      2
+      :
+      1;
+
+
+  for (
+    let side = 0;
+    side < sideCount;
+    side++
+  ) {
+
+    const direction =
+      side === 0
+        ?
+        1
+        :
+        -1;
+
+
+    let previous =
+      parentId;
+
+
+    const length =
+      2 +
+      (
+        level %
+        2
+      );
+
+
+    for (
+      let j = 1;
+      j <= length;
+      j++
+    ) {
+
+      const offset =
+        80 *
+        j;
+
+
+      const forward =
+        35 *
+        j;
+
+
+      const x =
+        parentX +
+        Math.cos(
+          radians
+        ) *
+        forward +
+        Math.cos(
+          radians +
+          Math.PI / 2
+        ) *
+        offset *
+        direction;
+
+
+      const y =
+        parentY +
+        Math.sin(
+          radians
+        ) *
+        forward +
+        Math.sin(
+          radians +
+          Math.PI / 2
+        ) *
+        offset *
+        direction;
+
+
+      const id =
+        branch.id +
+        "_side_" +
+        level +
+        "_" +
+        side +
+        "_" +
+        j;
+
+
+      const major =
+        j === length &&
+        level % 4 === 0;
+
+
+      treeNodes.push({
+
+        id,
+
+        name:
+          getSideNodeName(
+            branch.id,
+            level,
+            j
+          ),
+
+        icon:
+          major
+            ?
+            branch.icon
+            :
+            "◆",
+
+        type:
+          branch.id,
+
+        size:
+          major
+            ?
+            "major"
+            :
+            "small",
+
+        x,
+
+        y,
+
+        maxRank:
+          major
+            ?
+            1
+            :
+            2,
+
+        cost:
+          Math.max(
+            1,
+            Math.ceil(
+              level /
+              3
+            )
+          ),
+
+        effect:
+          branch.effect,
+
+        value:
+          major
+            ?
+            0.12
+            :
+            0.02,
+
+        required:
+          previous,
+
+        description:
+          branch.name +
+          "の派生能力。"
+
+      });
+
+
+      treeEdges.push({
+
+        from:
+          previous,
+
+        to:
+          id
+
+      });
+
+
+      previous =
+        id;
+
+    }
+
+  }
+
+}
+
+
+// ========================================
+// SIDE NODE NAMES
+// ========================================
+
+function getSideNodeName(
+  type,
+  level,
+  index
+) {
+
+  const names = {
+
+    war: [
+      "剣技",
+      "斬撃",
+      "裂傷",
+      "反撃",
+      "致命",
+      "追撃"
+    ],
+
+    guard: [
+      "活性",
+      "装甲",
+      "治癒",
+      "障壁",
+      "耐性",
+      "生命"
+    ],
+
+    magic: [
+      "炎",
+      "雷",
+      "氷",
+      "光",
+      "闇",
+      "元素"
+    ],
+
+    fate: [
+      "黄金",
+      "経験",
+      "放置",
+      "幸運",
+      "速度",
+      "報酬"
+    ],
+
+    astral: [
+      "装備",
+      "宝箱",
+      "希少",
+      "星石",
+      "秘宝",
+      "共鳴"
+    ],
+
+    rebirth: [
+      "星魂",
+      "転生",
+      "記憶",
+      "永劫",
+      "魂力",
+      "輪廻"
+    ]
+
+  };
+
+
+  const list =
+    names[type];
+
+
+  return (
+    list[
+      (
+        level +
+        index
+      ) %
+      list.length
+    ] +
+    " " +
+    level
+  );
+
+}
+
+
+createTree();
+
+
+// ========================================
+// TREE STATE
+// ========================================
+
+function rank(
+  id
+) {
+
+  return (
+    game.tree[id] ||
+    0
+  );
+
+}
+
+
+function nodeAvailable(
+  node
+) {
+
+  if (
+    node.id ===
+    "core"
+  ) {
+
+    return true;
+
+  }
+
+
+  return (
+    rank(
+      node.required
+    ) >
+    0
+  );
+
+}
+
+
+// ========================================
+// TREE BONUSES
+// ========================================
+
+function treeBonus(
+  effect
+) {
+
+  let total =
+    0;
+
 
   treeNodes.forEach(
-    (node) => {
+    node => {
 
       if (
-        node.effect === effect
+        node.effect ===
+        effect
       ) {
 
         total +=
-          node.value *
-          getTreeRank(
+          rank(
             node.id
-          );
+          ) *
+          node.value;
 
       }
 
     }
   );
+
 
   return total;
 
 }
 
 
-// ============================================
-// ステータス計算
-// ============================================
+// ========================================
+// STATS
+// ========================================
 
-function calculateStats() {
+function stats() {
 
-  const job =
-    jobs[game.job];
-
-  const rebirthBonus =
+  const permanent =
     1 +
     game.rebirths *
-    0.12;
-
-  const allBonus =
-    1 +
-    getTreeBonus(
-      "all"
-    );
-
-  const attackBonus =
-    1 +
-    getTreeBonus(
-      "attack"
-    );
-
-  const defenseBonus =
-    1 +
-    getTreeBonus(
-      "defense"
-    ) +
-    getTreeBonus(
-      "tank"
-    );
-
-  const hpBonus =
-    1 +
-    getTreeBonus(
-      "hp"
-    ) +
-    getTreeBonus(
-      "tank"
-    );
-
-
-  const equipmentPower =
-    game.gear.reduce(
-      (total, item) =>
-        total +
-        item.bonus,
-      0
-    );
+    .12;
 
 
   let attack =
     (
       25 +
-      game.level * 7 +
-      game.attackUpgrade * 8
+      game.level *
+      7 +
+      game.attackLevel *
+      8
     ) *
-    job.attack *
-    rebirthBonus *
-    allBonus *
-    attackBonus;
+    permanent *
+    (
+      1 +
+      treeBonus(
+        "attack"
+      )
+    );
 
 
   let defense =
     (
       10 +
-      game.level * 3 +
-      game.defenseUpgrade * 6
+      game.level *
+      3 +
+      game.defenseLevel *
+      6
     ) *
-    job.defense *
-    rebirthBonus *
-    allBonus *
-    defenseBonus;
+    permanent *
+    (
+      1 +
+      treeBonus(
+        "defense"
+      )
+    );
 
 
   let hp =
     (
       180 +
-      game.level * 35
+      game.level *
+      35
     ) *
-    job.hp *
-    rebirthBonus *
-    allBonus *
-    hpBonus;
-
-
-  attack +=
-    equipmentPower;
-
-  defense +=
-    equipmentPower / 2;
-
-  hp +=
-    equipmentPower * 3;
-
-
-  attack =
-    Math.floor(attack);
-
-  defense =
-    Math.floor(defense);
-
-  hp =
-    Math.floor(hp);
-
-
-  const power =
-    Math.floor(
-      attack * 14 +
-      defense * 10 +
-      hp * 2 +
-      equipmentPower * 20
+    permanent *
+    (
+      1 +
+      treeBonus(
+        "defense"
+      ) *
+      .5
     );
 
 
   return {
-    attack,
-    defense,
-    hp,
-    power
+
+    attack:
+      Math.floor(
+        attack
+      ),
+
+    defense:
+      Math.floor(
+        defense
+      ),
+
+    hp:
+      Math.floor(
+        hp
+      ),
+
+    power:
+      Math.floor(
+        attack *
+        14 +
+        defense *
+        10 +
+        hp *
+        2
+      )
+
   };
 
 }
 
 
-// ============================================
-// 通知
-// ============================================
-
-function showToast(message) {
-
-  const toast =
-    element("toast");
-
-  toast.textContent =
-    message;
-
-  toast.classList.add(
-    "show"
-  );
-
-
-  setTimeout(
-    () => {
-
-      toast.classList.remove(
-        "show"
-      );
-
-    },
-    1800
-  );
-
-}
-
-
-// ============================================
-// 戦闘ログ
-// ============================================
-
-function battleLog(message) {
-
-  const log =
-    element("log");
-
-  const line =
-    document.createElement(
-      "div"
-    );
-
-  line.textContent =
-    "› " + message;
-
-  log.appendChild(line);
-
-  log.scrollTop =
-    log.scrollHeight;
-
-}
-
-
-// ============================================
-// レベルアップ
-// ============================================
-
-function checkLevelUp() {
-
-  while (
-    game.exp >=
-    game.level * 100
-  ) {
-
-    game.exp -=
-      game.level * 100;
-
-    game.level++;
-
-    battleLog(
-      "✨ レベルアップ！ Lv." +
-      game.level
-    );
-
-  }
-
-}
-
-
-// ============================================
-// スキルツリー解放条件
-// ============================================
-
-function canUnlockNode(
-  node
-) {
-
-  if (
-    node.required
-  ) {
-
-    const requirementsMet =
-      node.required.every(
-        (id) =>
-          getTreeRank(id) >
-          0
-      );
-
-
-    if (
-      !requirementsMet
-    ) {
-
-      return false;
-
-    }
-
-  }
-
-
-  if (
-    node.exclude &&
-    getTreeRank(
-      node.exclude
-    ) > 0
-  ) {
-
-    return false;
-
-  }
-
-
-  return true;
-
-}
-
-
-// ============================================
-// スキルツリー選択
-// ============================================
-
-function selectTreeNode(id) {
-
-  const node =
-    treeNodes.find(
-      (item) =>
-        item.id === id
-    );
-
-
-  if (!node) {
-
-    return;
-
-  }
-
-
-  const rank =
-    getTreeRank(id);
-
-  const nextCost =
-    node.cost +
-    rank;
-
-  const canUnlock =
-    canUnlockNode(node);
-
-
-  const detail =
-    element(
-      "nodeDetail"
-    );
-
-
-  detail.innerHTML = `
-    <h3>
-      ${node.icon}
-      ${node.name}
-    </h3>
-
-    <p>
-      ${node.description}
-    </p>
-
-    <p>
-      ランク:
-      ${rank}
-      /
-      ${node.maxRank}
-    </p>
-
-    <p>
-      1ランクにつき
-      +${Math.round(
-        node.value *
-        100
-      )}%
-    </p>
-
-    <button
-      id="upgradeNode"
-      class="primary"
-    >
-      強化
-      ${nextCost}
-      🌟
-    </button>
-  `;
-
-
-  const button =
-    element(
-      "upgradeNode"
-    );
-
-
-  if (
-    !canUnlock ||
-    rank >= node.maxRank ||
-    game.soul < nextCost
-  ) {
-
-    button.disabled =
-      true;
-
-  }
-
-
-  button.addEventListener(
-    "click",
-    () => {
-
-      if (
-        game.soul <
-        nextCost
-      ) {
-
-        return;
-
-      }
-
-
-      game.soul -=
-        nextCost;
-
-      game.tree[id] =
-        rank + 1;
-
-
-      saveGame();
-
-      render();
-
-      selectTreeNode(id);
-
-      showToast(
-        node.name +
-        "を強化しました！"
-      );
-
-    }
-  );
-
-
-  document
-    .querySelectorAll(
-      ".node"
-    )
-    .forEach(
-      (button) => {
-
-        button.classList.toggle(
-          "selected",
-          button.dataset.node === id
-        );
-
-      }
-    );
-
-}
-
-
-// ============================================
-// スキルツリー描画
-// ============================================
+// ========================================
+// RENDER TREE
+// ========================================
 
 function renderTree() {
 
-  const board =
-    element(
-      "treeBoard"
-    );
+  const container =
+    $("treeNodes");
 
-  board.innerHTML = "";
+
+  container.innerHTML =
+    "";
 
 
   treeNodes.forEach(
-    (node) => {
-
-      const rank =
-        getTreeRank(
-          node.id
-        );
-
-      const unlocked =
-        canUnlockNode(
-          node
-        );
-
+    node => {
 
       const button =
         document.createElement(
@@ -1124,11 +1066,41 @@ function renderTree() {
 
 
       button.className =
-        "node " +
-        node.type;
+        "treeNode " +
+        node.type +
+        " " +
+        (
+          node.size ||
+          ""
+        );
 
 
-      if (!unlocked) {
+      if (
+        rank(
+          node.id
+        ) >
+        0
+      ) {
+
+        button.classList.add(
+          "owned"
+        );
+
+      }
+
+      else if (
+        nodeAvailable(
+          node
+        )
+      ) {
+
+        button.classList.add(
+          "available"
+        );
+
+      }
+
+      else {
 
         button.classList.add(
           "locked"
@@ -1137,964 +1109,1139 @@ function renderTree() {
       }
 
 
-      if (
-        rank >=
-        node.maxRank
-      ) {
+      button.style.left =
+        node.x +
+        "px";
 
-        button.classList.add(
-          "maxed"
-        );
-
-      }
+      button.style.top =
+        node.y +
+        "px";
 
 
-      button.style.gridColumn =
-        node.x;
-
-      button.style.gridRow =
-        node.y;
-
-
-      button.dataset.node =
+      button.dataset.id =
         node.id;
 
-
-      button.innerHTML = `
-        <b>
-          ${node.icon}
-        </b>
-
-        ${node.name}
-
-        <small>
-          ${rank}
-          /
-          ${node.maxRank}
-        </small>
-      `;
+      button.dataset.name =
+        node.name;
 
 
-      button.addEventListener(
-        "click",
-        () => {
+      button.innerHTML =
+        node.icon;
 
-          selectTreeNode(
-            node.id
+
+      button.onclick =
+        () =>
+          selectNode(
+            node
           );
 
-        }
-      );
 
-
-      board.appendChild(
+      container.appendChild(
         button
       );
 
     }
   );
 
+
+  renderLines();
+
 }
 
 
-// ============================================
-// メイン描画
-// ============================================
+// ========================================
+// CONNECTIONS
+// ========================================
 
-function render() {
+function renderLines() {
 
-  const stats =
-    calculateStats();
-
-
-  const expNeeded =
-    game.level *
-    100;
+  const svg =
+    $("treeLines");
 
 
-  element("power")
-    .textContent =
-    stats.power;
-
-
-  element("gold")
-    .textContent =
-    Math.floor(
-      game.gold
-    );
-
-
-  element("crystal")
-    .textContent =
-    game.crystal;
-
-
-  element("soul")
-    .textContent =
-    game.soul;
-
-
-  element("level");
-
-
-  element("lv")
-    .textContent =
-    game.level;
-
-
-  element("xp")
-    .textContent =
-    game.exp;
-
-
-  element("xpneed")
-    .textContent =
-    expNeeded;
-
-
-  element("xpbar")
-    .style.width =
-    Math.min(
-      100,
-      game.exp /
-      expNeeded *
-      100
-    ) +
-    "%";
-
-
-  element("stage")
-    .textContent =
-    game.stage;
-
-
-  element("area")
-    .textContent =
-    "第" +
-    Math.ceil(
-      game.stage /
-      5
-    ) +
-    "章 星界への道";
-
-
-  element("playerHp")
-    .textContent =
-    stats.hp;
-
-
-  element("atk")
-    .textContent =
-    stats.attack;
-
-
-  element("def")
-    .textContent =
-    stats.defense;
-
-
-  element("offlineGold")
-    .textContent =
-    Math.floor(
-      game.bank
-    );
-
-
-  element("trainCost")
-    .textContent =
-    50 +
-    game.attackUpgrade *
-    40;
-
-
-  element("armorCost")
-    .textContent =
-    50 +
-    game.defenseUpgrade *
-    40;
-
-
-  // =========================
-  // 職業
-  // =========================
-
-  const jobsElement =
-    element("jobs");
-
-  jobsElement.innerHTML =
+  svg.innerHTML =
     "";
 
 
-  Object.keys(jobs)
-    .forEach(
-      (jobName) => {
+  treeEdges.forEach(
+    edge => {
 
-        const button =
-          document.createElement(
-            "button"
-          );
+      const from =
+        treeNodes.find(
+          node =>
+            node.id ===
+            edge.from
+        );
 
 
-        button.textContent =
-          jobName;
+      const to =
+        treeNodes.find(
+          node =>
+            node.id ===
+            edge.to
+        );
 
+
+      if (
+        !from ||
+        !to
+      ) {
+
+        return;
+
+      }
+
+
+      const line =
+        document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "line"
+        );
+
+
+      line.setAttribute(
+        "x1",
+        from.x
+      );
+
+      line.setAttribute(
+        "y1",
+        from.y
+      );
+
+      line.setAttribute(
+        "x2",
+        to.x
+      );
+
+      line.setAttribute(
+        "y2",
+        to.y
+      );
+
+
+      line.setAttribute(
+        "class",
+        rank(
+          to.id
+        ) >
+        0
+          ?
+          "treeLine active"
+          :
+          "treeLine"
+      );
+
+
+      svg.appendChild(
+        line
+      );
+
+    }
+  );
+
+}
+
+
+// ========================================
+// NODE DETAILS
+// ========================================
+
+function selectNode(
+  node
+) {
+
+  const current =
+    rank(
+      node.id
+    );
+
+
+  const price =
+    node.cost +
+    current;
+
+
+  let status =
+    "";
+
+
+  if (
+    current >=
+    node.maxRank
+  ) {
+
+    status =
+      "最大ランク";
+
+  }
+
+  else if (
+    !nodeAvailable(
+      node
+    )
+  ) {
+
+    status =
+      "前のノードを取得してください";
+
+  }
+
+  else {
+
+    status =
+      `強化 🌟${price}`;
+
+  }
+
+
+  $("nodeDetail")
+    .innerHTML = `
+
+      <div class="detailIcon">
+        ${node.icon}
+      </div>
+
+      <div style="flex:1">
+
+        <strong>
+          ${node.name}
+        </strong>
+
+        <p>
+          ${node.description}
+        </p>
+
+        <p>
+          Rank
+          ${current}
+          /
+          ${node.maxRank}
+          ・
+          効果
+          +${Math.round(
+            node.value *
+            100
+          )}%
+        </p>
+
+        <button
+          id="buyNode"
+        >
+          ${status}
+        </button>
+
+      </div>
+
+    `;
+
+
+  const button =
+    $("buyNode");
+
+
+  if (
+    current >=
+      node.maxRank ||
+    !nodeAvailable(
+      node
+    )
+  ) {
+
+    button.disabled =
+      true;
+
+  }
+
+
+  button.onclick =
+    () => {
+
+      buyNode(
+        node
+      );
+
+    };
+
+}
+
+
+// ========================================
+// PURCHASE NODE
+// ========================================
+
+function buyNode(
+  node
+) {
+
+  const current =
+    rank(
+      node.id
+    );
+
+
+  const price =
+    node.cost +
+    current;
+
+
+  if (
+    game.soul <
+    price
+  ) {
+
+    toast(
+      "星魂が足りません"
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !nodeAvailable(
+      node
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    current >=
+    node.maxRank
+  ) {
+
+    return;
+
+  }
+
+
+  game.soul -=
+    price;
+
+
+  game.tree[
+    node.id
+  ] =
+    current +
+    1;
+
+
+  saveGame();
+
+  render();
+
+  renderTree();
+
+  selectNode(
+    node
+  );
+
+
+  toast(
+    node.name +
+    "を取得！"
+  );
+
+}
+
+
+// ========================================
+// RESET TREE
+// ========================================
+
+$("resetTree")
+  .onclick =
+  () => {
+
+    let refund =
+      0;
+
+
+    treeNodes.forEach(
+      node => {
 
         if (
-          jobName ===
-          game.job
+          node.id ===
+          "core"
         ) {
 
-          button.classList.add(
-            "active"
-          );
+          return;
 
         }
 
 
-        button.addEventListener(
-          "click",
-          () => {
-
-            game.job =
-              jobName;
-
-            saveGame();
-
-            render();
-
-            showToast(
-              jobName +
-              "に変更しました"
-            );
-
-          }
-        );
-
-
-        jobsElement.appendChild(
-          button
-        );
-
-      }
-    );
-
-
-  // =========================
-  // スキル
-  // =========================
-
-  const skillElement =
-    element("skills");
-
-  skillElement.innerHTML =
-    "";
-
-
-  game.skills
-    .slice(0, 6)
-    .forEach(
-      (skill, index) => {
-
-        const button =
-          document.createElement(
-            "button"
+        const r =
+          rank(
+            node.id
           );
 
 
-        button.className =
-          "skill";
+        for (
+          let i = 0;
+          i < r;
+          i++
+        ) {
 
+          refund +=
+            node.cost +
+            i;
 
-        button.innerHTML = `
-          <span>
-            ${index + 1}.
-            ${skill.name}
-          </span>
-
-          <strong>
-            ${skill.tag}
-          </strong>
-        `;
-
-
-        button.addEventListener(
-          "click",
-          () => {
-
-            const max =
-              Math.min(
-                6,
-                game.skills.length
-              );
-
-
-            const next =
-              (
-                index + 1
-              ) %
-              max;
-
-
-            const temp =
-              game.skills[index];
-
-
-            game.skills[index] =
-              game.skills[next];
-
-
-            game.skills[next] =
-              temp;
-
-
-            saveGame();
-
-            render();
-
-          }
-        );
-
-
-        skillElement.appendChild(
-          button
-        );
+        }
 
       }
     );
 
 
-  // =========================
-  // 装備
-  // =========================
+    if (
+      refund ===
+      0
+    ) {
 
-  const gear =
-    element("gear");
+      toast(
+        "取得能力がありません"
+      );
 
+      return;
 
-  if (
-    game.gear.length === 0
-  ) {
-
-    gear.textContent =
-      "装備なし";
-
-  } else {
-
-    gear.innerHTML =
-      game.gear
-        .slice(-5)
-        .map(
-          (item) => `
-            <div class="card ${item.rarity}">
-              ${item.rarity}
-              ${item.name}
-              +${item.bonus}
-            </div>
-          `
-        )
-        .join("");
-
-  }
+    }
 
 
-  // =========================
-  // 星魂
-  // =========================
-
-  element("treeSoul")
-    .textContent =
-    game.soul;
-
-
-  renderTree();
-
-
-  // =========================
-  // ガチャ履歴
-  // =========================
-
-  const inventory =
-    element("inventory");
-
-
-  if (
-    game.owned.length ===
-    0
-  ) {
-
-    inventory.textContent =
-      "まだ召喚していません。";
-
-  } else {
-
-    inventory.innerHTML =
-      game.owned
-        .slice(-10)
-        .reverse()
-        .map(
-          (item) => `
-            <div class="card ${item.rarity}">
-              <b>
-                ${item.rarity}
-              </b>
-
-              <br>
-
-              ${item.name}
-            </div>
-          `
-        )
-        .join("");
-
-  }
-
-
-  // =========================
-  // 転生
-  // =========================
-
-  element("rebirths")
-    .textContent =
-    game.rebirths;
-
-
-  element("perm")
-    .textContent =
-    (
-      1 +
-      game.rebirths *
-      0.12
-    ).toFixed(2) +
-    "x";
-
-
-  const soulGain =
-    Math.max(
-      0,
-      Math.floor(
-        game.stage /
-        5
+    if (
+      !confirm(
+        `星魂${refund}個を返却してリセットしますか？`
       )
-    );
+    ) {
+
+      return;
+
+    }
 
 
-  element("gainSoul")
-    .textContent =
-    soulGain;
+    game.soul +=
+      refund;
 
 
-  element("doRebirth")
-    .disabled =
-    game.stage < 10;
+    game.tree = {
+      core: 1
+    };
+
+
+    saveGame();
+
+    render();
+
+    renderTree();
 
 }
 
 
-// ============================================
-// 戦闘
-// ============================================
+// ========================================
+// TREE CAMERA
+// ========================================
+
+let treeScale =
+  .75;
+
+
+let treeX =
+  0;
+
+let treeY =
+  0;
+
+
+let dragging =
+  false;
+
+let dragStartX =
+  0;
+
+let dragStartY =
+  0;
+
+
+function updateTreeTransform() {
+
+  $("treeWorld")
+    .style.transform =
+    `translate(
+      ${treeX}px,
+      ${treeY}px
+    )
+    scale(
+      ${treeScale}
+    )`;
+
+
+  $("zoomDisplay")
+    .textContent =
+    Math.round(
+      treeScale *
+      100
+    ) +
+    "%";
+
+}
+
+
+function centerTree() {
+
+  const viewport =
+    $("treeViewport");
+
+
+  treeX =
+    viewport.clientWidth /
+    2 -
+    TREE_CENTER.x *
+    treeScale;
+
+
+  treeY =
+    viewport.clientHeight /
+    2 -
+    TREE_CENTER.y *
+    treeScale;
+
+
+  updateTreeTransform();
+
+}
+
+
+$("treeViewport")
+  .addEventListener(
+    "pointerdown",
+    event => {
+
+      dragging =
+        true;
+
+
+      dragStartX =
+        event.clientX -
+        treeX;
+
+
+      dragStartY =
+        event.clientY -
+        treeY;
+
+
+      $("treeViewport")
+        .setPointerCapture(
+          event.pointerId
+        );
+
+    }
+  );
+
+
+$("treeViewport")
+  .addEventListener(
+    "pointermove",
+    event => {
+
+      if (
+        !dragging
+      ) {
+
+        return;
+
+      }
+
+
+      treeX =
+        event.clientX -
+        dragStartX;
+
+
+      treeY =
+        event.clientY -
+        dragStartY;
+
+
+      updateTreeTransform();
+
+    }
+  );
+
+
+$("treeViewport")
+  .addEventListener(
+    "pointerup",
+    () => {
+
+      dragging =
+        false;
+
+    }
+  );
+
+
+$("treeViewport")
+  .addEventListener(
+    "wheel",
+    event => {
+
+      event.preventDefault();
+
+
+      if (
+        event.deltaY <
+        0
+      ) {
+
+        treeScale +=
+          .05;
+
+      }
+
+      else {
+
+        treeScale -=
+          .05;
+
+      }
+
+
+      treeScale =
+        Math.max(
+          .35,
+          Math.min(
+            1.5,
+            treeScale
+          )
+        );
+
+
+      updateTreeTransform();
+
+    },
+    {
+      passive:
+        false
+    }
+  );
+
+
+$("zoomIn")
+  .onclick =
+  () => {
+
+    treeScale =
+      Math.min(
+        1.5,
+        treeScale +
+        .1
+      );
+
+
+    updateTreeTransform();
+
+  };
+
+
+$("zoomOut")
+  .onclick =
+  () => {
+
+    treeScale =
+      Math.max(
+        .35,
+        treeScale -
+        .1
+      );
+
+
+    updateTreeTransform();
+
+  };
+
+
+$("centerTree")
+  .onclick =
+  centerTree;
+
+
+// ========================================
+// SEARCH
+// ========================================
+
+$("nodeSearch")
+  .addEventListener(
+    "input",
+    event => {
+
+      const value =
+        event.target.value
+        .trim()
+        .toLowerCase();
+
+
+      document
+        .querySelectorAll(
+          ".treeNode"
+        )
+        .forEach(
+          element => {
+
+            element
+              .classList
+              .remove(
+                "searchHit"
+              );
+
+
+            if (
+              value &&
+              element
+                .dataset
+                .name
+                .toLowerCase()
+                .includes(
+                  value
+                )
+            ) {
+
+              element
+                .classList
+                .add(
+                  "searchHit"
+                );
+
+            }
+
+          }
+        );
+
+    }
+  );
+
+
+// ========================================
+// BATTLE
+// ========================================
 
 let fighting =
   false;
 
 
-element("fight")
-  .addEventListener(
-    "click",
-    () => {
+$("fight")
+  .onclick =
+  () => {
 
-      if (fighting) {
+    if (
+      fighting
+    ) {
 
-        return;
+      return;
 
-      }
-
-
-      fighting =
-        true;
+    }
 
 
-      const stats =
-        calculateStats();
+    fighting =
+      true;
 
 
-      const enemyMaxHp =
-        Math.floor(
-          180 *
-          Math.pow(
-            1.28,
-            game.stage - 1
-          )
-        );
+    const player =
+      stats();
 
 
-      let enemyHp =
-        enemyMaxHp;
-
-
-      let playerHp =
-        stats.hp;
-
-
-      let skillIndex =
-        0;
-
-
-      element("maxhp")
-        .textContent =
-        enemyMaxHp;
-
-
-      element("hp")
-        .textContent =
-        enemyHp;
-
-
-      element("hpbar")
-        .style.width =
-        "100%";
-
-
-      battleLog(
-        "⚔️ 戦闘開始！"
+    const enemyMax =
+      Math.floor(
+        180 *
+        Math.pow(
+          1.28,
+          game.stage -
+          1
+        )
       );
 
 
-      const battle =
-        setInterval(
-          () => {
-
-            const skills =
-              game.skills
-                .slice(
-                  0,
-                  6
-                );
+    let hp =
+      enemyMax;
 
 
-            const skill =
-              skills[
-                skillIndex %
-                skills.length
-              ];
+    let playerHp =
+      player.hp;
 
 
-            let damage =
-              Math.floor(
-                stats.attack *
-                skill.power *
-                (
-                  1 +
-                  getTreeBonus(
-                    "damage"
-                  )
-                )
-              );
+    $("maxhp")
+      .textContent =
+      enemyMax;
 
 
-            // ==================
-            // 炎 → 油 → 爆発
-            // ==================
-
-            if (
-              skillIndex >= 2
-            ) {
-
-              const previous1 =
-                skills[
-                  (
-                    skillIndex -
-                    1
-                  ) %
-                  skills.length
-                ];
+    $("hp")
+      .textContent =
+      hp;
 
 
-              const previous2 =
-                skills[
-                  (
-                    skillIndex -
-                    2
-                  ) %
-                  skills.length
-                ];
+    $("hpbar")
+      .style.width =
+      "100%";
 
 
-              if (
-                previous2.tag ===
-                  "炎" &&
-                previous1.tag ===
-                  "油" &&
-                skill.tag ===
-                  "爆発"
-              ) {
+    const battle =
+      setInterval(
+        () => {
 
-                damage =
-                  Math.floor(
-                    damage *
-                    2.4
-                  );
-
-
-                battleLog(
-                  "💥 魔導式「大爆発」！"
-                );
-
-              }
-
-
-              // ==================
-              // 凍結 → 雷
-              // ==================
-
-              if (
-                previous1.tag ===
-                  "凍結" &&
-                skill.tag ===
-                  "雷"
-              ) {
-
-                damage =
-                  Math.floor(
-                    damage *
-                    1.8
-                  );
-
-
-                battleLog(
-                  "⚡ 魔導式「感電」！"
-                );
-
-              }
-
-            }
-
-
-            enemyHp -=
-              damage;
-
-
-            battleLog(
-              skill.name +
-              " → " +
-              damage +
-              "ダメージ"
+          const damage =
+            Math.floor(
+              player.attack *
+              (
+                1 +
+                treeBonus(
+                  "magic"
+                ) *
+                .3
+              )
             );
 
 
-            element("hp")
-              .textContent =
-              Math.max(
-                0,
-                enemyHp
-              );
+          hp -=
+            damage;
 
 
-            element("hpbar")
-              .style.width =
-              Math.max(
-                0,
-                enemyHp /
-                enemyMaxHp *
-                100
-              ) +
-              "%";
+          battleLog(
+            `⚔️ ${damage}ダメージ！`
+          );
 
 
-            // ==================
-            // 勝利
-            // ==================
+          playEffect();
 
-            if (
-              enemyHp <= 0
-            ) {
 
-              clearInterval(
-                battle
-              );
+          $("hp")
+            .textContent =
+            Math.max(
+              0,
+              hp
+            );
 
 
-              const goldReward =
-                Math.floor(
-                  (
-                    35 +
-                    game.stage *
-                    18
-                  ) *
-                  (
-                    1 +
-                    getTreeBonus(
-                      "gold"
-                    )
-                  )
-                );
+          $("hpbar")
+            .style.width =
+            Math.max(
+              0,
+              hp /
+              enemyMax *
+              100
+            ) +
+            "%";
 
 
-              game.gold +=
-                goldReward;
+          if (
+            hp <= 0
+          ) {
 
+            clearInterval(
+              battle
+            );
 
-              game.exp +=
-                40 +
-                game.stage *
-                12;
 
+            winBattle();
 
-              game.crystal +=
-                15;
+            fighting =
+              false;
 
+            return;
 
-              battleLog(
-                "🏆 勝利！"
-              );
+          }
 
 
-              battleLog(
-                "🪙 " +
-                goldReward +
-                "ゴールド獲得"
-              );
+          const enemyDamage =
+            Math.max(
+              3,
+              15 +
+              game.stage *
+              8 -
+              player.defense *
+              .3
+            );
 
 
-              battleLog(
-                "💎 15クリスタル獲得"
-              );
+          playerHp -=
+            enemyDamage;
 
 
-              game.stage++;
+          if (
+            playerHp <= 0
+          ) {
 
+            clearInterval(
+              battle
+            );
 
-              checkLevelUp();
 
+            battleLog(
+              "💀 敗北した..."
+            );
 
-              fighting =
-                false;
 
+            fighting =
+              false;
 
-              saveGame();
+          }
 
-              render();
-
-              return;
-
-            }
-
-
-            // ==================
-            // 敵攻撃
-            // ==================
-
-            const enemyDamage =
-              Math.max(
-                3,
-
-                Math.floor(
-                  16 +
-                  game.stage *
-                  9 -
-                  stats.defense *
-                  0.35
-                )
-              );
-
-
-            playerHp -=
-              enemyDamage;
-
-
-            // ==================
-            // 敗北
-            // ==================
-
-            if (
-              playerHp <= 0
-            ) {
-
-              clearInterval(
-                battle
-              );
-
-
-              battleLog(
-                "💀 敗北しました。"
-              );
-
-
-              battleLog(
-                "育成やスキル編成を見直そう！"
-              );
-
-
-              fighting =
-                false;
-
-              return;
-
-            }
-
-
-            skillIndex++;
-
-          },
-
-          400
-        );
-
-    }
-  );
-
-
-// ============================================
-// 攻撃強化
-// ============================================
-
-element("train")
-  .addEventListener(
-    "click",
-    () => {
-
-      const cost =
-        50 +
-        game.attackUpgrade *
-        40;
-
-
-      if (
-        game.gold <
-        cost
-      ) {
-
-        showToast(
-          "ゴールドが足りません"
-        );
-
-        return;
-
-      }
-
-
-      game.gold -=
-        cost;
-
-
-      game.attackUpgrade++;
-
-
-      saveGame();
-
-      render();
-
-
-      showToast(
-        "攻撃力を強化しました！"
+        },
+        600
       );
 
-    }
+  };
+
+
+function winBattle() {
+
+  const reward =
+    Math.floor(
+      (
+        40 +
+        game.stage *
+        16
+      ) *
+      (
+        1 +
+        treeBonus(
+          "idle"
+        ) *
+        .4
+      )
+    );
+
+
+  game.gold +=
+    reward;
+
+
+  game.exp +=
+    50 +
+    game.stage *
+    10;
+
+
+  game.crystal +=
+    15;
+
+
+  game.stage++;
+
+
+  checkLevel();
+
+
+  battleLog(
+    `🏆 勝利！ +${reward}G`
   );
 
 
-// ============================================
-// 防御強化
-// ============================================
+  saveGame();
 
-element("armor")
-  .addEventListener(
-    "click",
-    () => {
+  render();
 
-      const cost =
-        50 +
-        game.defenseUpgrade *
-        40;
+}
 
 
-      if (
-        game.gold <
-        cost
-      ) {
+// ========================================
+// EFFECT
+// ========================================
 
-        showToast(
-          "ゴールドが足りません"
-        );
+function playEffect() {
 
-        return;
-
-      }
+  const effect =
+    $("battleEffect");
 
 
-      game.gold -=
-        cost;
+  effect.textContent =
+    Math.random() >
+    .5
+      ?
+      "⚔️"
+      :
+      "🔥";
 
 
-      game.defenseUpgrade++;
+  effect.classList
+    .remove(
+      "active"
+    );
 
 
-      saveGame();
-
-      render();
+  void effect.offsetWidth;
 
 
-      showToast(
-        "防御力を強化しました！"
+  effect.classList
+    .add(
+      "active"
+    );
+
+}
+
+
+// ========================================
+// LEVEL
+// ========================================
+
+function checkLevel() {
+
+  while (
+    game.exp >=
+    game.level *
+    100
+  ) {
+
+    game.exp -=
+      game.level *
+      100;
+
+
+    game.level++;
+
+  }
+
+}
+
+
+// ========================================
+// UPGRADES
+// ========================================
+
+$("train")
+  .onclick =
+  () => {
+
+    const cost =
+      50 +
+      game.attackLevel *
+      40;
+
+
+    if (
+      game.gold <
+      cost
+    ) {
+
+      toast(
+        "ゴールド不足"
       );
 
+      return;
+
     }
-  );
 
 
-// ============================================
-// 放置報酬受け取り
-// ============================================
-
-element("claim")
-  .addEventListener(
-    "click",
-    () => {
-
-      const reward =
-        Math.floor(
-          game.bank
-        );
+    game.gold -=
+      cost;
 
 
-      game.gold +=
-        reward;
+    game.attackLevel++;
 
 
-      game.bank =
-        0;
+    saveGame();
+
+    render();
+
+  };
 
 
-      saveGame();
+$("armor")
+  .onclick =
+  () => {
 
-      render();
+    const cost =
+      50 +
+      game.defenseLevel *
+      40;
 
 
-      showToast(
-        reward +
-        "ゴールド獲得！"
+    if (
+      game.gold <
+      cost
+    ) {
+
+      toast(
+        "ゴールド不足"
       );
 
+      return;
+
     }
+
+
+    game.gold -=
+      cost;
+
+
+    game.defenseLevel++;
+
+
+    saveGame();
+
+    render();
+
+  };
+
+
+// ========================================
+// IDLE
+// ========================================
+
+$("claim")
+  .onclick =
+  () => {
+
+    game.gold +=
+      game.bank;
+
+
+    game.bank =
+      0;
+
+
+    saveGame();
+
+    render();
+
+  };
+
+
+function idleRate() {
+
+  return (
+    1 +
+    game.stage *
+    .2
+  ) *
+  (
+    1 +
+    treeBonus(
+      "idle"
+    )
   );
 
+}
 
-// ============================================
-// ガチャ
-// ============================================
 
-function summon(
+// ========================================
+// GACHA
+// ========================================
+
+function pull(
   count,
-  cost
+  price
 ) {
 
   if (
     game.crystal <
-    cost
+    price
   ) {
 
-    showToast(
-      "クリスタルが足りません"
+    toast(
+      "クリスタル不足"
     );
 
     return;
@@ -2103,10 +2250,10 @@ function summon(
 
 
   game.crystal -=
-    cost;
+    price;
 
 
-  const results =
+  const output =
     [];
 
 
@@ -2116,38 +2263,34 @@ function summon(
     i++
   ) {
 
-    const random =
+    const value =
       Math.random();
 
 
-    let rarity;
+    let rarity =
+      "R";
 
 
     if (
-      random <
-      0.05
+      value <
+      .05
     ) {
 
       rarity =
         "SSR";
 
-    } else if (
-      random <
-      0.28
+    }
+
+    else if (
+      value <
+      .28
     ) {
 
       rarity =
         "SR";
 
-    } else {
-
-      rarity =
-        "R";
-
     }
 
-
-    // 10連最後はSR以上
 
     if (
       count === 10 &&
@@ -2161,182 +2304,70 @@ function summon(
     }
 
 
-    // ==================
-    // スキル
-    // ==================
+    const names = [
 
-    if (
-      Math.random() <
-      0.45
-    ) {
+      "星剣",
 
-      const original =
-        specialSkills[
+      "月杖",
+
+      "天弓",
+
+      "星鎧",
+
+      "輪廻石",
+
+      "秘奥義書"
+
+    ];
+
+
+    const item = {
+
+      name:
+        names[
           Math.floor(
             Math.random() *
-            specialSkills.length
+            names.length
           )
-        ];
+        ],
+
+      rarity
+
+    };
 
 
-      const item = {
-
-        name:
-          original.name,
-
-        rarity:
-          rarity,
-
-        type:
-          "skill"
-
-      };
+    game.inventory.push(
+      item
+    );
 
 
-      game.owned.push(
-        item
-      );
-
-
-      const alreadyOwned =
-        game.skills.some(
-          (skill) =>
-            skill.name ===
-            original.name
-        );
-
-
-      if (
-        !alreadyOwned
-      ) {
-
-        game.skills.push({
-
-          name:
-            original.name,
-
-          tag:
-            original.tag,
-
-          power:
-            original.power
-
-        });
-
-      }
-
-
-      results.push(
-        item
-      );
-
-    }
-
-
-    // ==================
-    // 装備
-    // ==================
-
-    else {
-
-      const equipmentNames = [
-        "星鉄の剣",
-        "月影の杖",
-        "天風の弓",
-        "星界の鎧",
-        "輪廻の指輪"
-      ];
-
-
-      let bonus;
-
-
-      if (
-        rarity === "SSR"
-      ) {
-
-        bonus =
-          35;
-
-      } else if (
-        rarity === "SR"
-      ) {
-
-        bonus =
-          15;
-
-      } else {
-
-        bonus =
-          6;
-
-      }
-
-
-      const item = {
-
-        name:
-          equipmentNames[
-            Math.floor(
-              Math.random() *
-              equipmentNames.length
-            )
-          ],
-
-        rarity:
-          rarity,
-
-        bonus:
-          bonus,
-
-        type:
-          "gear"
-
-      };
-
-
-      game.gear.push(
-        item
-      );
-
-
-      game.owned.push(
-        item
-      );
-
-
-      results.push(
-        item
-      );
-
-    }
+    output.push(
+      item
+    );
 
   }
 
 
-  // =========================
-  // 結果表示
-  // =========================
-
-  element("results")
+  $("results")
     .innerHTML =
-    results
-      .map(
-        (item) => `
-          <div
-            class="card ${item.rarity}"
-          >
-            <b>
-              ${item.rarity}
-            </b>
+    output.map(
+      item =>
+      `
+        <div
+          class="card ${item.rarity}"
+        >
 
-            <br>
+          <b>
+            ${item.rarity}
+          </b>
 
-            ${item.name}
-          </div>
-        `
-      )
-      .join("");
+          <br>
+
+          ${item.name}
+
+        </div>
+      `
+    ).join("");
 
 
   saveGame();
@@ -2346,444 +2377,450 @@ function summon(
 }
 
 
-// 単発
+$("pull1")
+  .onclick =
+  () =>
+    pull(
+      1,
+      100
+    );
 
-element("pull1")
-  .addEventListener(
-    "click",
-    () => {
 
-      summon(
-        1,
-        100
+$("pull10")
+  .onclick =
+  () =>
+    pull(
+      10,
+      900
+    );
+
+
+// ========================================
+// REBIRTH
+// ========================================
+
+$("doRebirth")
+  .onclick =
+  () => {
+
+    if (
+      game.stage <
+      10
+    ) {
+
+      toast(
+        "Stage 10で解放"
       );
 
-    }
-  );
-
-
-// 10連
-
-element("pull10")
-  .addEventListener(
-    "click",
-    () => {
-
-      summon(
-        10,
-        900
-      );
+      return;
 
     }
-  );
 
 
-// ============================================
-// 転生
-// ============================================
-
-element("doRebirth")
-  .addEventListener(
-    "click",
-    () => {
-
-      if (
-        game.stage <
+    const gain =
+      Math.floor(
+        game.stage /
+        5
+      ) +
+      Math.floor(
+        treeBonus(
+          "rebirth"
+        ) *
         10
-      ) {
-
-        return;
-
-      }
-
-
-      const soulGain =
-        Math.floor(
-          game.stage /
-          5
-        );
-
-
-      const answer =
-        confirm(
-          "転生しますか？\n\n" +
-          "獲得星魂: " +
-          soulGain +
-          " 🌟"
-        );
-
-
-      if (!answer) {
-
-        return;
-
-      }
-
-
-      game.soul +=
-        soulGain;
-
-
-      game.rebirths++;
-
-
-      game.level =
-        1;
-
-
-      game.exp =
-        0;
-
-
-      game.gold =
-        120;
-
-
-      game.stage =
-        1;
-
-
-      game.attackUpgrade =
-        0;
-
-
-      game.defenseUpgrade =
-        0;
-
-
-      game.bank =
-        0;
-
-
-      saveGame();
-
-      render();
-
-
-      showToast(
-        "🌠 転生しました！"
-      );
-
-    }
-  );
-
-
-// ============================================
-// スキルツリーリセット
-// ============================================
-
-element("resetTree")
-  .addEventListener(
-    "click",
-    () => {
-
-      let refund =
-        0;
-
-
-      treeNodes.forEach(
-        (node) => {
-
-          const rank =
-            getTreeRank(
-              node.id
-            );
-
-
-          for (
-            let i = 0;
-            i < rank;
-            i++
-          ) {
-
-            refund +=
-              node.cost +
-              i;
-
-          }
-
-        }
       );
 
 
-      if (
-        refund === 0
-      ) {
-
-        showToast(
-          "リセットする能力がありません"
-        );
-
-        return;
-
-      }
-
-
-      const answer =
-        confirm(
-          "スキルツリーを初期化しますか？\n\n" +
-          refund +
-          " 星魂が返却されます。"
-        );
-
-
-      if (!answer) {
-
-        return;
-
-      }
-
-
-      game.soul +=
-        refund;
-
-
-      game.tree =
-        {};
-
-
-      saveGame();
-
-      render();
-
-
-      element(
-        "nodeDetail"
-      ).innerHTML = `
-        <p>
-          ノードを選択すると
-          詳細を表示します。
-        </p>
-      `;
-
-
-      showToast(
-        "星魂盤を初期化しました"
-      );
-
-    }
-  );
-
-
-// ============================================
-// タブ切り替え
-// ============================================
-
-document
-  .querySelectorAll(
-    "[data-tab]"
-  )
-  .forEach(
-    (button) => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          document
-            .querySelectorAll(
-              "nav button"
-            )
-            .forEach(
-              (navButton) => {
-
-                navButton
-                  .classList
-                  .remove(
-                    "active"
-                  );
-
-              }
-            );
-
-
-          document
-            .querySelectorAll(
-              ".tab"
-            )
-            .forEach(
-              (tab) => {
-
-                tab
-                  .classList
-                  .remove(
-                    "active"
-                  );
-
-              }
-            );
-
-
-          button
-            .classList
-            .add(
-              "active"
-            );
-
-
-          element(
-            button.dataset.tab
-          )
-            .classList
-            .add(
-              "active"
-            );
-
-        }
-      );
-
-    }
-  );
-
-
-// ============================================
-// セーブ初期化
-// ============================================
-
-element("reset")
-  .addEventListener(
-    "click",
-    () => {
-
-      const answer =
-        confirm(
-          "本当にセーブデータを削除しますか？\n\n" +
-          "この操作は取り消せません。"
-        );
-
-
-      if (!answer) {
-
-        return;
-
-      }
-
-
-      localStorage.removeItem(
-        "starSwordSave"
-      );
-
-
-      location.reload();
-
-    }
-  );
-
-
-// ============================================
-// オフライン報酬計算
-// ============================================
-
-function calculateOfflineReward() {
-
-  const now =
-    Date.now();
-
-
-  const elapsed =
-    Math.min(
-
-      8 * 60 * 60,
-
-      Math.max(
-        0,
-
-        (
-          now -
-          game.lastSave
-        ) /
-        1000
+    if (
+      !confirm(
+        `転生して🌟${gain}を獲得しますか？`
       )
+    ) {
 
+      return;
+
+    }
+
+
+    game.soul +=
+      gain;
+
+
+    game.rebirths++;
+
+
+    game.level =
+      1;
+
+
+    game.exp =
+      0;
+
+
+    game.gold =
+      120;
+
+
+    game.stage =
+      1;
+
+
+    game.attackLevel =
+      0;
+
+
+    game.defenseLevel =
+      0;
+
+
+    saveGame();
+
+    render();
+
+    renderTree();
+
+
+    toast(
+      "🌠 転生した！"
+    );
+
+  };
+
+
+// ========================================
+// NAVIGATION
+// ========================================
+
+function openPage(
+  page
+) {
+
+  document
+    .querySelectorAll(
+      ".page"
+    )
+    .forEach(
+      element => {
+
+        element.classList
+          .remove(
+            "active"
+          );
+
+      }
     );
 
 
-  const rewardRate =
-    (
-      1 +
-      game.stage *
-      0.22
-    ) *
-    (
-      1 +
-      getTreeBonus(
-        "idle"
-      )
+  $(page)
+    .classList
+    .add(
+      "active"
     );
 
 
-  const reward =
-    Math.floor(
-      elapsed *
-      rewardRate
+  document
+    .querySelectorAll(
+      ".bottomNav button"
+    )
+    .forEach(
+      button => {
+
+        button.classList.toggle(
+          "active",
+          button.dataset.page ===
+          page
+        );
+
+      }
     );
 
 
-  game.bank +=
-    reward;
+  if (
+    page ===
+    "tree"
+  ) {
+
+    renderTree();
 
 
-  game.lastSave =
-    now;
+    setTimeout(
+      centerTree,
+      0
+    );
+
+  }
+
+
+  window.scrollTo(
+    0,
+    0
+  );
 
 }
 
 
-// ============================================
-// 放置報酬リアルタイム増加
-// ============================================
+// ========================================
+// RENDER
+// ========================================
 
-function startIdleTimer() {
+function render() {
 
-  setInterval(
+  const s =
+    stats();
+
+
+  $("lv").textContent =
+    game.level;
+
+
+  $("gold").textContent =
+    Math.floor(
+      game.gold
+    );
+
+
+  $("crystal").textContent =
+    game.crystal;
+
+
+  $("gachaCrystal")
+    .textContent =
+    game.crystal;
+
+
+  $("soul").textContent =
+    game.soul;
+
+
+  $("treeSoul")
+    .textContent =
+    game.soul;
+
+
+  $("stage").textContent =
+    game.stage;
+
+
+  $("power").textContent =
+    s.power;
+
+
+  $("playerHp")
+    .textContent =
+    s.hp;
+
+
+  $("atk")
+    .textContent =
+    s.attack;
+
+
+  $("def")
+    .textContent =
+    s.defense;
+
+
+  $("xp")
+    .textContent =
+    game.exp;
+
+
+  $("xpneed")
+    .textContent =
+    game.level *
+    100;
+
+
+  $("xpbar")
+    .style.width =
+    Math.min(
+      100,
+      game.exp /
+      (
+        game.level *
+        100
+      ) *
+      100
+    ) +
+    "%";
+
+
+  $("trainCost")
+    .textContent =
+    50 +
+    game.attackLevel *
+    40;
+
+
+  $("armorCost")
+    .textContent =
+    50 +
+    game.defenseLevel *
+    40;
+
+
+  $("offlineGold")
+    .textContent =
+    Math.floor(
+      game.bank
+    );
+
+
+  $("rebirths")
+    .textContent =
+    game.rebirths;
+
+
+  $("perm")
+    .textContent =
+    (
+      1 +
+      game.rebirths *
+      .12
+    ).toFixed(2) +
+    "x";
+
+
+  $("gainSoul")
+    .textContent =
+    Math.floor(
+      game.stage /
+      5
+    );
+
+
+  $("inventory")
+    .innerHTML =
+    game.inventory
+      .slice(-20)
+      .reverse()
+      .map(
+        item =>
+        `
+          <div
+            class="card ${item.rarity}"
+          >
+
+            ${item.rarity}
+
+            <br>
+
+            ${item.name}
+
+          </div>
+        `
+      )
+      .join("");
+
+}
+
+
+// ========================================
+// LOG
+// ========================================
+
+function battleLog(
+  text
+) {
+
+  $("log")
+    .textContent =
+    text;
+
+}
+
+
+// ========================================
+// TOAST
+// ========================================
+
+function toast(
+  text
+) {
+
+  const target =
+    $("toast");
+
+
+  target.textContent =
+    text;
+
+
+  target.classList.add(
+    "show"
+  );
+
+
+  setTimeout(
     () => {
 
-      const rewardRate =
-        (
-          1 +
-          game.stage *
-          0.22
-        ) *
-        (
-          1 +
-          getTreeBonus(
-            "idle"
-          )
-        );
-
-
-      game.bank +=
-        Math.max(
-          1,
-          Math.floor(
-            rewardRate
-          )
-        );
-
-
-      element(
-        "offlineGold"
-      ).textContent =
-        Math.floor(
-          game.bank
-        );
+      target.classList.remove(
+        "show"
+      );
 
     },
-
-    1000
+    1700
   );
 
 }
 
 
-// ============================================
-// ゲーム開始
-// ============================================
+// ========================================
+// OFFLINE REWARD
+// ========================================
 
-calculateOfflineReward();
+const elapsed =
+  Math.min(
+    8 *
+    60 *
+    60,
+
+    Math.max(
+      0,
+      (
+        Date.now() -
+        game.lastSave
+      ) /
+      1000
+    )
+  );
+
+
+game.bank +=
+  Math.floor(
+    elapsed *
+    idleRate()
+  );
+
+
+setInterval(
+  () => {
+
+    game.bank +=
+      Math.max(
+        1,
+        Math.floor(
+          idleRate()
+        )
+      );
+
+
+    $("offlineGold")
+      .textContent =
+      Math.floor(
+        game.bank
+      );
+
+  },
+  1000
+);
+
+
+// ========================================
+// START
+// ========================================
 
 saveGame();
 
 render();
 
-startIdleTimer();
+renderTree();
