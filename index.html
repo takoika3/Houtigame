@@ -1,82 +1,1459 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-
 <head>
-  <meta charset="UTF-8">
-
+  <meta charset="utf-8">
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1"
+    content="width=device-width,initial-scale=1,maximum-scale=1"
   >
-
   <title>星剣と魔導書のクロニクル</title>
 
-  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --gold: #f4c65d;
+      --purple: #6548ae;
+      --dark: #080a12;
+      --war: #ef5361;
+      --guard: #54d181;
+      --magic: #6594ff;
+      --fate: #bd68ec;
+      --astral: #50dce1;
+      --rebirth: #f2d47a;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      color: white;
+      background: #070911;
+      font-family:
+        system-ui,
+        "Yu Gothic",
+        sans-serif;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+    }
+
+    .game {
+      max-width: 620px;
+      min-height: 100vh;
+      margin: auto;
+      padding-bottom: 78px;
+      background: #111524;
+      box-shadow: 0 0 50px black;
+    }
+
+    .page {
+      display: none;
+      min-height: calc(100vh - 145px);
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* ========================================
+       上部
+    ======================================== */
+
+    .top {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background:
+        linear-gradient(
+          #7257c2,
+          #35245f
+        );
+      border-bottom: 3px solid #21143f;
+    }
+
+    .profile,
+    .wallet {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .profile small,
+    .profile b {
+      display: block;
+    }
+
+    .profile-icon {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+    }
+
+    .wallet span {
+      padding: 7px 8px;
+      border: 2px solid #ffffff26;
+      border-radius: 18px;
+      background: #2b204a;
+      font-size: 11px;
+    }
+
+    /* ========================================
+       ステージ
+    ======================================== */
+
+    .stage {
+      padding: 8px;
+      text-align: center;
+      background:
+        linear-gradient(
+          #6bc9ed,
+          #8ad9e8
+        );
+      text-shadow: 0 2px #386278;
+    }
+
+    .stage h1 {
+      margin: 2px;
+      font-size: 30px;
+    }
+
+    .route {
+      max-width: 340px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: auto;
+    }
+
+    .route-line {
+      height: 9px;
+      flex: 1;
+      overflow: hidden;
+      border: 2px solid white;
+      border-radius: 10px;
+      background: #43365c;
+    }
+
+    .route-line i {
+      display: block;
+      width: 0;
+      height: 100%;
+      background:
+        linear-gradient(
+          90deg,
+          #ffe867,
+          #ff9e3c
+        );
+      transition: width 0.3s;
+    }
+
+    /* ========================================
+       戦闘画面
+    ======================================== */
+
+    .field {
+      height: 430px;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(
+          transparent 0 53%,
+          #78b959 53% 62%,
+          #dcb972 62%
+        ),
+        linear-gradient(
+          #69c7eb,
+          #c2eef0
+        );
+    }
+
+    .field::before {
+      content: "";
+      position: absolute;
+      inset: 62% 0 0;
+      opacity: 0.18;
+      background:
+        radial-gradient(
+          circle,
+          #865c2a 2px,
+          transparent 3px
+        );
+      background-size: 35px 28px;
+    }
+
+    .enemy,
+    .hero {
+      position: absolute;
+      left: 50%;
+      text-align: center;
+      transform: translateX(-50%);
+    }
+
+    .enemy {
+      top: 35px;
+    }
+
+    .hero {
+      bottom: 24px;
+      min-width: 220px;
+    }
+
+    .name {
+      display: inline-block;
+      padding: 4px 13px;
+      color: white;
+      background:
+        linear-gradient(
+          #4a344d,
+          #2b1c31
+        );
+      border: 2px solid white;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .hp-shell {
+      width: 200px;
+      height: 15px;
+      margin: 5px auto 2px;
+      overflow: hidden;
+      background: #342735;
+      border: 3px solid white;
+      border-radius: 20px;
+    }
+
+    .hp-shell i {
+      display: block;
+      width: 100%;
+      height: 100%;
+      transition:
+        width 0.25s,
+        background 0.25s;
+    }
+
+    .enemy .hp-shell i {
+      background:
+        linear-gradient(
+          #ff756b,
+          #d9253d
+        );
+    }
+
+    .hero .hp-shell i {
+      background:
+        linear-gradient(
+          #8effaa,
+          #1a9c53
+        );
+    }
+
+    .hero .hp-shell.warning i {
+      background:
+        linear-gradient(
+          #fff176,
+          #cc8320
+        );
+    }
+
+    .hero .hp-shell.danger i {
+      background:
+        linear-gradient(
+          #ff8a7d,
+          #ab202f
+        );
+      animation:
+        lowHp 0.75s
+        infinite alternate;
+    }
+
+    @keyframes lowHp {
+      to {
+        filter: brightness(1.45);
+      }
+    }
+
+    .hp-text {
+      color: #493840;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .hero .hp-text {
+      color: #28573b;
+    }
+
+    .enemy-emblem {
+      width: 105px;
+      height: 105px;
+      margin: 13px auto;
+      animation:
+        enemyFloat 1.7s
+        infinite alternate;
+    }
+
+    .hero-emblem {
+      width: 75px;
+      height: 75px;
+      margin: 5px auto;
+    }
+
+    @keyframes enemyFloat {
+      to {
+        transform:
+          translateY(6px)
+          rotate(3deg);
+      }
+    }
+
+    .hero-shadow {
+      width: 95px;
+      height: 18px;
+      margin: -6px auto 0;
+      border-radius: 50%;
+      background: #5a422f38;
+    }
+
+    .hero.hit {
+      animation:
+        heroHit 0.3s;
+    }
+
+    @keyframes heroHit {
+      25% {
+        transform:
+          translateX(
+            calc(-50% - 9px)
+          );
+      }
+
+      50% {
+        transform:
+          translateX(
+            calc(-50% + 8px)
+          );
+      }
+
+      75% {
+        transform:
+          translateX(
+            calc(-50% - 5px)
+          );
+      }
+    }
+
+    .effect,
+    .damage {
+      position: absolute;
+      left: 50%;
+      top: 43%;
+      z-index: 30;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .effect {
+      font-size: 90px;
+    }
+
+    .effect.show {
+      animation:
+        impact 0.45s;
+    }
+
+    @keyframes impact {
+      30% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        transform:
+          scale(1.8)
+          rotate(25deg);
+      }
+    }
+
+    .damage {
+      font-size: 30px;
+      font-weight: 1000;
+      text-shadow:
+        0 3px #c34634;
+    }
+
+    .damage.show {
+      animation:
+        damagePopup 0.7s;
+    }
+
+    @keyframes damagePopup {
+      20% {
+        opacity: 1;
+        transform:
+          translateY(-10px)
+          scale(1.2);
+      }
+
+      100% {
+        opacity: 0;
+        transform:
+          translateY(-65px);
+      }
+    }
+
+    .battle-log {
+      padding: 8px 12px;
+      color: #fff0b9;
+      background: #293028;
+      font-size: 11px;
+    }
+
+    /* ========================================
+       戦闘コマンド
+    ======================================== */
+
+    .command {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px;
+      background:
+        linear-gradient(
+          #684aaa,
+          #3d2873
+        );
+    }
+
+    .power {
+      flex: 1;
+      text-align: center;
+    }
+
+    .power b {
+      display: block;
+      color: #ffe55e;
+      font-size: 20px;
+    }
+
+    .boss-button {
+      flex: 1.7;
+      padding: 13px;
+      color: #592f16;
+      background:
+        linear-gradient(
+          #ffe96f,
+          #e37d29
+        );
+      border: 3px solid #fff2aa;
+      border-radius: 16px;
+      font-size: 17px;
+      font-weight: 1000;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns:
+        repeat(3, 1fr);
+      gap: 3px;
+      padding: 4px;
+      background: #2e2357;
+    }
+
+    .stats div {
+      padding: 7px;
+      text-align: center;
+      background:
+        linear-gradient(
+          #55418f,
+          #3e2d75
+        );
+      border-radius: 7px;
+    }
+
+    .stats small,
+    .stats b {
+      display: block;
+    }
+
+    .stats b {
+      color: #ffe565;
+    }
+
+    .exp-panel {
+      padding: 8px 11px;
+      color: #624327;
+      background:
+        linear-gradient(
+          #ffe8b5,
+          #e5c687
+        );
+      font-size: 11px;
+    }
+
+    .exp-bar {
+      height: 10px;
+      margin-top: 5px;
+      overflow: hidden;
+      background: #705535;
+      border: 2px solid #fff4c7;
+      border-radius: 20px;
+    }
+
+    .exp-bar i {
+      display: block;
+      height: 100%;
+      background:
+        linear-gradient(
+          90deg,
+          #61cfff,
+          #7774ff
+        );
+      transition: width 0.3s;
+    }
+
+    .upgrades {
+      display: grid;
+      grid-template-columns:
+        repeat(4, 1fr);
+      gap: 5px;
+      padding: 7px;
+      background: #dfc184;
+    }
+
+    .upgrade {
+      min-height: 126px;
+      padding: 7px 3px;
+      color: white;
+      background:
+        linear-gradient(
+          #6658b6,
+          #3b337a
+        );
+      border: 3px solid #fff1ce;
+      border-radius:
+        20px 20px 8px 8px;
+    }
+
+    .upgrade strong,
+    .upgrade small {
+      display: block;
+    }
+
+    .upgrade strong {
+      color: #ffe76e;
+    }
+
+    .price {
+      margin-top: 6px;
+      padding: 4px;
+      color: #49301d;
+      background: #ffd354;
+      border-radius: 6px;
+      font-weight: 900;
+    }
+
+    /* ========================================
+       CSS豪華紋章
+    ======================================== */
+
+    .rpg-icon {
+      --c1: #70b9ff;
+      --c2: #315cff;
+      --c3: #101c51;
+      --glow: #5091ffe6;
+
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+
+      width: 52px;
+      height: 52px;
+
+      isolation: isolate;
+
+      color: white;
+
+      background:
+        radial-gradient(
+          circle at 30% 22%,
+          white 0 3%,
+          transparent 4%
+        ),
+        radial-gradient(
+          circle,
+          var(--c1),
+          var(--c2) 27%,
+          var(--c3) 62%,
+          #050710 80%
+        );
+
+      border:
+        2px solid
+        var(--c1);
+
+      border-radius: 50%;
+
+      box-shadow:
+        inset 0 0 4px white,
+        inset 0 0 10px var(--c1),
+        0 0 0 3px #17131f,
+        0 0 0 5px #95774a,
+        0 0 10px var(--c1),
+        0 0 22px var(--glow);
+
+      font-family:
+        Georgia,
+        serif;
+
+      font-size: 24px;
+      font-weight: 900;
+
+      text-shadow:
+        0 0 4px white,
+        0 0 12px var(--glow);
+    }
+
+    .rpg-icon::before {
+      content: "";
+
+      position: absolute;
+      inset: -10px;
+      z-index: -1;
+
+      border:
+        1px solid
+        #f4cc73cc;
+
+      border-radius: 50%;
+
+      background:
+        conic-gradient(
+          transparent 0 8deg,
+          #f5d378 9deg 12deg,
+          transparent 13deg 78deg,
+          #f5d378 79deg 83deg,
+          transparent 84deg 168deg,
+          #f5d378 169deg 173deg,
+          transparent 174deg 258deg,
+          #f5d378 259deg 263deg,
+          transparent 264deg 348deg,
+          #f5d378 349deg 353deg,
+          transparent 354deg
+        );
+
+      clip-path:
+        polygon(
+          50% 0,
+          58% 14%,
+          70% 7%,
+          74% 22%,
+          88% 14%,
+          84% 31%,
+          100% 50%,
+          84% 58%,
+          93% 72%,
+          77% 73%,
+          84% 88%,
+          67% 83%,
+          50% 100%,
+          42% 86%,
+          28% 94%,
+          27% 77%,
+          12% 87%,
+          16% 68%,
+          0 50%,
+          16% 42%,
+          7% 29%,
+          23% 27%,
+          16% 12%,
+          33% 17%
+        );
+    }
+
+    .rpg-icon.war {
+      --c1: #ff795e;
+      --c2: #d2283c;
+      --c3: #4b0718;
+      --glow: #ff2b36e6;
+    }
+
+    .rpg-icon.sword {
+      --c1: #d5efff;
+      --c2: #557fe0;
+      --c3: #12244d;
+      --glow: #408dffe6;
+    }
+
+    .rpg-icon.guard {
+      --c1: #b9ffc5;
+      --c2: #42b966;
+      --c3: #123b22;
+      --glow: #41e869d9;
+    }
+
+    .rpg-icon.magic {
+      --c1: #e3a2ff;
+      --c2: #8440d5;
+      --c3: #260643;
+      --glow: #b445fff2;
+    }
+
+    .rpg-icon.fate {
+      --c1: #f0a1ff;
+      --c2: #9145dc;
+      --c3: #320958;
+      --glow: #c94cfff2;
+    }
+
+    .rpg-icon.astral {
+      --c1: #b5fcff;
+      --c2: #3fc0d7;
+      --c3: #06344a;
+      --glow: #2fdcfff2;
+    }
+
+    .rpg-icon.rebirth {
+      --c1: #fff3a3;
+      --c2: #e5a33b;
+      --c3: #614016;
+      --glow: #ffbe3cf2;
+    }
+
+    .rpg-icon.death {
+      --c1: #d47dff;
+      --c2: #6921a8;
+      --c3: #1e052d;
+      --glow: #9930fff2;
+    }
+
+    .rpg-icon.fire {
+      --c1: #ffe260;
+      --c2: #ff6728;
+      --c3: #5b0b05;
+      --glow: #ff5016f2;
+    }
+
+    .rpg-icon.thunder {
+      --c1: #fffaae;
+      --c2: #58acff;
+      --c3: #182b74;
+      --glow: #4ca6fff2;
+    }
+
+    .rpg-icon.moon {
+      --c1: #bfa8ff;
+      --c2: #5939c9;
+      --c3: #171447;
+      --glow: #714dfff2;
+    }
+
+    .rpg-icon.small {
+      width: 30px;
+      height: 30px;
+      font-size: 14px;
+    }
+
+    .rpg-icon.small::before {
+      inset: -6px;
+    }
+
+    .rpg-icon.medium {
+      width: 45px;
+      height: 45px;
+      font-size: 21px;
+    }
+
+    .rpg-icon.large {
+      width: 67px;
+      height: 67px;
+      font-size: 31px;
+    }
+
+    /* ========================================
+       巨大スキルツリー
+    ======================================== */
+
+    .tree-page {
+      background: #050605;
+    }
+
+    .tree-head {
+      height: 70px;
+      display: grid;
+      grid-template-columns:
+        50px 1fr 80px;
+      align-items: center;
+      padding: 7px 11px;
+      background:
+        linear-gradient(
+          #332617,
+          #17110b
+        );
+      border-bottom:
+        2px solid #826536;
+    }
+
+    .tree-head h2 {
+      margin: 2px;
+      font-size: 17px;
+    }
+
+    .tree-head small {
+      color: #cdb486;
+      font-size: 9px;
+    }
+
+    .back,
+    .tools button {
+      height: 38px;
+      color: #f6ddaa;
+      background: #382b1b;
+      border:
+        1px solid #8c6e3c;
+      border-radius: 5px;
+    }
+
+    .back {
+      width: 42px;
+      border-radius: 50%;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      padding: 7px;
+      background: #0e0c09;
+    }
+
+    .search {
+      flex: 1;
+      display: flex;
+      padding: 7px;
+      border:
+        2px solid #755d34;
+      background: #1a150e;
+    }
+
+    .search input {
+      width: 100%;
+      color: white;
+      background: transparent;
+      border: 0;
+      outline: 0;
+    }
+
+    .tools {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tools span {
+      font-size: 10px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 5px;
+      overflow: auto;
+      padding: 6px;
+      background: #090806;
+    }
+
+    .filters button {
+      flex: 0 0 auto;
+      padding: 6px 10px;
+      color: #c6b696;
+      background: #1b160f;
+      border:
+        1px solid #584728;
+      border-radius: 14px;
+    }
+
+    .filters button.active {
+      color: #25180b;
+      background: #e6b950;
+    }
+
+    .viewport {
+      height:
+        calc(100vh - 278px);
+
+      min-height: 540px;
+
+      position: relative;
+
+      overflow: hidden;
+
+      touch-action: none;
+      cursor: grab;
+
+      background:
+        radial-gradient(
+          circle at center,
+          #925f2e24,
+          transparent 28%
+        ),
+        radial-gradient(
+          circle,
+          #e2be701f 1px,
+          transparent 1.5px
+        ),
+        #050605;
+
+      background-size:
+        auto,
+        46px 46px;
+    }
+
+    .world {
+      width: 3300px;
+      height: 3300px;
+
+      position: absolute;
+
+      transform-origin: 0 0;
+    }
+
+    .lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .tree-line {
+      stroke: #564324;
+      stroke-width: 3;
+      opacity: 0.75;
+    }
+
+    .tree-line.available {
+      stroke: #907441;
+      stroke-width: 4;
+    }
+
+    .tree-line.active {
+      stroke: #ffbd49;
+      stroke-width: 6;
+
+      filter:
+        drop-shadow(
+          0 0 5px
+          #ff9e2d
+        );
+    }
+
+    .nodes {
+      position: absolute;
+      inset: 0;
+    }
+
+    .tree-node {
+      width: 34px;
+      height: 34px;
+
+      position: absolute;
+
+      display: grid;
+      place-items: center;
+
+      transform:
+        translate(-50%, -50%);
+
+      padding: 0;
+
+      border: 0;
+      border-radius: 50%;
+
+      background: transparent;
+    }
+
+    .tree-node.medium {
+      width: 48px;
+      height: 48px;
+    }
+
+    .tree-node.major {
+      width: 62px;
+      height: 62px;
+    }
+
+    .tree-node.keystone {
+      width: 82px;
+      height: 82px;
+    }
+
+    .tree-node.core {
+      width: 110px;
+      height: 110px;
+    }
+
+    .tree-node .rpg-icon {
+      width: 100%;
+      height: 100%;
+    }
+
+    .tree-node.keystone
+    .rpg-icon::before {
+      animation:
+        runeSpin 18s
+        linear infinite;
+    }
+
+    @keyframes runeSpin {
+      to {
+        transform:
+          rotate(360deg);
+      }
+    }
+
+    .tree-node.core .rpg-icon {
+      --c1: #fff4a3;
+      --c2: #ff9c32;
+      --c3: #651b08;
+      --glow: #ff8020f2;
+
+      font-size: 42px;
+
+      animation:
+        corePulse 2s
+        infinite alternate;
+    }
+
+    @keyframes corePulse {
+      to {
+        transform: scale(1.07);
+        filter: brightness(1.2);
+      }
+    }
+
+    .tree-node.locked .rpg-icon {
+      opacity: 0.55;
+
+      filter:
+        grayscale(0.92)
+        brightness(0.28);
+    }
+
+    .tree-node.available .rpg-icon {
+      animation:
+        nodeAvailable 1.25s
+        infinite alternate;
+    }
+
+    @keyframes nodeAvailable {
+      to {
+        transform: scale(1.1);
+        filter: brightness(1.4);
+      }
+    }
+
+    .tree-node.owned .rpg-icon {
+      border-color: #fff0a8;
+
+      filter: brightness(1.2);
+
+      box-shadow:
+        inset 0 0 8px white,
+        0 0 0 5px #e8b652,
+        0 0 26px var(--glow);
+    }
+
+    .tree-node.maxed .rpg-icon {
+      outline:
+        3px solid #fff09b;
+
+      outline-offset: 6px;
+    }
+
+    .tree-node.selected .rpg-icon {
+      outline:
+        2px solid white;
+
+      outline-offset: 10px;
+    }
+
+    .tree-node.search-hit .rpg-icon {
+      outline:
+        4px solid white;
+
+      outline-offset: 10px;
+    }
+
+    .tree-node.filtered {
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    .node-detail {
+      width:
+        min(
+          660px,
+          calc(100% - 18px)
+        );
+
+      position: fixed;
+
+      left: 50%;
+      bottom: 80px;
+
+      z-index: 180;
+
+      display: flex;
+      align-items: center;
+
+      gap: 12px;
+
+      padding: 11px 14px;
+
+      transform:
+        translateX(-50%);
+
+      background: #130f0af7;
+
+      border:
+        3px solid #98733e;
+
+      border-radius: 13px;
+    }
+
+    .node-detail p {
+      margin: 3px;
+      color: #d7c6a8;
+      font-size: 11px;
+    }
+
+    .node-detail button {
+      padding: 6px 13px;
+      color: #30200d;
+      background: #eabc56;
+      border:
+        2px solid #ffedaa;
+      border-radius: 7px;
+      font-weight: 900;
+    }
+
+    /* ========================================
+       ガチャ・転生
+    ======================================== */
+
+    .sub-head {
+      height: 69px;
+      display: grid;
+      grid-template-columns:
+        50px 1fr 75px;
+      align-items: center;
+      padding: 7px;
+      background:
+        linear-gradient(
+          #664bad,
+          #39276e
+        );
+    }
+
+    .sub-head h2 {
+      margin: 2px;
+    }
+
+    .summon,
+    .rebirth-screen {
+      min-height: 600px;
+      padding: 65px 20px;
+      text-align: center;
+      background:
+        radial-gradient(
+          circle,
+          #735bc8,
+          #17152f 65%
+        );
+    }
+
+    .summon .rpg-icon,
+    .rebirth-screen .rpg-icon {
+      margin: 30px;
+    }
+
+    .summon-actions {
+      display: grid;
+      grid-template-columns:
+        1fr 1fr;
+      gap: 8px;
+      padding: 10px;
+    }
+
+    .summon-actions button,
+    .rebirth-button {
+      padding: 15px;
+      color: white;
+      background:
+        linear-gradient(
+          #7658d5,
+          #4d359d
+        );
+      border:
+        3px solid #ffe9a0;
+      border-radius: 13px;
+      font-weight: 900;
+    }
+
+    .cards {
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fit,
+          minmax(90px, 1fr)
+        );
+
+      gap: 7px;
+      padding: 10px;
+    }
+
+    .card {
+      min-height: 74px;
+      padding: 8px;
+      text-align: center;
+      background: #302851;
+      border: 3px solid #aaa;
+      border-radius: 9px;
+    }
+
+    .card.SR {
+      border-color: #c56eff;
+    }
+
+    .card.SSR {
+      border-color: #ffe15d;
+
+      box-shadow:
+        0 0 16px #ffbe32;
+    }
+
+    .rebirth-stats {
+      display: grid;
+      grid-template-columns:
+        repeat(3, 1fr);
+      gap: 7px;
+      margin: 25px 0;
+    }
+
+    .rebirth-stats div {
+      padding: 12px;
+      background: #0004;
+      border:
+        2px solid #7361a8;
+      border-radius: 10px;
+    }
+
+    .rebirth-stats small,
+    .rebirth-stats b {
+      display: block;
+    }
+
+    /* ========================================
+       下部メニュー
+    ======================================== */
+
+    .bottom-nav {
+      width: min(620px, 100%);
+      height: 76px;
+
+      position: fixed;
+
+      left: 50%;
+      bottom: 0;
+
+      z-index: 200;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      transform:
+        translateX(-50%);
+
+      background:
+        linear-gradient(
+          #a96d39,
+          #714226
+        );
+
+      border-top:
+        4px solid #4e2b18;
+    }
+
+    .bottom-nav button {
+      color: #d6b27e;
+      background: transparent;
+      border: 0;
+      font-size: 22px;
+    }
+
+    .bottom-nav button.active {
+      color: #fff4bf;
+      background: #a86b38;
+    }
+
+    .bottom-nav small {
+      display: block;
+      font-size: 10px;
+    }
+
+    #toast {
+      position: fixed;
+
+      left: 50%;
+      bottom: 95px;
+
+      z-index: 500;
+
+      padding: 10px 17px;
+
+      opacity: 0;
+
+      transform:
+        translate(-50%, 20px);
+
+      background: #2b1f49;
+
+      border:
+        2px solid #a488e9;
+
+      border-radius: 20px;
+
+      transition: 0.2s;
+    }
+
+    #toast.show {
+      opacity: 1;
+
+      transform:
+        translate(-50%, 0);
+    }
+
+    @media (max-width: 480px) {
+      .wallet span {
+        min-width: 48px;
+        padding: 6px 4px;
+        font-size: 9px;
+      }
+
+      .field {
+        height: 390px;
+      }
+
+      .upgrades {
+        gap: 3px;
+        padding: 4px;
+      }
+
+      .upgrade {
+        min-height: 118px;
+        border-width: 2px;
+      }
+
+      .toolbar .search {
+        flex-basis: 100%;
+      }
+
+      .viewport {
+        height:
+          calc(100vh - 335px);
+
+        min-height: 480px;
+      }
+
+      .node-detail {
+        bottom: 78px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="game">
+<main class="game">
 
-  <!-- =====================================
-       上部ステータス
-  ====================================== -->
+  <header class="top">
 
-  <header class="top-bar">
+    <div class="profile">
 
-    <div class="player-profile">
+      <div class="profile-icon">
 
-      <div class="profile-emblem">
         <span class="rpg-icon sword small">
           ⚔
         </span>
+
       </div>
 
       <div>
-        <small>冒険者</small>
 
-        <strong>
-          Lv.<span id="lv">1</span>
-        </strong>
+        <small>
+          冒険者
+        </small>
+
+        <b>
+          Lv.
+          <span id="lv">1</span>
+        </b>
+
       </div>
 
     </div>
 
+    <div class="wallet">
 
-    <div class="resources">
-
-      <div class="resource crystal-resource">
+      <span>
         ◆
         <b id="crystal">1000</b>
-      </div>
+      </span>
 
-      <div class="resource gold-resource">
+      <span>
         ●
         <b id="gold">120</b>
-      </div>
+      </span>
 
-      <div class="resource soul-resource">
+      <span>
         ✦
-        <b id="soul">25</b>
-      </div>
+        <b id="soul">80</b>
+      </span>
 
     </div>
 
   </header>
 
-
-  <!-- =====================================
+  <!-- ======================================
        冒険
-  ====================================== -->
+  ======================================= -->
 
   <section
     id="adventure"
     class="page active"
   >
 
-    <!-- ステージ -->
-
-    <section class="stage-header">
+    <header class="stage">
 
       <small>
         星降りの草原
@@ -87,92 +1464,86 @@
         <span id="stage">1</span>
       </h1>
 
-      <div class="stage-progress">
+      <div class="route">
 
-        <span class="stage-start">
-          ⚔
-        </span>
+        <span>⚔</span>
 
-        <div class="stage-line">
+        <div class="route-line">
           <i id="stageProgress"></i>
         </div>
 
-        <span class="stage-boss">
-          ◆
-        </span>
+        <span>◆</span>
 
       </div>
 
-    </section>
+    </header>
 
+    <section class="field">
 
-    <!-- =====================================
-         戦闘フィールド
-    ====================================== -->
+      <div class="enemy">
 
-    <section class="battle-field">
-
-
-      <!-- 背景 -->
-
-      <div class="mountain mountain-a"></div>
-      <div class="mountain mountain-b"></div>
-
-      <div class="grass grass-a"></div>
-      <div class="grass grass-b"></div>
-
-
-      <!-- 敵 -->
-
-      <div class="enemy-area">
-
-        <div class="enemy-name">
+        <div class="name">
           混沌の守護者
         </div>
 
-
-        <div class="enemy-hp">
-
-          <i id="hpbar"></i>
-
+        <div class="hp-shell">
+          <i id="enemyHpBar"></i>
         </div>
 
-
-        <small class="enemy-hp-text">
+        <small class="hp-text">
 
           HP
 
-          <span id="hp">
+          <span id="enemyHp">
             -
           </span>
 
           /
 
-          <span id="maxhp">
+          <span id="enemyMaxHp">
             -
           </span>
 
         </small>
 
+        <div class="enemy-emblem">
 
-        <div class="enemy-visual">
-
-          <div class="boss-emblem">
-
-            <span class="rpg-icon war large">
-              ♠
-            </span>
-
-          </div>
+          <span class="rpg-icon war large">
+            ♠
+          </span>
 
         </div>
 
       </div>
 
+      <div class="hero">
 
-      <!-- プレイヤー -->
+        <div class="name">
+          星界の冒険者
+        </div>
 
-      <div class="hero-area">
+        <div
+          id="playerHpShell"
+          class="hp-shell"
+        >
+          <i id="playerHpBar"></i>
+        </div>
+
+        <small class="hp-text">
+
+          HP
+
+          <span id="currentHp">
+            0
+          </span>
+
+          /
+
+          <span id="maxHp">
+            0
+          </span>
+
+        </small>
 
         <div class="hero-emblem">
 
@@ -186,215 +1557,111 @@
 
       </div>
 
-
-      <!-- 攻撃エフェクト -->
+      <div
+        id="effect"
+        class="effect"
+      ></div>
 
       <div
-        id="battleEffect"
-        class="battle-effect"
-      >
-      </div>
-
-
-      <!-- ダメージ -->
-
-      <div
-        id="damageNumber"
-        class="damage-number"
-      >
-      </div>
+        id="damage"
+        class="damage"
+      ></div>
 
     </section>
 
-
-    <!-- 戦闘ログ -->
-
     <div
-      id="log"
+      id="battleLog"
       class="battle-log"
     >
       星降りの草原へ到着した。
     </div>
 
+    <section class="command">
 
-    <!-- =====================================
-         クエスト
-    ====================================== -->
+      <div class="power">
 
-    <section class="quest-panel">
+        戦闘力
 
-      <div class="quest-icon">
-        ✦
-      </div>
-
-
-      <div class="quest-content">
-
-        <strong>
-          メインクエスト
-        </strong>
-
-        <span>
-          次のボスを撃破する
-        </span>
-
-      </div>
-
-
-      <div class="quest-reward">
-        ◆15
-      </div>
-
-    </section>
-
-
-    <!-- =====================================
-         戦闘力・ボス
-    ====================================== -->
-
-    <section class="battle-command">
-
-      <div class="combat-power">
-
-        <small>
-          戦闘力
-        </small>
-
-        <strong id="power">
+        <b id="power">
           0
-        </strong>
+        </b>
 
       </div>
-
 
       <button
         id="fight"
         class="boss-button"
       >
-
-        <span class="mini-sword">
-          ⚔
-        </span>
-
-        ボスに挑戦
-
+        ⚔ ボスに挑戦
       </button>
 
     </section>
 
+    <section class="stats">
 
-    <!-- =====================================
-         ステータス
-    ====================================== -->
+      <div>
 
-    <section class="status-row">
+        ♥
 
-      <div class="status-card hp-stat">
+        <small>HP</small>
 
-        <span class="status-symbol">
-          ♥
-        </span>
-
-        <small>
-          HP
-        </small>
-
-        <strong id="playerHp">
+        <b id="hpStat">
           0
-        </strong>
+        </b>
 
       </div>
 
+      <div>
 
-      <div class="status-card attack-stat">
+        ⚔
 
-        <span class="status-symbol">
-          ⚔
-        </span>
+        <small>ATK</small>
 
-        <small>
-          ATK
-        </small>
-
-        <strong id="atk">
+        <b id="atkStat">
           0
-        </strong>
+        </b>
 
       </div>
 
+      <div>
 
-      <div class="status-card defense-stat">
+        ◆
 
-        <span class="status-symbol">
-          ◆
-        </span>
+        <small>DEF</small>
 
-        <small>
-          DEF
-        </small>
-
-        <strong id="def">
+        <b id="defStat">
           0
-        </strong>
+        </b>
 
       </div>
 
     </section>
-
-
-    <!-- =====================================
-         EXP
-    ====================================== -->
 
     <section class="exp-panel">
 
-      <div class="exp-header">
+      EXP
 
-        <strong>
-          冒険者育成
-        </strong>
+      <b id="exp">
+        0
+      </b>
 
+      /
 
-        <span>
-
-          EXP
-
-          <b id="xp">
-            0
-          </b>
-
-          /
-
-          <b id="xpneed">
-            100
-          </b>
-
-        </span>
-
-      </div>
-
+      <b id="expNeed">
+        100
+      </b>
 
       <div class="exp-bar">
-
-        <i id="xpbar"></i>
-
+        <i id="expBar"></i>
       </div>
 
     </section>
 
-
-    <!-- =====================================
-         育成カード
-    ====================================== -->
-
-    <section class="upgrade-grid">
-
-
-      <!-- 攻撃 -->
+    <section class="upgrades">
 
       <button
         id="train"
-        class="upgrade-card"
+        class="upgrade"
       >
 
         <span class="rpg-icon war medium">
@@ -412,7 +1679,7 @@
           </span>
         </small>
 
-        <div class="upgrade-price">
+        <div class="price">
 
           ●
 
@@ -424,12 +1691,9 @@
 
       </button>
 
-
-      <!-- 防御 -->
-
       <button
         id="armor"
-        class="upgrade-card"
+        class="upgrade"
       >
 
         <span class="rpg-icon guard medium">
@@ -441,16 +1705,13 @@
         </strong>
 
         <small>
-
           Lv.
-
           <span id="defenseLevel">
             0
           </span>
-
         </small>
 
-        <div class="upgrade-price">
+        <div class="price">
 
           ●
 
@@ -462,12 +1723,9 @@
 
       </button>
 
-
-      <!-- 放置 -->
-
       <button
         id="claim"
-        class="upgrade-card"
+        class="upgrade"
       >
 
         <span class="rpg-icon moon medium">
@@ -480,7 +1738,7 @@
 
         <small>
 
-          <span id="offlineGold">
+          <span id="idleGold">
             0
           </span>
 
@@ -488,18 +1746,15 @@
 
         </small>
 
-        <div class="upgrade-price">
+        <div class="price">
           GET
         </div>
 
       </button>
 
-
-      <!-- 星魂 -->
-
       <button
+        class="upgrade"
         onclick="openPage('tree')"
-        class="upgrade-card"
       >
 
         <span class="rpg-icon fate medium">
@@ -511,10 +1766,10 @@
         </strong>
 
         <small>
-          BUILD
+          300+ NODE
         </small>
 
-        <div class="upgrade-price">
+        <div class="price">
           OPEN
         </div>
 
@@ -524,28 +1779,23 @@
 
   </section>
 
-
-  <!-- =====================================
-       巨大星魂盤
-  ====================================== -->
+  <!-- ======================================
+       巨大スキルツリー
+  ======================================= -->
 
   <section
     id="tree"
     class="page tree-page"
   >
 
-
-    <!-- ヘッダー -->
-
-    <header class="tree-header">
+    <header class="tree-head">
 
       <button
-        class="back-button"
+        class="back"
         onclick="openPage('adventure')"
       >
         ←
       </button>
-
 
       <div>
 
@@ -554,178 +1804,125 @@
         </small>
 
         <h2>
-          星魂スキルツリー
+          巨大星魂盤
         </h2>
 
       </div>
 
-
-      <div class="tree-soul">
+      <div>
 
         ✦
 
-        <strong id="treeSoul">
-          25
-        </strong>
+        <b id="treeSoul">
+          0
+        </b>
 
       </div>
 
     </header>
 
+    <div class="toolbar">
 
-    <!-- =====================================
-         ツールバー
-    ====================================== -->
+      <label class="search">
 
-    <section class="tree-toolbar">
-
-      <label class="node-search">
-
-        <span>
-          ⌕
-        </span>
+        ⌕
 
         <input
           id="nodeSearch"
-          type="text"
-          placeholder="ノードを検索..."
+          placeholder="ノード検索..."
         >
 
       </label>
 
-
-      <div class="zoom-control">
+      <div class="tools">
 
         <button id="zoomOut">
-          −
+          －
         </button>
 
-        <span id="zoomDisplay">
-          75%
+        <span id="zoomLabel">
+          58%
         </span>
 
         <button id="zoomIn">
           ＋
         </button>
 
+        <button id="centerTree">
+          ◎
+        </button>
+
+        <button id="resetTree">
+          ↺
+        </button>
+
       </div>
 
+    </div>
+
+    <div
+      id="filters"
+      class="filters"
+    >
 
       <button
-        id="centerTree"
-        class="tree-tool-button"
-      >
-        ◎
-      </button>
-
-
-      <button
-        id="resetTree"
-        class="tree-tool-button reset-tree"
-      >
-        ↺
-      </button>
-
-    </section>
-
-
-    <!-- =====================================
-         ツリー系統
-    ====================================== -->
-
-    <section class="tree-filters">
-
-      <button
-        data-filter="all"
+        data-type="all"
         class="active"
       >
         全て
       </button>
 
-
-      <button
-        data-filter="war"
-      >
+      <button data-type="war">
         闘争
       </button>
 
-
-      <button
-        data-filter="guard"
-      >
+      <button data-type="guard">
         守護
       </button>
 
-
-      <button
-        data-filter="magic"
-      >
+      <button data-type="magic">
         魔導
       </button>
 
-
-      <button
-        data-filter="fate"
-      >
+      <button data-type="fate">
         運命
       </button>
 
-
-      <button
-        data-filter="astral"
-      >
+      <button data-type="astral">
         星界
       </button>
 
-
-      <button
-        data-filter="rebirth"
-      >
+      <button data-type="rebirth">
         輪廻
       </button>
 
-    </section>
+    </div>
 
-
-    <!-- =====================================
-         巨大キャンバス
-    ====================================== -->
-
-    <section
+    <div
       id="treeViewport"
-      class="tree-viewport"
+      class="viewport"
     >
 
       <div
         id="treeWorld"
-        class="tree-world"
+        class="world"
       >
-
 
         <svg
           id="treeLines"
-          class="tree-lines"
-          width="2600"
-          height="2600"
-        >
-        </svg>
-
+          class="lines"
+          width="3300"
+          height="3300"
+        ></svg>
 
         <div
           id="treeNodes"
-          class="tree-nodes"
-        >
-        </div>
-
+          class="nodes"
+        ></div>
 
       </div>
 
-    </section>
-
-
-    <!-- =====================================
-         ノード詳細
-    ====================================== -->
+    </div>
 
     <aside
       id="nodeDetail"
@@ -736,12 +1933,11 @@
         ✦
       </span>
 
-
       <div>
 
-        <strong>
+        <b>
           星魂盤
-        </strong>
+        </b>
 
         <p>
           ノードを選択してください。
@@ -753,193 +1949,131 @@
 
   </section>
 
-
-  <!-- =====================================
+  <!-- ======================================
        ガチャ
-  ====================================== -->
+  ======================================= -->
 
   <section
     id="gacha"
     class="page"
   >
 
-    <header class="sub-header">
+    <header class="sub-head">
 
-      <button
-        onclick="openPage('adventure')"
-      >
+      <button onclick="openPage('adventure')">
         ←
       </button>
 
-      <div>
-
-        <small>
-          CELESTIAL SUMMON
-        </small>
-
-        <h2>
-          星界召喚
-        </h2>
-
-      </div>
+      <h2>
+        星界召喚
+      </h2>
 
       <div>
 
         ◆
 
         <span id="gachaCrystal">
-          1000
+          0
         </span>
 
       </div>
 
     </header>
 
+    <div class="summon">
 
-    <section class="summon-stage">
-
-      <div class="summon-emblem">
-
-        <span class="rpg-icon magic large">
-          ✦
-        </span>
-
-      </div>
-
+      <span class="rpg-icon magic large">
+        ✧
+      </span>
 
       <h2>
         新たな力との出会い
       </h2>
 
-
       <p>
-        装備・秘奥スキルを召喚
+        装備と秘奥義を召喚
       </p>
 
-    </section>
+    </div>
 
-
-    <div class="summon-buttons">
+    <div class="summon-actions">
 
       <button id="pull1">
-
         1回召喚
-
-        <strong>
-          ◆100
-        </strong>
-
+        <br>
+        ◆100
       </button>
-
 
       <button id="pull10">
-
         10回召喚
-
-        <strong>
-          ◆900
-        </strong>
-
+        <br>
+        ◆900
       </button>
 
     </div>
 
+    <div
+      id="gachaResults"
+      class="cards"
+    ></div>
 
     <div
-      id="results"
-      class="gacha-results"
-    >
-    </div>
-
-
-    <h3 class="section-title">
-      召喚履歴
-    </h3>
-
-
-    <div
-      id="inventory"
-      class="gacha-results"
-    >
-    </div>
+      id="gachaHistory"
+      class="cards"
+    ></div>
 
   </section>
 
-
-  <!-- =====================================
+  <!-- ======================================
        転生
-  ====================================== -->
+  ======================================= -->
 
   <section
     id="rebirth"
     class="page"
   >
 
-    <header class="sub-header">
+    <header class="sub-head">
 
-      <button
-        onclick="openPage('adventure')"
-      >
+      <button onclick="openPage('adventure')">
         ←
       </button>
 
-      <div>
+      <h2>
+        星の輪廻
+      </h2>
 
-        <small>
-          REINCARNATION
-        </small>
-
-        <h2>
-          星の輪廻
-        </h2>
-
-      </div>
-
-      <div>
-        ∞
-      </div>
+      <div>∞</div>
 
     </header>
 
+    <div class="rebirth-screen">
 
-    <section class="rebirth-stage">
-
-
-      <div class="rebirth-emblem">
-
-        <span class="rpg-icon rebirth large">
-          ∞
-        </span>
-
-      </div>
-
+      <span class="rpg-icon rebirth large">
+        ∞
+      </span>
 
       <h2>
         転生
       </h2>
 
-
       <p>
-        現在の力を星へ還し、
-        恒久的な力を手に入れる。
+        力を星へ還し、恒久的な力を得る。
       </p>
 
-
-      <div class="rebirth-grid">
-
+      <div class="rebirth-stats">
 
         <div>
 
           <small>
-            転生回数
+            転生
           </small>
 
-          <strong id="rebirths">
+          <b id="rebirths">
             0
-          </strong>
+          </b>
 
         </div>
-
 
         <div>
 
@@ -947,12 +2081,11 @@
             永久倍率
           </small>
 
-          <strong id="perm">
+          <b id="permanentMultiplier">
             1.00x
-          </strong>
+          </b>
 
         </div>
-
 
         <div>
 
@@ -960,21 +2093,19 @@
             獲得星魂
           </small>
 
-          <strong>
+          <b>
 
             ✦
 
-            <span id="gainSoul">
+            <span id="soulGain">
               0
             </span>
 
-          </strong>
+          </b>
 
         </div>
 
-
       </div>
-
 
       <button
         id="doRebirth"
@@ -983,97 +2114,2714 @@
         転生する
       </button>
 
-    </section>
+    </div>
 
   </section>
 
-
-  <!-- =====================================
-       下メニュー
-  ====================================== -->
+  <!-- ======================================
+       下部メニュー
+  ======================================= -->
 
   <nav class="bottom-nav">
-
 
     <button
       data-page="adventure"
       class="active"
       onclick="openPage('adventure')"
     >
-
-      <span class="nav-icon">
-        ⚔
-      </span>
-
-      <small>
-        冒険
-      </small>
-
+      ⚔
+      <small>冒険</small>
     </button>
-
 
     <button
       data-page="tree"
       onclick="openPage('tree')"
     >
-
-      <span class="nav-icon">
-        ✦
-      </span>
-
-      <small>
-        星魂
-      </small>
-
+      ✦
+      <small>星魂</small>
     </button>
-
 
     <button
       data-page="gacha"
       onclick="openPage('gacha')"
     >
-
-      <span class="nav-icon">
-        ◆
-      </span>
-
-      <small>
-        召喚
-      </small>
-
+      ◆
+      <small>召喚</small>
     </button>
-
 
     <button
       data-page="rebirth"
       onclick="openPage('rebirth')"
     >
-
-      <span class="nav-icon">
-        ∞
-      </span>
-
-      <small>
-        転生
-      </small>
-
+      ∞
+      <small>転生</small>
     </button>
-
 
   </nav>
 
-</div>
-
-
-<!-- =====================================
-     通知
-====================================== -->
+</main>
 
 <div id="toast"></div>
 
+<script>
+  "use strict";
 
-<script src="game.js"></script>
+  /* ========================================
+     基本
+  ======================================== */
+
+  const $ = (id) =>
+    document.getElementById(id);
+
+  const SAVE_KEY =
+    "astralIdleCompleteV4";
+
+  const TREE_WIDTH = 3300;
+  const TREE_HEIGHT = 3300;
+
+  const TREE_CENTER = {
+    x: TREE_WIDTH / 2,
+    y: TREE_HEIGHT / 2
+  };
+
+  function createNewGame() {
+    return {
+      level: 1,
+      exp: 0,
+
+      gold: 120,
+      crystal: 1000,
+      soul: 80,
+
+      stage: 1,
+
+      attackLevel: 0,
+      defenseLevel: 0,
+
+      rebirths: 0,
+
+      idleBank: 0,
+      lastSave: Date.now(),
+
+      tree: {
+        core: 1
+      },
+
+      items: []
+    };
+  }
+
+  let game =
+    createNewGame();
+
+  try {
+    const loaded =
+      JSON.parse(
+        localStorage.getItem(
+          SAVE_KEY
+        ) || "{}"
+      );
+
+    game = {
+      ...game,
+      ...loaded
+    };
+  } catch (error) {
+    console.error(error);
+  }
+
+  if (
+    !game.tree ||
+    Array.isArray(game.tree)
+  ) {
+    game.tree = {
+      core: 1
+    };
+  }
+
+  if (!game.tree.core) {
+    game.tree.core = 1;
+  }
+
+  if (!Array.isArray(game.items)) {
+    game.items = [];
+  }
+
+  function saveGame() {
+    game.lastSave =
+      Date.now();
+
+    localStorage.setItem(
+      SAVE_KEY,
+      JSON.stringify(game)
+    );
+  }
+
+  function formatNumber(value) {
+    return Math.floor(value)
+      .toLocaleString("ja-JP");
+  }
+
+  /* ========================================
+     紋章
+  ======================================== */
+
+  const iconDesigns = {
+    core: ["✦", "rebirth"],
+    war: ["♠", "war"],
+    sword: ["⚔", "sword"],
+    guard: ["◆", "guard"],
+    magic: ["✧", "magic"],
+    fate: ["✦", "fate"],
+    astral: ["◆", "astral"],
+    rebirth: ["∞", "rebirth"],
+    death: ["☠", "death"],
+    fire: ["♨", "fire"],
+    thunder: ["ϟ", "thunder"],
+    moon: ["☾", "moon"]
+  };
+
+  function createEmblem(
+    type,
+    size = ""
+  ) {
+    const design =
+      iconDesigns[type] ||
+      iconDesigns.fate;
+
+    return `
+      <span
+        class="rpg-icon ${design[1]} ${size}"
+      >
+        ${design[0]}
+      </span>
+    `;
+  }
+
+  /* ========================================
+     スキルツリー
+  ======================================== */
+
+  const treeNodes = [
+    {
+      id: "core",
+
+      name:
+        "星魂の核",
+
+      icon:
+        "core",
+
+      type:
+        "core",
+
+      size:
+        "core",
+
+      x:
+        TREE_CENTER.x,
+
+      y:
+        TREE_CENTER.y,
+
+      maxRank:
+        1,
+
+      baseCost:
+        0,
+
+      effect:
+        "none",
+
+      value:
+        0,
+
+      required:
+        null,
+
+      description:
+        "すべての星魂能力の起点。"
+    }
+  ];
+
+  const treeEdges = [];
+
+  const branches = [
+    {
+      id: "war",
+      angle: -155,
+      effect: "attack",
+      icon: "war",
+      keyIcon: "death",
+
+      names: [
+        "猛攻",
+        "剣気",
+        "裂傷",
+        "破甲",
+        "連撃",
+        "会心眼",
+        "怒涛",
+        "武神",
+        "狂戦士",
+        "処刑星"
+      ]
+    },
+
+    {
+      id: "guard",
+      angle: 155,
+      effect: "defense",
+      icon: "guard",
+      keyIcon: "guard",
+
+      names: [
+        "生命",
+        "堅牢",
+        "再生",
+        "鉄壁",
+        "耐性",
+        "活力",
+        "聖域",
+        "不屈",
+        "守護神",
+        "不死星"
+      ]
+    },
+
+    {
+      id: "magic",
+      angle: -90,
+      effect: "magic",
+      icon: "magic",
+      keyIcon: "magic",
+
+      names: [
+        "魔力",
+        "元素",
+        "集中",
+        "高速詠唱",
+        "炎術",
+        "雷術",
+        "氷術",
+        "秘術",
+        "大魔導",
+        "星界魔法"
+      ]
+    },
+
+    {
+      id: "fate",
+      angle: 90,
+      effect: "idle",
+      icon: "fate",
+      keyIcon: "moon",
+
+      names: [
+        "黄金律",
+        "経験知",
+        "幸運",
+        "時流",
+        "祝福",
+        "繁栄",
+        "加速",
+        "星の恩寵",
+        "運命改変",
+        "豊穣星"
+      ]
+    },
+
+    {
+      id: "astral",
+      angle: -25,
+      effect: "loot",
+      icon: "astral",
+      keyIcon: "astral",
+
+      names: [
+        "星石",
+        "宝運",
+        "装備共鳴",
+        "希少発見",
+        "秘宝",
+        "星光",
+        "水晶共鳴",
+        "星辰",
+        "奇跡",
+        "天星"
+      ]
+    },
+
+    {
+      id: "rebirth",
+      angle: 25,
+      effect: "rebirth",
+      icon: "rebirth",
+      keyIcon: "rebirth",
+
+      names: [
+        "魂",
+        "記憶",
+        "輪廻",
+        "再誕",
+        "転生",
+        "超越",
+        "永劫",
+        "星魂",
+        "神化",
+        "無限輪廻"
+      ]
+    }
+  ];
+
+  function getSideIcon(
+    type,
+    number
+  ) {
+    if (type === "war") {
+      return number % 3
+        ? "sword"
+        : "fire";
+    }
+
+    if (type === "magic") {
+      const icons = [
+        "magic",
+        "fire",
+        "thunder",
+        "moon"
+      ];
+
+      return icons[
+        number %
+        icons.length
+      ];
+    }
+
+    if (type === "fate") {
+      return number % 2
+        ? "moon"
+        : "fate";
+    }
+
+    if (type === "astral") {
+      return "astral";
+    }
+
+    if (type === "rebirth") {
+      return number % 4
+        ? "rebirth"
+        : "death";
+    }
+
+    return "guard";
+  }
+
+  function getSideEffect(
+    type,
+    number
+  ) {
+    if (type === "war") {
+      return number % 3
+        ? "attack"
+        : "bossDamage";
+    }
+
+    if (type === "guard") {
+      return number % 2
+        ? "defense"
+        : "hp";
+    }
+
+    if (type === "magic") {
+      return number % 2
+        ? "magic"
+        : "skillDamage";
+    }
+
+    if (type === "fate") {
+      return number % 2
+        ? "idle"
+        : "gold";
+    }
+
+    if (type === "astral") {
+      return number % 2
+        ? "loot"
+        : "crystal";
+    }
+
+    return number % 2
+      ? "rebirth"
+      : "soulGain";
+  }
+
+  /* メイン6系統 */
+
+  function buildBaseTree() {
+    branches.forEach(
+      (branch) => {
+        const angle =
+          branch.angle *
+          Math.PI /
+          180;
+
+        let previous =
+          "core";
+
+        for (
+          let level = 1;
+          level <= 10;
+          level++
+        ) {
+          const distance =
+            135 +
+            level * 104;
+
+          const curve =
+            Math.sin(
+              level * 1.32
+            ) *
+            52;
+
+          const x =
+            TREE_CENTER.x +
+            Math.cos(angle) *
+            distance +
+            Math.cos(
+              angle +
+              Math.PI / 2
+            ) *
+            curve;
+
+          const y =
+            TREE_CENTER.y +
+            Math.sin(angle) *
+            distance +
+            Math.sin(
+              angle +
+              Math.PI / 2
+            ) *
+            curve;
+
+          const id =
+            `${branch.id}_main_${level}`;
+
+          let size =
+            "small";
+
+          if (
+            level === 4 ||
+            level === 7
+          ) {
+            size =
+              "medium";
+          }
+
+          if (level === 9) {
+            size =
+              "major";
+          }
+
+          if (level === 10) {
+            size =
+              "keystone";
+          }
+
+          treeNodes.push({
+            id,
+
+            name:
+              branch.names[
+                level - 1
+              ],
+
+            icon:
+              level === 10
+                ? branch.keyIcon
+                : branch.icon,
+
+            type:
+              branch.id,
+
+            size,
+
+            x,
+            y,
+
+            maxRank:
+              level >= 9
+                ? 1
+                : (
+                    level === 4 ||
+                    level === 7
+                  )
+                  ? 2
+                  : 3,
+
+            baseCost:
+              Math.max(
+                1,
+                Math.ceil(
+                  level / 2
+                )
+              ),
+
+            effect:
+              branch.effect,
+
+            value:
+              level === 10
+                ? 0.3
+                : level === 9
+                  ? 0.14
+                  : 0.025 +
+                    level * 0.004,
+
+            required:
+              previous,
+
+            description:
+              `${branch.id}系統の能力を強化する。`
+          });
+
+          treeEdges.push({
+            from:
+              previous,
+
+            to:
+              id
+          });
+
+          if (level >= 2) {
+            buildSideNodes(
+              branch,
+              id,
+              x,
+              y,
+              angle,
+              level
+            );
+          }
+
+          previous =
+            id;
+        }
+      }
+    );
+  }
+
+  /* 派生ノード */
+
+  function buildSideNodes(
+    branch,
+    parent,
+    parentX,
+    parentY,
+    angle,
+    level
+  ) {
+    const sideCount =
+      level % 3 === 0
+        ? 2
+        : 1;
+
+    for (
+      let side = 0;
+      side < sideCount;
+      side++
+    ) {
+      let previous =
+        parent;
+
+      const direction =
+        side === 0
+          ? 1
+          : -1;
+
+      const length =
+        2 +
+        level % 2;
+
+      for (
+        let index = 1;
+        index <= length;
+        index++
+      ) {
+        const offset =
+          72 *
+          index *
+          direction;
+
+        const forward =
+          34 *
+          index;
+
+        const x =
+          parentX +
+          Math.cos(angle) *
+          forward +
+          Math.cos(
+            angle +
+            Math.PI / 2
+          ) *
+          offset;
+
+        const y =
+          parentY +
+          Math.sin(angle) *
+          forward +
+          Math.sin(
+            angle +
+            Math.PI / 2
+          ) *
+          offset;
+
+        const id =
+          `${branch.id}_side_${level}_${side}_${index}`;
+
+        const major =
+          index === length &&
+          level % 4 === 0;
+
+        treeNodes.push({
+          id,
+
+          name:
+            `${branch.names[
+              (
+                level +
+                index
+              ) %
+              branch.names.length
+            ]}・派生`,
+
+          icon:
+            major
+              ? branch.icon
+              : getSideIcon(
+                  branch.id,
+                  level +
+                  index
+                ),
+
+          type:
+            branch.id,
+
+          size:
+            major
+              ? "major"
+              : "small",
+
+          x,
+          y,
+
+          maxRank:
+            major
+              ? 1
+              : 2,
+
+          baseCost:
+            Math.max(
+              1,
+              Math.ceil(
+                level / 3
+              )
+            ),
+
+          effect:
+            getSideEffect(
+              branch.id,
+              level +
+              index
+            ),
+
+          value:
+            major
+              ? 0.13
+              : 0.025,
+
+          required:
+            previous,
+
+          description:
+            "メイン系統から派生した特殊能力。"
+        });
+
+        treeEdges.push({
+          from:
+            previous,
+
+          to:
+            id
+        });
+
+        previous =
+          id;
+      }
+    }
+  }
+
+  /* 追加100ノード */
+
+  function buildOuterNodes() {
+    const rings = [
+      {
+        count: 40,
+        radius: 900,
+        prefix: "A"
+      },
+
+      {
+        count: 36,
+        radius: 1120,
+        prefix: "B"
+      },
+
+      {
+        count: 24,
+        radius: 1350,
+        prefix: "C"
+      }
+    ];
+
+    const types =
+      branches.map(
+        (branch) =>
+          branch.id
+      );
+
+    let previousRing = [];
+
+    rings.forEach(
+      (
+        ring,
+        ringIndex
+      ) => {
+        const currentRing = [];
+
+        for (
+          let index = 0;
+          index < ring.count;
+          index++
+        ) {
+          const angle =
+            index /
+            ring.count *
+            Math.PI *
+            2 -
+            Math.PI /
+            2;
+
+          const radius =
+            ring.radius +
+            Math.sin(
+              index *
+              1.73 +
+              ringIndex
+            ) *
+            50;
+
+          const x =
+            TREE_CENTER.x +
+            Math.cos(angle) *
+            radius;
+
+          const y =
+            TREE_CENTER.y +
+            Math.sin(angle) *
+            radius;
+
+          const type =
+            types[
+              index %
+              types.length
+            ];
+
+          const branch =
+            branches.find(
+              (item) =>
+                item.id === type
+            );
+
+          const id =
+            `outer_${ring.prefix}_${index}`;
+
+          const keystone =
+            ringIndex === 2 &&
+            index % 6 === 0;
+
+          const major =
+            index % 8 === 0;
+
+          let required;
+
+          if (ringIndex === 0) {
+            required =
+              `${type}_main_${7 + index % 4}`;
+          } else {
+            required =
+              previousRing[
+                Math.floor(
+                  index /
+                  ring.count *
+                  previousRing.length
+                ) %
+                previousRing.length
+              ];
+          }
+
+          treeNodes.push({
+            id,
+
+            name:
+              `${[
+                "覇王",
+                "聖域",
+                "創世",
+                "運命",
+                "天晶",
+                "永劫"
+              ][index % 6]}星座 ${index + 1}`,
+
+            icon:
+              keystone
+                ? branch.keyIcon
+                : getSideIcon(
+                    type,
+                    index
+                  ),
+
+            type,
+
+            size:
+              keystone
+                ? "keystone"
+                : major
+                  ? "major"
+                  : "small",
+
+            x,
+            y,
+
+            maxRank:
+              keystone
+                ? 1
+                : major
+                  ? 2
+                  : 3,
+
+            baseCost:
+              5 +
+              ringIndex * 3 +
+              (
+                keystone
+                  ? 5
+                  : 0
+              ),
+
+            effect:
+              getSideEffect(
+                type,
+                index
+              ),
+
+            value:
+              keystone
+                ? 0.35
+                : major
+                  ? 0.12
+                  : 0.035,
+
+            required,
+
+            description:
+              "外周星座に属する最上位能力。"
+          });
+
+          treeEdges.push({
+            from:
+              required,
+
+            to:
+              id
+          });
+
+          if (index > 0) {
+            treeEdges.push({
+              from:
+                currentRing[
+                  index - 1
+                ],
+
+              to:
+                id,
+
+              decorative:
+                true
+            });
+          }
+
+          currentRing.push(id);
+        }
+
+        treeEdges.push({
+          from:
+            currentRing[
+              currentRing.length - 1
+            ],
+
+          to:
+            currentRing[0],
+
+          decorative:
+            true
+        });
+
+        previousRing =
+          currentRing;
+      }
+    );
+  }
+
+  buildBaseTree();
+  buildOuterNodes();
+
+  /* ========================================
+     ツリー計算
+  ======================================== */
+
+  function getNodeRank(id) {
+    return Number(
+      game.tree[id] || 0
+    );
+  }
+
+  function isNodeAvailable(node) {
+    if (node.id === "core") {
+      return true;
+    }
+
+    return (
+      getNodeRank(
+        node.required
+      ) > 0
+    );
+  }
+
+  function getNodeCost(node) {
+    return (
+      node.baseCost +
+      getNodeRank(node.id)
+    );
+  }
+
+  function getTreeBonus(effect) {
+    return treeNodes.reduce(
+      (
+        total,
+        node
+      ) => {
+        if (
+          node.effect !==
+          effect
+        ) {
+          return total;
+        }
+
+        return (
+          total +
+          getNodeRank(
+            node.id
+          ) *
+          node.value
+        );
+      },
+      0
+    );
+  }
+
+  /* ========================================
+     ステータス
+  ======================================== */
+
+  function calculateStats() {
+    const permanent =
+      1 +
+      game.rebirths *
+      0.12 +
+      getTreeBonus(
+        "rebirth"
+      );
+
+    const itemPower =
+      game.items.reduce(
+        (
+          total,
+          item
+        ) =>
+          total +
+          item.power,
+        0
+      );
+
+    const attack =
+      (
+        25 +
+        game.level *
+        7 +
+        game.attackLevel *
+        8
+      ) *
+      permanent *
+      (
+        1 +
+        getTreeBonus(
+          "attack"
+        )
+      );
+
+    const defense =
+      (
+        10 +
+        game.level *
+        3 +
+        game.defenseLevel *
+        6
+      ) *
+      permanent *
+      (
+        1 +
+        getTreeBonus(
+          "defense"
+        )
+      );
+
+    const hp =
+      (
+        180 +
+        game.level *
+        35
+      ) *
+      permanent *
+      (
+        1 +
+        getTreeBonus(
+          "hp"
+        ) +
+        getTreeBonus(
+          "defense"
+        ) *
+        0.35
+      );
+
+    return {
+      attack:
+        Math.floor(
+          attack +
+          itemPower
+        ),
+
+      defense:
+        Math.floor(
+          defense +
+          itemPower / 2
+        ),
+
+      hp:
+        Math.floor(
+          hp +
+          itemPower * 3
+        ),
+
+      power:
+        Math.floor(
+          attack * 14 +
+          defense * 10 +
+          hp * 2 +
+          itemPower * 20
+        )
+    };
+  }
+
+  /* ========================================
+     ツリー描画
+  ======================================== */
+
+  const treeNodeContainer =
+    $("treeNodes");
+
+  let activeFilter =
+    "all";
+
+  function renderTree() {
+    treeNodeContainer.innerHTML =
+      "";
+
+    treeNodes.forEach(
+      (node) => {
+        const button =
+          document.createElement(
+            "button"
+          );
+
+        const rank =
+          getNodeRank(
+            node.id
+          );
+
+        const state =
+          rank > 0
+            ? "owned"
+            : isNodeAvailable(node)
+              ? "available"
+              : "locked";
+
+        button.className =
+          `tree-node ${node.type} ${node.size} ${state}`;
+
+        if (
+          rank >=
+          node.maxRank
+        ) {
+          button.classList.add(
+            "maxed"
+          );
+        }
+
+        button.style.left =
+          `${node.x}px`;
+
+        button.style.top =
+          `${node.y}px`;
+
+        button.dataset.id =
+          node.id;
+
+        button.dataset.name =
+          node.name;
+
+        button.dataset.type =
+          node.type;
+
+        button.innerHTML =
+          createEmblem(
+            node.icon
+          );
+
+        button.addEventListener(
+          "click",
+          (event) => {
+            event.stopPropagation();
+
+            selectNode(node);
+          }
+        );
+
+        treeNodeContainer.appendChild(
+          button
+        );
+      }
+    );
+
+    renderTreeLines();
+    applyTreeFilter();
+    applyNodeSearch();
+  }
+
+  function renderTreeLines() {
+    const svg =
+      $("treeLines");
+
+    svg.innerHTML = "";
+
+    treeEdges.forEach(
+      (edge) => {
+        const from =
+          treeNodes.find(
+            (node) =>
+              node.id ===
+              edge.from
+          );
+
+        const to =
+          treeNodes.find(
+            (node) =>
+              node.id ===
+              edge.to
+          );
+
+        if (!from || !to) {
+          return;
+        }
+
+        const line =
+          document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line"
+          );
+
+        let lineClass =
+          "tree-line";
+
+        if (
+          getNodeRank(
+            to.id
+          ) > 0
+        ) {
+          lineClass +=
+            " active";
+        } else if (
+          isNodeAvailable(to)
+        ) {
+          lineClass +=
+            " available";
+        }
+
+        line.setAttribute(
+          "x1",
+          from.x
+        );
+
+        line.setAttribute(
+          "y1",
+          from.y
+        );
+
+        line.setAttribute(
+          "x2",
+          to.x
+        );
+
+        line.setAttribute(
+          "y2",
+          to.y
+        );
+
+        line.setAttribute(
+          "class",
+          lineClass
+        );
+
+        svg.appendChild(line);
+      }
+    );
+  }
+
+  function selectNode(node) {
+    document
+      .querySelectorAll(
+        ".tree-node"
+      )
+      .forEach(
+        (element) => {
+          element.classList.toggle(
+            "selected",
+            element.dataset.id ===
+              node.id
+          );
+        }
+      );
+
+    const rank =
+      getNodeRank(
+        node.id
+      );
+
+    const cost =
+      getNodeCost(node);
+
+    const disabled =
+      node.id === "core" ||
+      rank >= node.maxRank ||
+      !isNodeAvailable(node) ||
+      game.soul < cost;
+
+    let buttonText =
+      `強化 ✦${cost}`;
+
+    if (node.id === "core") {
+      buttonText =
+        "起点ノード";
+    } else if (
+      rank >=
+      node.maxRank
+    ) {
+      buttonText =
+        "最大ランク";
+    } else if (
+      !isNodeAvailable(node)
+    ) {
+      buttonText =
+        "前提ノードが必要";
+    } else if (
+      game.soul < cost
+    ) {
+      buttonText =
+        `星魂不足 ✦${cost}`;
+    }
+
+    $("nodeDetail").innerHTML = `
+      ${createEmblem(
+        node.icon,
+        "medium"
+      )}
+
+      <div>
+        <b>${node.name}</b>
+
+        <p>${node.description}</p>
+
+        <p>
+          Rank ${rank}/${node.maxRank}
+          ・効果
+          +${Math.round(
+            node.value * 100
+          )}%
+        </p>
+
+        <button
+          id="buyNode"
+          ${disabled ? "disabled" : ""}
+        >
+          ${buttonText}
+        </button>
+      </div>
+    `;
+
+    const buyButton =
+      $("buyNode");
+
+    if (buyButton) {
+      buyButton.onclick =
+        () =>
+          purchaseNode(node);
+    }
+  }
+
+  function purchaseNode(node) {
+    const rank =
+      getNodeRank(node.id);
+
+    const cost =
+      getNodeCost(node);
+
+    if (
+      !isNodeAvailable(node) ||
+      rank >= node.maxRank ||
+      game.soul < cost
+    ) {
+      return;
+    }
+
+    game.soul -= cost;
+
+    game.tree[node.id] =
+      rank + 1;
+
+    saveGame();
+    renderGame();
+    renderTree();
+    selectNode(node);
+
+    showToast(
+      `${node.name}を強化！`
+    );
+  }
+
+  $("resetTree").onclick =
+    () => {
+      let refund = 0;
+
+      treeNodes.forEach(
+        (node) => {
+          if (
+            node.id ===
+            "core"
+          ) {
+            return;
+          }
+
+          const rank =
+            getNodeRank(
+              node.id
+            );
+
+          for (
+            let index = 0;
+            index < rank;
+            index++
+          ) {
+            refund +=
+              node.baseCost +
+              index;
+          }
+        }
+      );
+
+      if (refund <= 0) {
+        showToast(
+          "取得能力がありません"
+        );
+
+        return;
+      }
+
+      if (
+        !confirm(
+          `星魂${refund}個を払い戻しますか？`
+        )
+      ) {
+        return;
+      }
+
+      game.soul += refund;
+
+      game.tree = {
+        core: 1
+      };
+
+      saveGame();
+      renderGame();
+      renderTree();
+
+      showToast(
+        "星魂盤を初期化"
+      );
+    };
+
+  /* 検索 */
+
+  $("nodeSearch").addEventListener(
+    "input",
+    applyNodeSearch
+  );
+
+  function applyNodeSearch() {
+    const query =
+      $("nodeSearch")
+        .value
+        .trim()
+        .toLowerCase();
+
+    document
+      .querySelectorAll(
+        ".tree-node"
+      )
+      .forEach(
+        (element) => {
+          const match =
+            query &&
+            element
+              .dataset
+              .name
+              .toLowerCase()
+              .includes(query);
+
+          element.classList.toggle(
+            "search-hit",
+            Boolean(match)
+          );
+        }
+      );
+  }
+
+  /* フィルター */
+
+  $("filters").addEventListener(
+    "click",
+    (event) => {
+      const button =
+        event.target.closest(
+          "button"
+        );
+
+      if (!button) {
+        return;
+      }
+
+      activeFilter =
+        button.dataset.type;
+
+      document
+        .querySelectorAll(
+          "#filters button"
+        )
+        .forEach(
+          (item) => {
+            item.classList.toggle(
+              "active",
+              item === button
+            );
+          }
+        );
+
+      applyTreeFilter();
+    }
+  );
+
+  function applyTreeFilter() {
+    document
+      .querySelectorAll(
+        ".tree-node"
+      )
+      .forEach(
+        (element) => {
+          const hidden =
+            activeFilter !==
+              "all" &&
+            element.dataset.type !==
+              activeFilter &&
+            element.dataset.type !==
+              "core";
+
+          element.classList.toggle(
+            "filtered",
+            hidden
+          );
+        }
+      );
+  }
+
+  /* ========================================
+     ツリー操作
+  ======================================== */
+
+  let treeScale = 0.58;
+  let treeX = 0;
+  let treeY = 0;
+
+  let dragging = false;
+
+  let pointerStartX = 0;
+  let pointerStartY = 0;
+
+  let cameraStartX = 0;
+  let cameraStartY = 0;
+
+  const viewport =
+    $("treeViewport");
+
+  const world =
+    $("treeWorld");
+
+  function updateTreeTransform() {
+    world.style.transform =
+      `translate(${treeX}px,${treeY}px) scale(${treeScale})`;
+
+    $("zoomLabel").textContent =
+      `${Math.round(
+        treeScale * 100
+      )}%`;
+  }
+
+  function centerTree() {
+    treeX =
+      viewport.clientWidth /
+      2 -
+      TREE_CENTER.x *
+      treeScale;
+
+    treeY =
+      viewport.clientHeight /
+      2 -
+      TREE_CENTER.y *
+      treeScale;
+
+    updateTreeTransform();
+  }
+
+  viewport.addEventListener(
+    "pointerdown",
+    (event) => {
+      if (
+        event.target.closest(
+          ".tree-node"
+        )
+      ) {
+        return;
+      }
+
+      dragging = true;
+
+      pointerStartX =
+        event.clientX;
+
+      pointerStartY =
+        event.clientY;
+
+      cameraStartX =
+        treeX;
+
+      cameraStartY =
+        treeY;
+
+      viewport.setPointerCapture(
+        event.pointerId
+      );
+    }
+  );
+
+  viewport.addEventListener(
+    "pointermove",
+    (event) => {
+      if (!dragging) {
+        return;
+      }
+
+      treeX =
+        cameraStartX +
+        event.clientX -
+        pointerStartX;
+
+      treeY =
+        cameraStartY +
+        event.clientY -
+        pointerStartY;
+
+      updateTreeTransform();
+    }
+  );
+
+  viewport.addEventListener(
+    "pointerup",
+    () => {
+      dragging = false;
+    }
+  );
+
+  viewport.addEventListener(
+    "wheel",
+    (event) => {
+      event.preventDefault();
+
+      treeScale +=
+        event.deltaY < 0
+          ? 0.06
+          : -0.06;
+
+      treeScale =
+        Math.max(
+          0.25,
+          Math.min(
+            1.5,
+            treeScale
+          )
+        );
+
+      updateTreeTransform();
+    },
+    {
+      passive: false
+    }
+  );
+
+  $("zoomIn").onclick =
+    () => {
+      treeScale =
+        Math.min(
+          1.5,
+          treeScale + 0.1
+        );
+
+      updateTreeTransform();
+    };
+
+  $("zoomOut").onclick =
+    () => {
+      treeScale =
+        Math.max(
+          0.25,
+          treeScale - 0.1
+        );
+
+      updateTreeTransform();
+    };
+
+  $("centerTree").onclick =
+    centerTree;
+
+  /* ========================================
+     プレイヤーHP
+  ======================================== */
+
+  let battleInProgress = false;
+  let battleTimer = null;
+
+  let currentPlayerHp = 0;
+  let maximumPlayerHp = 0;
+
+  function updatePlayerHp() {
+    const percentage =
+      Math.max(
+        0,
+        currentPlayerHp /
+        maximumPlayerHp *
+        100
+      );
+
+    $("currentHp").textContent =
+      formatNumber(
+        currentPlayerHp
+      );
+
+    $("maxHp").textContent =
+      formatNumber(
+        maximumPlayerHp
+      );
+
+    $("playerHpBar").style.width =
+      `${percentage}%`;
+
+    const shell =
+      $("playerHpShell");
+
+    shell.classList.toggle(
+      "warning",
+      percentage <= 50 &&
+      percentage > 25
+    );
+
+    shell.classList.toggle(
+      "danger",
+      percentage <= 25
+    );
+  }
+
+  function playHeroHit() {
+    const hero =
+      document.querySelector(
+        ".hero"
+      );
+
+    hero.classList.remove(
+      "hit"
+    );
+
+    void hero.offsetWidth;
+
+    hero.classList.add(
+      "hit"
+    );
+  }
+
+  function showDamage(value) {
+    const element =
+      $("damage");
+
+    element.textContent =
+      formatNumber(value);
+
+    element.classList.remove(
+      "show"
+    );
+
+    void element.offsetWidth;
+
+    element.classList.add(
+      "show"
+    );
+  }
+
+  function showEffect(symbol) {
+    const element =
+      $("effect");
+
+    element.textContent =
+      symbol;
+
+    element.classList.remove(
+      "show"
+    );
+
+    void element.offsetWidth;
+
+    element.classList.add(
+      "show"
+    );
+  }
+
+  /* ========================================
+     戦闘
+  ======================================== */
+
+  $("fight").onclick =
+    () => {
+      if (battleInProgress) {
+        return;
+      }
+
+      battleInProgress = true;
+
+      $("fight").disabled =
+        true;
+
+      const player =
+        calculateStats();
+
+      const enemyMaximumHp =
+        Math.floor(
+          180 *
+          Math.pow(
+            1.28,
+            game.stage - 1
+          )
+        );
+
+      let enemyHp =
+        enemyMaximumHp;
+
+      let turn = 0;
+
+      maximumPlayerHp =
+        player.hp;
+
+      currentPlayerHp =
+        maximumPlayerHp;
+
+      updatePlayerHp();
+
+      $("enemyMaxHp").textContent =
+        formatNumber(
+          enemyMaximumHp
+        );
+
+      $("enemyHp").textContent =
+        formatNumber(
+          enemyHp
+        );
+
+      $("enemyHpBar").style.width =
+        "100%";
+
+      $("battleLog").textContent =
+        "戦闘開始！";
+
+      battleTimer =
+        setInterval(
+          () => {
+            turn++;
+
+            const multipliers = [
+              1,
+              1.2 +
+              getTreeBonus(
+                "magic"
+              ) *
+              0.3,
+
+              1.15 +
+              getTreeBonus(
+                "skillDamage"
+              ),
+
+              1.6 +
+              getTreeBonus(
+                "magic"
+              ) *
+              0.5
+            ];
+
+            const multiplier =
+              multipliers[
+                (
+                  turn - 1
+                ) %
+                multipliers.length
+              ];
+
+            const damage =
+              Math.floor(
+                player.attack *
+                multiplier *
+                (
+                  1 +
+                  getTreeBonus(
+                    "bossDamage"
+                  )
+                ) *
+                (
+                  0.9 +
+                  Math.random() *
+                  0.2
+                )
+              );
+
+            enemyHp -= damage;
+
+            showDamage(damage);
+
+            showEffect(
+              [
+                "⚔",
+                "♨",
+                "ϟ",
+                "✦"
+              ][
+                (
+                  turn - 1
+                ) %
+                4
+              ]
+            );
+
+            $("enemyHp").textContent =
+              formatNumber(
+                Math.max(
+                  0,
+                  enemyHp
+                )
+              );
+
+            $("enemyHpBar")
+              .style
+              .width =
+              `${
+                Math.max(
+                  0,
+                  enemyHp /
+                  enemyMaximumHp *
+                  100
+                )
+              }%`;
+
+            if (enemyHp <= 0) {
+              clearInterval(
+                battleTimer
+              );
+
+              finishVictory();
+
+              return;
+            }
+
+            const enemyDamage =
+              Math.max(
+                3,
+
+                Math.floor(
+                  18 +
+                  game.stage *
+                  9 -
+                  player.defense *
+                  0.32
+                )
+              );
+
+            currentPlayerHp =
+              Math.max(
+                0,
+                currentPlayerHp -
+                enemyDamage
+              );
+
+            updatePlayerHp();
+            playHeroHit();
+
+            $("battleLog")
+              .textContent =
+              `敵の攻撃！ ${formatNumber(enemyDamage)}ダメージ`;
+
+            if (
+              currentPlayerHp <= 0
+            ) {
+              clearInterval(
+                battleTimer
+              );
+
+              battleInProgress =
+                false;
+
+              $("fight").disabled =
+                false;
+
+              $("battleLog")
+                .textContent =
+                "敗北。強化や星魂盤を見直そう。";
+            }
+          },
+          620
+        );
+    };
+
+  function finishVictory() {
+    const goldReward =
+      Math.floor(
+        (
+          40 +
+          game.stage *
+          18
+        ) *
+        (
+          1 +
+          getTreeBonus(
+            "gold"
+          )
+        )
+      );
+
+    const expReward =
+      Math.floor(
+        (
+          45 +
+          game.stage *
+          12
+        ) *
+        (
+          1 +
+          getTreeBonus(
+            "idle"
+          ) *
+          0.25
+        )
+      );
+
+    const crystalReward =
+      Math.max(
+        15,
+
+        Math.floor(
+          15 *
+          (
+            1 +
+            getTreeBonus(
+              "crystal"
+            )
+          )
+        )
+      );
+
+    game.gold +=
+      goldReward;
+
+    game.exp +=
+      expReward;
+
+    game.crystal +=
+      crystalReward;
+
+    game.stage++;
+
+    while (
+      game.exp >=
+      game.level *
+      100
+    ) {
+      game.exp -=
+        game.level *
+        100;
+
+      game.level++;
+    }
+
+    battleInProgress =
+      false;
+
+    $("fight").disabled =
+      false;
+
+    $("battleLog").textContent =
+      `勝利！ +${formatNumber(goldReward)}G +${formatNumber(expReward)}EXP +${crystalReward}◆`;
+
+    saveGame();
+    renderGame();
+  }
+
+  /* ========================================
+     強化・放置
+  ======================================== */
+
+  function getAttackCost() {
+    return (
+      50 +
+      game.attackLevel *
+      40
+    );
+  }
+
+  function getDefenseCost() {
+    return (
+      50 +
+      game.defenseLevel *
+      40
+    );
+  }
+
+  $("train").onclick =
+    () => {
+      const cost =
+        getAttackCost();
+
+      if (game.gold < cost) {
+        showToast(
+          "ゴールド不足"
+        );
+
+        return;
+      }
+
+      game.gold -= cost;
+      game.attackLevel++;
+
+      saveGame();
+      renderGame();
+    };
+
+  $("armor").onclick =
+    () => {
+      const cost =
+        getDefenseCost();
+
+      if (game.gold < cost) {
+        showToast(
+          "ゴールド不足"
+        );
+
+        return;
+      }
+
+      game.gold -= cost;
+      game.defenseLevel++;
+
+      saveGame();
+      renderGame();
+    };
+
+  function getIdleRate() {
+    return (
+      1 +
+      game.stage *
+      0.22
+    ) *
+    (
+      1 +
+      getTreeBonus(
+        "idle"
+      )
+    );
+  }
+
+  $("claim").onclick =
+    () => {
+      if (
+        game.idleBank <= 0
+      ) {
+        showToast(
+          "報酬はまだありません"
+        );
+
+        return;
+      }
+
+      game.gold +=
+        game.idleBank;
+
+      game.idleBank = 0;
+
+      saveGame();
+      renderGame();
+    };
+
+  /* ========================================
+     ガチャ
+  ======================================== */
+
+  const itemNames = [
+    "星剣アルディオン",
+    "月影の魔導書",
+    "天星の弓",
+    "輪廻の指輪",
+    "星界水晶",
+    "炎帝の紋章"
+  ];
+
+  function summon(
+    count,
+    price
+  ) {
+    if (
+      game.crystal <
+      price
+    ) {
+      showToast(
+        "クリスタル不足"
+      );
+
+      return;
+    }
+
+    game.crystal -= price;
+
+    const results = [];
+
+    for (
+      let index = 0;
+      index < count;
+      index++
+    ) {
+      const random =
+        Math.random();
+
+      let rarity =
+        random < 0.05
+          ? "SSR"
+          : random < 0.28
+            ? "SR"
+            : "R";
+
+      if (
+        count === 10 &&
+        index === 9 &&
+        rarity === "R"
+      ) {
+        rarity = "SR";
+      }
+
+      const item = {
+        name:
+          itemNames[
+            Math.floor(
+              Math.random() *
+              itemNames.length
+            )
+          ],
+
+        rarity,
+
+        power: {
+          R: 6,
+          SR: 15,
+          SSR: 35
+        }[rarity]
+      };
+
+      game.items.push(item);
+
+      results.push(item);
+    }
+
+    $("gachaResults")
+      .innerHTML =
+      createItemCards(
+        results
+      );
+
+    saveGame();
+    renderGame();
+
+    showToast(
+      `${count}回召喚した！`
+    );
+  }
+
+  function createItemCards(items) {
+    return items
+      .slice()
+      .reverse()
+      .map(
+        (item) => `
+          <div class="card ${item.rarity}">
+            <b>${item.rarity}</b>
+            <br>
+            ${item.name}
+            <br>
+            <small>
+              戦力+${item.power}
+            </small>
+          </div>
+        `
+      )
+      .join("");
+  }
+
+  $("pull1").onclick =
+    () =>
+      summon(
+        1,
+        100
+      );
+
+  $("pull10").onclick =
+    () =>
+      summon(
+        10,
+        900
+      );
+
+  /* ========================================
+     転生
+  ======================================== */
+
+  function getSoulGain() {
+    if (game.stage < 10) {
+      return 0;
+    }
+
+    return Math.max(
+      1,
+
+      Math.floor(
+        game.stage /
+        5 *
+        (
+          1 +
+          getTreeBonus(
+            "soulGain"
+          )
+        )
+      )
+    );
+  }
+
+  $("doRebirth").onclick =
+    () => {
+      if (game.stage < 10) {
+        showToast(
+          "Stage 10で解放"
+        );
+
+        return;
+      }
+
+      const gain =
+        getSoulGain();
+
+      if (
+        !confirm(
+          `転生して星魂${gain}個を得ますか？`
+        )
+      ) {
+        return;
+      }
+
+      game.soul += gain;
+
+      game.rebirths++;
+
+      game.level = 1;
+      game.exp = 0;
+      game.gold = 120;
+      game.stage = 1;
+      game.attackLevel = 0;
+      game.defenseLevel = 0;
+      game.idleBank = 0;
+
+      saveGame();
+      renderGame();
+      renderTree();
+
+      showToast(
+        "転生した！"
+      );
+    };
+
+  /* ========================================
+     全体描画
+  ======================================== */
+
+  function renderGame() {
+    const player =
+      calculateStats();
+
+    const requiredExp =
+      game.level *
+      100;
+
+    $("lv").textContent =
+      game.level;
+
+    $("gold").textContent =
+      formatNumber(
+        game.gold
+      );
+
+    $("crystal").textContent =
+      formatNumber(
+        game.crystal
+      );
+
+    $("gachaCrystal")
+      .textContent =
+      formatNumber(
+        game.crystal
+      );
+
+    $("soul").textContent =
+      formatNumber(
+        game.soul
+      );
+
+    $("treeSoul").textContent =
+      formatNumber(
+        game.soul
+      );
+
+    $("stage").textContent =
+      game.stage;
+
+    $("power").textContent =
+      formatNumber(
+        player.power
+      );
+
+    $("hpStat").textContent =
+      formatNumber(
+        player.hp
+      );
+
+    $("atkStat").textContent =
+      formatNumber(
+        player.attack
+      );
+
+    $("defStat").textContent =
+      formatNumber(
+        player.defense
+      );
+
+    $("exp").textContent =
+      formatNumber(
+        game.exp
+      );
+
+    $("expNeed").textContent =
+      formatNumber(
+        requiredExp
+      );
+
+    $("expBar").style.width =
+      `${
+        Math.min(
+          100,
+          game.exp /
+          requiredExp *
+          100
+        )
+      }%`;
+
+    $("stageProgress")
+      .style
+      .width =
+      `${
+        (
+          (
+            game.stage -
+            1
+          ) %
+          5
+        ) /
+        4 *
+        100
+      }%`;
+
+    $("attackLevel")
+      .textContent =
+      game.attackLevel;
+
+    $("defenseLevel")
+      .textContent =
+      game.defenseLevel;
+
+    $("trainCost")
+      .textContent =
+      formatNumber(
+        getAttackCost()
+      );
+
+    $("armorCost")
+      .textContent =
+      formatNumber(
+        getDefenseCost()
+      );
+
+    $("idleGold")
+      .textContent =
+      formatNumber(
+        game.idleBank
+      );
+
+    $("rebirths")
+      .textContent =
+      game.rebirths;
+
+    $("permanentMultiplier")
+      .textContent =
+      `${
+        (
+          1 +
+          game.rebirths *
+          0.12 +
+          getTreeBonus(
+            "rebirth"
+          )
+        ).toFixed(2)
+      }x`;
+
+    $("soulGain")
+      .textContent =
+      getSoulGain();
+
+    $("doRebirth").disabled =
+      game.stage < 10;
+
+    $("gachaHistory")
+      .innerHTML =
+      createItemCards(
+        game.items.slice(-20)
+      );
+
+    if (!battleInProgress) {
+      maximumPlayerHp =
+        player.hp;
+
+      currentPlayerHp =
+        maximumPlayerHp;
+
+      updatePlayerHp();
+    }
+  }
+
+  /* ========================================
+     ページ切替
+  ======================================== */
+
+  function openPage(id) {
+    document
+      .querySelectorAll(
+        ".page"
+      )
+      .forEach(
+        (page) => {
+          page.classList.remove(
+            "active"
+          );
+        }
+      );
+
+    $(id).classList.add(
+      "active"
+    );
+
+    document
+      .querySelectorAll(
+        ".bottom-nav button"
+      )
+      .forEach(
+        (button) => {
+          button.classList.toggle(
+            "active",
+            button.dataset.page ===
+              id
+          );
+        }
+      );
+
+    if (id === "tree") {
+      renderTree();
+
+      setTimeout(
+        centerTree,
+        0
+      );
+    }
+
+    window.scrollTo(0, 0);
+  }
+
+  /* ========================================
+     通知
+  ======================================== */
+
+  let toastTimer = null;
+
+  function showToast(message) {
+    $("toast").textContent =
+      message;
+
+    $("toast").classList.add(
+      "show"
+    );
+
+    clearTimeout(
+      toastTimer
+    );
+
+    toastTimer =
+      setTimeout(
+        () => {
+          $("toast")
+            .classList
+            .remove(
+              "show"
+            );
+        },
+        1700
+      );
+  }
+
+  /* ========================================
+     オフライン報酬
+  ======================================== */
+
+  const elapsedSeconds =
+    Math.min(
+      8 * 60 * 60,
+
+      Math.max(
+        0,
+
+        (
+          Date.now() -
+          game.lastSave
+        ) /
+        1000
+      )
+    );
+
+  game.idleBank +=
+    Math.floor(
+      elapsedSeconds *
+      getIdleRate()
+    );
+
+  setInterval(
+    () => {
+      game.idleBank +=
+        Math.max(
+          1,
+          Math.floor(
+            getIdleRate()
+          )
+        );
+
+      $("idleGold")
+        .textContent =
+        formatNumber(
+          game.idleBank
+        );
+    },
+    1000
+  );
+
+  setInterval(
+    saveGame,
+    15000
+  );
+
+  window.addEventListener(
+    "beforeunload",
+    saveGame
+  );
+
+  /* ========================================
+     起動
+  ======================================== */
+
+  saveGame();
+  renderGame();
+  renderTree();
+  openPage("adventure");
+</script>
 
 </body>
-
 </html>
