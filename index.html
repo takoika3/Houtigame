@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
+
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1, maximum-scale=1"
@@ -16,16 +18,18 @@
 
 <div class="game">
 
-  <!-- =========================
-       TOP BAR
-  ========================== -->
+  <!-- =====================================
+       上部ステータス
+  ====================================== -->
 
-  <header class="topBar">
+  <header class="top-bar">
 
-    <div class="profile">
+    <div class="player-profile">
 
-      <div class="avatar">
-        ⚔️
+      <div class="profile-emblem">
+        <span class="rpg-icon sword small">
+          ⚔
+        </span>
       </div>
 
       <div>
@@ -41,19 +45,19 @@
 
     <div class="resources">
 
-      <div class="resource">
-        💎
+      <div class="resource crystal-resource">
+        ◆
         <b id="crystal">1000</b>
       </div>
 
-      <div class="resource">
-        🪙
+      <div class="resource gold-resource">
+        ●
         <b id="gold">120</b>
       </div>
 
-      <div class="resource">
-        🌟
-        <b id="soul">0</b>
+      <div class="resource soul-resource">
+        ✦
+        <b id="soul">25</b>
       </div>
 
     </div>
@@ -61,16 +65,18 @@
   </header>
 
 
-  <!-- =========================
-       ADVENTURE
-  ========================== -->
+  <!-- =====================================
+       冒険
+  ====================================== -->
 
   <section
     id="adventure"
     class="page active"
   >
 
-    <div class="stageTitle">
+    <!-- ステージ -->
+
+    <section class="stage-header">
 
       <small>
         星降りの草原
@@ -81,62 +87,148 @@
         <span id="stage">1</span>
       </h1>
 
-    </div>
+      <div class="stage-progress">
+
+        <span class="stage-start">
+          ⚔
+        </span>
+
+        <div class="stage-line">
+          <i id="stageProgress"></i>
+        </div>
+
+        <span class="stage-boss">
+          ◆
+        </span>
+
+      </div>
+
+    </section>
 
 
-    <div class="battleField">
+    <!-- =====================================
+         戦闘フィールド
+    ====================================== -->
 
-      <div class="enemy">
+    <section class="battle-field">
 
-        <div class="enemyTitle">
+
+      <!-- 背景 -->
+
+      <div class="mountain mountain-a"></div>
+      <div class="mountain mountain-b"></div>
+
+      <div class="grass grass-a"></div>
+      <div class="grass grass-b"></div>
+
+
+      <!-- 敵 -->
+
+      <div class="enemy-area">
+
+        <div class="enemy-name">
           混沌の守護者
         </div>
 
-        <div class="enemyHpBar">
+
+        <div class="enemy-hp">
+
           <i id="hpbar"></i>
+
         </div>
 
-        <small>
-          <span id="hp">-</span>
+
+        <small class="enemy-hp-text">
+
+          HP
+
+          <span id="hp">
+            -
+          </span>
+
           /
-          <span id="maxhp">-</span>
+
+          <span id="maxhp">
+            -
+          </span>
+
         </small>
 
-        <div class="enemySprite">
-          👹
+
+        <div class="enemy-visual">
+
+          <div class="boss-emblem">
+
+            <span class="rpg-icon war large">
+              ♠
+            </span>
+
+          </div>
+
         </div>
 
       </div>
 
 
-      <div class="heroSprite">
-        ⚔️🧙
+      <!-- プレイヤー -->
+
+      <div class="hero-area">
+
+        <div class="hero-emblem">
+
+          <span class="rpg-icon sword large">
+            ⚔
+          </span>
+
+        </div>
+
+        <div class="hero-shadow"></div>
+
       </div>
 
+
+      <!-- 攻撃エフェクト -->
 
       <div
         id="battleEffect"
-        class="battleEffect"
-      ></div>
+        class="battle-effect"
+      >
+      </div>
 
-    </div>
 
+      <!-- ダメージ -->
+
+      <div
+        id="damageNumber"
+        class="damage-number"
+      >
+      </div>
+
+    </section>
+
+
+    <!-- 戦闘ログ -->
 
     <div
       id="log"
-      class="battleLog"
+      class="battle-log"
     >
-      冒険を開始しよう！
+      星降りの草原へ到着した。
     </div>
 
 
-    <div class="quest">
+    <!-- =====================================
+         クエスト
+    ====================================== -->
 
-      <div>
-        📜
+    <section class="quest-panel">
+
+      <div class="quest-icon">
+        ✦
       </div>
 
-      <div>
+
+      <div class="quest-content">
 
         <strong>
           メインクエスト
@@ -148,18 +240,25 @@
 
       </div>
 
-      <div>
-        💎15
+
+      <div class="quest-reward">
+        ◆15
       </div>
 
-    </div>
+    </section>
 
 
-    <div class="powerPanel">
+    <!-- =====================================
+         戦闘力・ボス
+    ====================================== -->
 
-      <div>
+    <section class="battle-command">
 
-        戦力
+      <div class="combat-power">
+
+        <small>
+          戦闘力
+        </small>
 
         <strong id="power">
           0
@@ -167,130 +266,245 @@
 
       </div>
 
-      <button id="fight">
-        ⚔️ ボスに挑戦
+
+      <button
+        id="fight"
+        class="boss-button"
+      >
+
+        <span class="mini-sword">
+          ⚔
+        </span>
+
+        ボスに挑戦
+
       </button>
 
-    </div>
+    </section>
 
 
-    <!-- STATUS -->
+    <!-- =====================================
+         ステータス
+    ====================================== -->
 
-    <div class="statusRow">
+    <section class="status-row">
 
-      <div>
-        ❤️
-        <small>HP</small>
-        <b id="playerHp">0</b>
+      <div class="status-card hp-stat">
+
+        <span class="status-symbol">
+          ♥
+        </span>
+
+        <small>
+          HP
+        </small>
+
+        <strong id="playerHp">
+          0
+        </strong>
+
       </div>
 
-      <div>
-        ⚔️
-        <small>ATK</small>
-        <b id="atk">0</b>
+
+      <div class="status-card attack-stat">
+
+        <span class="status-symbol">
+          ⚔
+        </span>
+
+        <small>
+          ATK
+        </small>
+
+        <strong id="atk">
+          0
+        </strong>
+
       </div>
 
-      <div>
-        🛡️
-        <small>DEF</small>
-        <b id="def">0</b>
+
+      <div class="status-card defense-stat">
+
+        <span class="status-symbol">
+          ◆
+        </span>
+
+        <small>
+          DEF
+        </small>
+
+        <strong id="def">
+          0
+        </strong>
+
       </div>
 
-    </div>
+    </section>
 
 
-    <!-- EXP -->
+    <!-- =====================================
+         EXP
+    ====================================== -->
 
-    <div class="expBox">
+    <section class="exp-panel">
 
-      EXP
+      <div class="exp-header">
 
-      <span id="xp">0</span>
-      /
-      <span id="xpneed">100</span>
+        <strong>
+          冒険者育成
+        </strong>
 
-      <div class="expBar">
+
+        <span>
+
+          EXP
+
+          <b id="xp">
+            0
+          </b>
+
+          /
+
+          <b id="xpneed">
+            100
+          </b>
+
+        </span>
+
+      </div>
+
+
+      <div class="exp-bar">
+
         <i id="xpbar"></i>
+
       </div>
 
-    </div>
+    </section>
 
 
-    <!-- UPGRADES -->
+    <!-- =====================================
+         育成カード
+    ====================================== -->
 
-    <div class="upgradeGrid">
+    <section class="upgrade-grid">
 
-      <button id="train">
 
-        <span>⚔️</span>
+      <!-- 攻撃 -->
+
+      <button
+        id="train"
+        class="upgrade-card"
+      >
+
+        <span class="rpg-icon war medium">
+          ⚔
+        </span>
 
         <strong>
           攻撃力
         </strong>
 
         <small>
-          強化
+          Lv.
+          <span id="attackLevel">
+            0
+          </span>
         </small>
 
-        <b>
-          🪙
+        <div class="upgrade-price">
+
+          ●
+
           <span id="trainCost">
             50
           </span>
-        </b>
+
+        </div>
 
       </button>
 
 
-      <button id="armor">
+      <!-- 防御 -->
 
-        <span>🛡️</span>
+      <button
+        id="armor"
+        class="upgrade-card"
+      >
+
+        <span class="rpg-icon guard medium">
+          ◆
+        </span>
 
         <strong>
           防御力
         </strong>
 
         <small>
-          強化
+
+          Lv.
+
+          <span id="defenseLevel">
+            0
+          </span>
+
         </small>
 
-        <b>
-          🪙
+        <div class="upgrade-price">
+
+          ●
+
           <span id="armorCost">
             50
           </span>
-        </b>
+
+        </div>
 
       </button>
 
 
-      <button id="claim">
+      <!-- 放置 -->
 
-        <span>🌙</span>
+      <button
+        id="claim"
+        class="upgrade-card"
+      >
+
+        <span class="rpg-icon moon medium">
+          ☾
+        </span>
 
         <strong>
-          放置
+          放置報酬
         </strong>
 
         <small>
+
           <span id="offlineGold">
             0
           </span>
+
           G
+
         </small>
 
-        <b>
-          回収
-        </b>
+        <div class="upgrade-price">
+          GET
+        </div>
 
       </button>
 
 
+      <!-- 星魂 -->
+
       <button
         onclick="openPage('tree')"
+        class="upgrade-card"
       >
 
-        <span>🌌</span>
+        <span class="rpg-icon fate medium">
+          ✦
+        </span>
 
         <strong>
           星魂盤
@@ -300,32 +514,33 @@
           BUILD
         </small>
 
-        <b>
-          開く
-        </b>
+        <div class="upgrade-price">
+          OPEN
+        </div>
 
       </button>
 
-    </div>
+    </section>
 
   </section>
 
 
-  <!-- =======================================
-       MASSIVE SKILL TREE
-  ======================================== -->
+  <!-- =====================================
+       巨大星魂盤
+  ====================================== -->
 
   <section
     id="tree"
-    class="page treePage"
+    class="page tree-page"
   >
 
-    <!-- TREE HEADER -->
 
-    <header class="treeHeader">
+    <!-- ヘッダー -->
+
+    <header class="tree-header">
 
       <button
-        class="backButton"
+        class="back-button"
         onclick="openPage('adventure')"
       >
         ←
@@ -345,45 +560,48 @@
       </div>
 
 
-      <div class="treeCurrency">
+      <div class="tree-soul">
 
-        🌟
+        ✦
 
-        <span id="treeSoul">
-          0
-        </span>
+        <strong id="treeSoul">
+          25
+        </strong>
 
       </div>
 
     </header>
 
 
-    <!-- TREE TOOLBAR -->
+    <!-- =====================================
+         ツールバー
+    ====================================== -->
 
-    <div class="treeToolbar">
+    <section class="tree-toolbar">
 
+      <label class="node-search">
 
-      <div class="searchBox">
-
-        🔎
+        <span>
+          ⌕
+        </span>
 
         <input
           id="nodeSearch"
           type="text"
-          placeholder="能力を検索..."
+          placeholder="ノードを検索..."
         >
 
-      </div>
+      </label>
 
 
-      <div class="zoomButtons">
+      <div class="zoom-control">
 
         <button id="zoomOut">
           −
         </button>
 
         <span id="zoomDisplay">
-          100%
+          75%
         </span>
 
         <button id="zoomIn">
@@ -395,123 +613,129 @@
 
       <button
         id="centerTree"
-        class="toolButton"
+        class="tree-tool-button"
       >
-        ◎ 中心
+        ◎
       </button>
 
 
       <button
         id="resetTree"
-        class="toolButton danger"
+        class="tree-tool-button reset-tree"
       >
-        ↺ リセット
+        ↺
       </button>
 
-    </div>
+    </section>
 
 
-    <!-- LEGEND -->
+    <!-- =====================================
+         ツリー系統
+    ====================================== -->
 
-    <div class="treeLegend">
+    <section class="tree-filters">
 
-      <button data-filter="all">
+      <button
+        data-filter="all"
+        class="active"
+      >
         全て
       </button>
 
+
       <button
         data-filter="war"
-        class="warText"
       >
-        ⚔ 闘争
+        闘争
       </button>
+
 
       <button
         data-filter="guard"
-        class="guardText"
       >
-        🛡 守護
+        守護
       </button>
+
 
       <button
         data-filter="magic"
-        class="magicText"
       >
-        🔮 魔導
+        魔導
       </button>
+
 
       <button
         data-filter="fate"
-        class="fateText"
       >
-        ✦ 運命
+        運命
       </button>
+
 
       <button
         data-filter="astral"
-        class="astralText"
       >
-        💎 星界
+        星界
       </button>
+
 
       <button
         data-filter="rebirth"
-        class="rebirthText"
       >
-        ♾ 輪廻
+        輪廻
       </button>
 
-    </div>
+    </section>
 
 
-    <!-- TREE VIEWPORT -->
+    <!-- =====================================
+         巨大キャンバス
+    ====================================== -->
 
-    <div
+    <section
       id="treeViewport"
-      class="treeViewport"
+      class="tree-viewport"
     >
 
       <div
         id="treeWorld"
-        class="treeWorld"
+        class="tree-world"
       >
 
 
-        <!-- CONNECTION LINES -->
-
         <svg
           id="treeLines"
-          class="treeLines"
-          width="2400"
-          height="2400"
+          class="tree-lines"
+          width="2600"
+          height="2600"
         >
         </svg>
 
 
-        <!-- NODES -->
-
         <div
           id="treeNodes"
-          class="treeNodes"
+          class="tree-nodes"
         >
         </div>
 
 
       </div>
 
-    </div>
+    </section>
 
 
-    <!-- DETAIL -->
+    <!-- =====================================
+         ノード詳細
+    ====================================== -->
 
     <aside
       id="nodeDetail"
-      class="nodeDetail"
+      class="node-detail"
     >
 
-      <div class="detailIcon">
-        🌟
-      </div>
+      <span class="rpg-icon fate medium">
+        ✦
+      </span>
+
 
       <div>
 
@@ -520,7 +744,7 @@
         </strong>
 
         <p>
-          ノードを選択してください
+          ノードを選択してください。
         </p>
 
       </div>
@@ -530,16 +754,16 @@
   </section>
 
 
-  <!-- =========================
-       SUMMON
-  ========================== -->
+  <!-- =====================================
+       ガチャ
+  ====================================== -->
 
   <section
     id="gacha"
     class="page"
   >
 
-    <div class="subHeader">
+    <header class="sub-header">
 
       <button
         onclick="openPage('adventure')"
@@ -547,45 +771,62 @@
         ←
       </button>
 
-      <h2>
-        🔮 星界召喚
-      </h2>
+      <div>
+
+        <small>
+          CELESTIAL SUMMON
+        </small>
+
+        <h2>
+          星界召喚
+        </h2>
+
+      </div>
 
       <div>
-        💎
+
+        ◆
+
         <span id="gachaCrystal">
-          0
+          1000
         </span>
+
       </div>
 
-    </div>
+    </header>
 
 
-    <div class="summonArea">
+    <section class="summon-stage">
 
-      <div class="summonStar">
-        ✦
+      <div class="summon-emblem">
+
+        <span class="rpg-icon magic large">
+          ✦
+        </span>
+
       </div>
+
 
       <h2>
         新たな力との出会い
       </h2>
 
+
       <p>
-        装備または秘奥スキルを獲得
+        装備・秘奥スキルを召喚
       </p>
 
-    </div>
+    </section>
 
 
-    <div class="summonButtons">
+    <div class="summon-buttons">
 
       <button id="pull1">
 
         1回召喚
 
         <strong>
-          💎100
+          ◆100
         </strong>
 
       </button>
@@ -596,7 +837,7 @@
         10回召喚
 
         <strong>
-          💎900
+          ◆900
         </strong>
 
       </button>
@@ -606,32 +847,35 @@
 
     <div
       id="results"
-      class="results"
-    ></div>
+      class="gacha-results"
+    >
+    </div>
 
 
-    <h3>
+    <h3 class="section-title">
       召喚履歴
     </h3>
 
+
     <div
       id="inventory"
-      class="results"
-    ></div>
+      class="gacha-results"
+    >
+    </div>
 
   </section>
 
 
-  <!-- =========================
-       REBIRTH
-  ========================== -->
+  <!-- =====================================
+       転生
+  ====================================== -->
 
   <section
     id="rebirth"
     class="page"
   >
 
-    <div class="subHeader">
+    <header class="sub-header">
 
       <button
         onclick="openPage('adventure')"
@@ -639,26 +883,41 @@
         ←
       </button>
 
-      <h2>
-        ♾ 星の輪廻
-      </h2>
+      <div>
 
-      <span>
-        🌟
-      </span>
+        <small>
+          REINCARNATION
+        </small>
 
-    </div>
+        <h2>
+          星の輪廻
+        </h2>
 
-
-    <div class="rebirthArea">
-
-      <div class="rebirthCrystal">
-        ♾
       </div>
+
+      <div>
+        ∞
+      </div>
+
+    </header>
+
+
+    <section class="rebirth-stage">
+
+
+      <div class="rebirth-emblem">
+
+        <span class="rpg-icon rebirth large">
+          ∞
+        </span>
+
+      </div>
+
 
       <h2>
         転生
       </h2>
+
 
       <p>
         現在の力を星へ還し、
@@ -666,7 +925,8 @@
       </p>
 
 
-      <div class="rebirthStats">
+      <div class="rebirth-grid">
+
 
         <div>
 
@@ -701,34 +961,38 @@
           </small>
 
           <strong>
-            🌟
+
+            ✦
+
             <span id="gainSoul">
               0
             </span>
+
           </strong>
 
         </div>
+
 
       </div>
 
 
       <button
         id="doRebirth"
-        class="rebirthButton"
+        class="rebirth-button"
       >
-        🌠 転生する
+        転生する
       </button>
 
-    </div>
+    </section>
 
   </section>
 
 
-  <!-- =========================
-       BOTTOM NAV
-  ========================== -->
+  <!-- =====================================
+       下メニュー
+  ====================================== -->
 
-  <nav class="bottomNav">
+  <nav class="bottom-nav">
 
 
     <button
@@ -737,8 +1001,13 @@
       onclick="openPage('adventure')"
     >
 
-      ⚔️
-      <span>冒険</span>
+      <span class="nav-icon">
+        ⚔
+      </span>
+
+      <small>
+        冒険
+      </small>
 
     </button>
 
@@ -748,8 +1017,13 @@
       onclick="openPage('tree')"
     >
 
-      🌌
-      <span>星魂</span>
+      <span class="nav-icon">
+        ✦
+      </span>
+
+      <small>
+        星魂
+      </small>
 
     </button>
 
@@ -759,8 +1033,13 @@
       onclick="openPage('gacha')"
     >
 
-      🔮
-      <span>召喚</span>
+      <span class="nav-icon">
+        ◆
+      </span>
+
+      <small>
+        召喚
+      </small>
 
     </button>
 
@@ -770,21 +1049,31 @@
       onclick="openPage('rebirth')"
     >
 
-      ♾
-      <span>転生</span>
+      <span class="nav-icon">
+        ∞
+      </span>
+
+      <small>
+        転生
+      </small>
 
     </button>
 
 
   </nav>
 
-
 </div>
 
 
+<!-- =====================================
+     通知
+====================================== -->
+
 <div id="toast"></div>
+
 
 <script src="game.js"></script>
 
 </body>
+
 </html>
