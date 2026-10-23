@@ -5,22 +5,22 @@
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1, maximum-scale=1"
+    content="width=device-width,initial-scale=1,maximum-scale=1"
   >
 
   <title>星剣と魔導書のクロニクル</title>
 
   <style>
     :root {
-      --gold: #f5c95f;
-      --purple: #7459c5;
+      --gold: #f7cc61;
+      --purple: #7458c6;
       --dark: #070912;
-      --war: #ef5865;
-      --guard: #54d083;
-      --magic: #6997ff;
-      --fate: #bd69ec;
-      --astral: #4edce2;
-      --rebirth: #f0d47b;
+      --war: #ef5767;
+      --guard: #52d082;
+      --magic: #6998ff;
+      --fate: #c069ef;
+      --astral: #4ddde2;
+      --rebirth: #f2d57b;
     }
 
     * {
@@ -35,7 +35,6 @@
     body {
       min-height: 100vh;
       margin: 0;
-
       overflow-x: hidden;
 
       color: white;
@@ -47,8 +46,13 @@
           transparent 40%
         ),
         radial-gradient(
-          circle at 15% 50%,
-          rgba(36, 110, 158, 0.18),
+          circle at 10% 50%,
+          rgba(33, 112, 170, 0.2),
+          transparent 35%
+        ),
+        radial-gradient(
+          circle at 90% 80%,
+          rgba(126, 54, 166, 0.18),
           transparent 35%
         ),
         linear-gradient(
@@ -75,7 +79,7 @@
     }
 
     button:disabled {
-      opacity: 0.4;
+      opacity: 0.42;
       cursor: not-allowed;
     }
 
@@ -115,7 +119,7 @@
 
       pointer-events: none;
 
-      opacity: 0.38;
+      opacity: 0.4;
 
       background-image:
         radial-gradient(
@@ -140,19 +144,14 @@
 
     .page {
       display: none;
-
-      min-height:
-        calc(100vh - 150px);
+      min-height: calc(100vh - 150px);
     }
 
     .page.active {
       display: block;
     }
 
-
-    /* ========================================
-       上部UI
-    ======================================== */
+    /* 上部UI */
 
     .top-bar {
       min-height: 76px;
@@ -167,14 +166,13 @@
 
       position: sticky;
       top: 0;
-
       z-index: 100;
 
       background:
         linear-gradient(
           90deg,
           transparent,
-          rgba(255,255,255,.06),
+          rgba(255,255,255,.07),
           transparent
         ),
         linear-gradient(
@@ -188,7 +186,7 @@
 
       box-shadow:
         inset 0 1px
-        rgba(255,255,255,.24),
+        rgba(255,255,255,.25),
         inset 0 -5px
         rgba(22,10,49,.42),
         0 5px 14px
@@ -199,7 +197,6 @@
     .resources {
       display: flex;
       align-items: center;
-
       gap: 7px;
     }
 
@@ -210,10 +207,7 @@
 
     .profile small {
       color: #ded1ff;
-
       font-size: 9px;
-
-      letter-spacing: .5px;
     }
 
     .profile strong {
@@ -250,19 +244,10 @@
 
       border-radius: 18px;
 
-      box-shadow:
-        inset 0 1px
-        rgba(255,255,255,.12),
-        0 2px 7px
-        rgba(0,0,0,.34);
-
       font-size: 11px;
     }
 
-
-    /* ========================================
-       CSS豪華紋章
-    ======================================== */
+    /* 紋章 */
 
     .rpg-icon {
       --c1: #70b9ff;
@@ -351,128 +336,88 @@
           #f5d378 349deg 353deg,
           transparent 354deg
         );
-
-      clip-path:
-        polygon(
-          50% 0,
-          58% 14%,
-          70% 7%,
-          74% 22%,
-          88% 14%,
-          84% 31%,
-          100% 50%,
-          84% 58%,
-          93% 72%,
-          77% 73%,
-          84% 88%,
-          67% 83%,
-          50% 100%,
-          42% 86%,
-          28% 94%,
-          27% 77%,
-          12% 87%,
-          16% 68%,
-          0 50%,
-          16% 42%,
-          7% 29%,
-          23% 27%,
-          16% 12%,
-          33% 17%
-        );
     }
 
     .rpg-icon.war {
       --c1: #ff795e;
       --c2: #d2283c;
       --c3: #4b0718;
-      --glow:
-        rgba(255,43,54,.9);
+      --glow: rgba(255,43,54,.9);
     }
 
     .rpg-icon.sword {
       --c1: #d5efff;
       --c2: #557fe0;
       --c3: #12244d;
-      --glow:
-        rgba(64,141,255,.9);
+      --glow: rgba(64,141,255,.9);
     }
 
     .rpg-icon.guard {
       --c1: #b9ffc5;
       --c2: #42b966;
       --c3: #123b22;
-      --glow:
-        rgba(65,232,105,.85);
+      --glow: rgba(65,232,105,.85);
     }
 
     .rpg-icon.magic {
       --c1: #e3a2ff;
       --c2: #8440d5;
       --c3: #260643;
-      --glow:
-        rgba(180,69,255,.95);
+      --glow: rgba(180,69,255,.95);
     }
 
     .rpg-icon.fate {
       --c1: #f0a1ff;
       --c2: #9145dc;
       --c3: #320958;
-      --glow:
-        rgba(201,76,255,.95);
+      --glow: rgba(201,76,255,.95);
     }
 
     .rpg-icon.astral {
       --c1: #b5fcff;
       --c2: #3fc0d7;
       --c3: #06344a;
-      --glow:
-        rgba(47,220,255,.95);
+      --glow: rgba(47,220,255,.95);
     }
 
     .rpg-icon.rebirth {
       --c1: #fff3a3;
       --c2: #e5a33b;
       --c3: #614016;
-      --glow:
-        rgba(255,190,60,.95);
+      --glow: rgba(255,190,60,.95);
     }
 
     .rpg-icon.death {
       --c1: #d47dff;
       --c2: #6921a8;
       --c3: #1e052d;
-      --glow:
-        rgba(153,48,255,.95);
+      --glow: rgba(153,48,255,.95);
     }
 
     .rpg-icon.fire {
       --c1: #ffe260;
       --c2: #ff6728;
       --c3: #5b0b05;
-      --glow:
-        rgba(255,80,22,.95);
+      --glow: rgba(255,80,22,.95);
     }
 
     .rpg-icon.thunder {
       --c1: #fffaae;
       --c2: #58acff;
       --c3: #182b74;
-      --glow:
-        rgba(76,166,255,.95);
+      --glow: rgba(76,166,255,.95);
     }
 
     .rpg-icon.moon {
       --c1: #bfa8ff;
       --c2: #5939c9;
       --c3: #171447;
-      --glow:
-        rgba(113,77,255,.95);
+      --glow: rgba(113,77,255,.95);
     }
 
     .rpg-icon.small {
       width: 30px;
       height: 30px;
-
       font-size: 14px;
     }
 
@@ -483,21 +428,16 @@
     .rpg-icon.medium {
       width: 45px;
       height: 45px;
-
       font-size: 21px;
     }
 
     .rpg-icon.large {
       width: 68px;
       height: 68px;
-
       font-size: 31px;
     }
 
-
-    /* ========================================
-       ステージ
-    ======================================== */
+    /* ステージ */
 
     .stage-header {
       padding: 12px 10px;
@@ -508,13 +448,13 @@
         linear-gradient(
           90deg,
           transparent,
-          rgba(255,255,255,.13),
+          rgba(255,255,255,.14),
           transparent
         ),
         linear-gradient(
-          #388bc1,
-          #5cb9d8 55%,
-          #88d8e5
+          #3b8fc8,
+          #5bb9d9 55%,
+          #8ddce8
         );
 
       border-bottom:
@@ -524,21 +464,9 @@
         0 2px #345d7a;
     }
 
-    .stage-header small {
-      letter-spacing: 1px;
-
-      font-weight: 900;
-    }
-
     .stage-header h1 {
       margin: 2px;
-
       font-size: 32px;
-
-      text-shadow:
-        0 3px #345b84,
-        0 0 8px
-        rgba(255,255,255,.5);
     }
 
     .stage-route {
@@ -559,11 +487,11 @@
       display: grid;
       place-items: center;
 
-      color: white;
-
       background: #44365e;
 
-      border: 2px solid white;
+      border:
+        2px solid white;
+
       border-radius: 50%;
     }
 
@@ -583,7 +511,7 @@
 
       box-shadow:
         inset 0 2px 4px
-        rgba(0,0,0,.55);
+        rgba(0,0,0,.6);
     }
 
     .route-bar i {
@@ -607,13 +535,10 @@
         width .3s;
     }
 
-
-    /* ========================================
-       豪華な星界遺跡バトル背景
-    ======================================== */
+    /* 豪華戦闘背景 */
 
     .battle-field {
-      height: 440px;
+      height: 450px;
 
       position: relative;
 
@@ -623,197 +548,408 @@
 
       background:
         radial-gradient(
-          circle at 50% 10%,
-          #fffbd9 0 1.5%,
-          rgba(255,223,130,.4) 3%,
-          rgba(169,213,255,.18) 10%,
-          transparent 22%
+          circle at 50% 8%,
+          #fffef0 0 1.4%,
+          rgba(255,225,139,.8) 2%,
+          rgba(113,189,255,.22) 9%,
+          transparent 23%
         ),
         radial-gradient(
-          ellipse at 50% 12%,
-          rgba(183,218,255,.5),
-          transparent 36%
+          ellipse at 50% 15%,
+          rgba(191,222,255,.52),
+          transparent 37%
         ),
         linear-gradient(
-          #326ba8 0%,
-          #4c91c3 22%,
-          #74bbd9 42%,
-          #abdcd9 53%,
-          transparent 54%
+          #203d83 0%,
+          #326da9 15%,
+          #4e94c7 31%,
+          #78bddb 45%,
+          #addbd9 54%,
+          transparent 55%
         ),
         linear-gradient(
-          transparent 0 52%,
-          #3d7545 52%,
-          #548d4c 58%,
-          #6f9a4d 66%,
+          transparent 0 51%,
+          #335e42 51%,
+          #4f8248 58%,
+          #6c964b 66%,
           transparent 67%
         ),
         linear-gradient(
-          transparent 0 65%,
-          #9c834f 65%,
-          #c7a368 72%,
-          #9f7947 100%
+          transparent 0 64%,
+          #77613c 64%,
+          #b48d55 70%,
+          #d0ac70 77%,
+          #8d6339 100%
         );
 
       border-bottom:
-        3px solid #735127;
+        3px solid #6f4e26;
 
       box-shadow:
-        inset 0 20px 35px
+        inset 0 25px 40px
         rgba(255,255,255,.08),
-        inset 0 -25px 45px
-        rgba(70,38,14,.2);
+        inset 0 -30px 50px
+        rgba(54,29,15,.28);
     }
 
-    /* 山脈と古代遺跡 */
+    /* 星空と光粒 */
 
-    .battle-field::before {
-      content: "";
+    .battle-sky-particles {
+      position: absolute;
+      inset: 0;
 
+      z-index: -1;
+
+      pointer-events: none;
+
+      opacity: .9;
+
+      background-image:
+        radial-gradient(
+          circle,
+          rgba(255,255,255,.95) 0 1px,
+          transparent 2px
+        ),
+        radial-gradient(
+          circle,
+          rgba(145,214,255,.8) 0 1px,
+          transparent 2px
+        ),
+        radial-gradient(
+          circle,
+          rgba(255,223,130,.8) 0 1px,
+          transparent 2px
+        );
+
+      background-size:
+        43px 53px,
+        71px 67px,
+        103px 89px;
+
+      background-position:
+        5px 7px,
+        31px 15px,
+        53px 29px;
+
+      animation:
+        skyParticles 8s
+        linear infinite;
+    }
+
+    @keyframes skyParticles {
+      to {
+        background-position:
+          5px 60px,
+          31px 82px,
+          53px 118px;
+      }
+    }
+
+    /* 遠景の山脈 */
+
+    .battle-mountains {
       position: absolute;
 
-      left: -12%;
-      right: -12%;
-
+      left: -15%;
+      right: -15%;
       bottom: 145px;
 
       height: 210px;
 
-      z-index: -2;
+      z-index: -1;
 
-      opacity: .88;
+      opacity: .85;
 
       background:
         linear-gradient(
-          90deg,
-          transparent 0 11%,
-          rgba(35,69,74,.7) 11% 12%,
-          transparent 12%
-        ),
-        linear-gradient(
-          90deg,
-          transparent 0 86%,
-          rgba(35,69,74,.65) 86% 87%,
-          transparent 87%
-        ),
-        linear-gradient(
           135deg,
           transparent 0 47%,
-          #497c78 48% 57%,
-          transparent 58%
+          #3d6f76 48% 58%,
+          transparent 59%
         )
-        -40px 65px /
-        280px 160px repeat-x,
+        -30px 65px /
+        270px 160px repeat-x,
         linear-gradient(
           45deg,
           transparent 0 47%,
-          #376c70 48% 58%,
-          transparent 59%
+          #315c68 48% 59%,
+          transparent 60%
         )
-        80px 85px /
+        95px 88px /
         330px 170px repeat-x;
 
       filter:
         drop-shadow(
           0 14px 8px
-          rgba(37,70,47,.25)
+          rgba(32,63,44,.25)
         );
     }
 
-    /* 地面の巨大魔法陣 */
+    /* 遠景の尖塔 */
 
-    .battle-field::after {
+    .battle-tower {
+      width: 32px;
+      height: 145px;
+
+      position: absolute;
+
+      bottom: 155px;
+
+      z-index: 0;
+
+      opacity: .68;
+
+      background:
+        linear-gradient(
+          90deg,
+          #203e47,
+          #426a6d,
+          #1b353f
+        );
+
+      border-radius:
+        50% 50% 4px 4px;
+
+      box-shadow:
+        0 0 18px
+        rgba(112,206,223,.2);
+    }
+
+    .battle-tower::before {
       content: "";
 
-      width: 390px;
-      height: 265px;
+      width: 0;
+      height: 0;
 
       position: absolute;
 
       left: 50%;
-      bottom: -160px;
+      top: -45px;
 
-      z-index: 0;
+      transform:
+        translateX(-50%);
+
+      border-left:
+        25px solid transparent;
+
+      border-right:
+        25px solid transparent;
+
+      border-bottom:
+        55px solid #244650;
+    }
+
+    .tower-left {
+      left: 8%;
+    }
+
+    .tower-right {
+      right: 8%;
+    }
+
+    /* 空から降りる光柱 */
+
+    .light-column {
+      width: 75px;
+      height: 360px;
+
+      position: absolute;
+
+      left: 50%;
+      top: -85px;
+
+      z-index: -1;
+
+      transform:
+        translateX(-50%)
+        rotate(2deg);
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(219,241,255,.08),
+          rgba(255,248,193,.22),
+          rgba(219,241,255,.08),
+          transparent
+        );
+
+      filter:
+        blur(3px);
+
+      animation:
+        lightColumnPulse 4s
+        ease-in-out
+        infinite alternate;
+    }
+
+    @keyframes lightColumnPulse {
+      from {
+        opacity: .35;
+        transform:
+          translateX(-50%)
+          scaleX(.8);
+      }
+
+      to {
+        opacity: .85;
+        transform:
+          translateX(-50%)
+          scaleX(1.25);
+      }
+    }
+
+    /* 地面魔法陣 */
+
+    .arena-rune {
+      width: 420px;
+      height: 270px;
+
+      position: absolute;
+
+      left: 50%;
+      bottom: -148px;
+
+      z-index: 1;
 
       transform:
         translateX(-50%)
         perspective(350px)
-        rotateX(65deg);
+        rotateX(66deg);
 
       border:
         3px solid
-        rgba(255,226,126,.52);
+        rgba(255,228,127,.58);
 
       border-radius: 50%;
 
       background:
         radial-gradient(
           circle,
-          rgba(255,243,177,.18) 0 7%,
-          transparent 8% 21%,
-          rgba(255,223,117,.22) 22% 23%,
-          transparent 24% 38%,
-          rgba(255,223,117,.17) 39% 40%,
-          transparent 41% 58%,
-          rgba(255,223,117,.14) 59% 60%,
-          transparent 61%
+          rgba(255,245,185,.22) 0 6%,
+          transparent 7% 20%,
+          rgba(255,224,119,.22) 21% 22%,
+          transparent 23% 36%,
+          rgba(255,224,119,.2) 37% 38%,
+          transparent 39% 53%,
+          rgba(255,224,119,.16) 54% 55%,
+          transparent 56% 70%,
+          rgba(255,224,119,.12) 71% 72%,
+          transparent 73%
         ),
         conic-gradient(
-          transparent 0 6deg,
-          rgba(255,232,145,.18) 7deg 8deg,
-          transparent 9deg 36deg,
-          rgba(255,232,145,.18) 37deg 38deg,
-          transparent 39deg 81deg,
-          rgba(255,232,145,.2) 82deg 83deg,
-          transparent 84deg 126deg,
-          rgba(255,232,145,.17) 127deg 128deg,
-          transparent 129deg 171deg,
-          rgba(255,232,145,.18) 172deg 173deg,
-          transparent 174deg 216deg,
-          rgba(255,232,145,.18) 217deg 218deg,
-          transparent 219deg 261deg,
-          rgba(255,232,145,.18) 262deg 263deg,
-          transparent 264deg 306deg,
-          rgba(255,232,145,.18) 307deg 308deg,
-          transparent 309deg 351deg,
-          rgba(255,232,145,.18) 352deg 353deg,
-          transparent 354deg
+          transparent 0 13deg,
+          rgba(255,236,161,.28) 14deg 16deg,
+          transparent 17deg 43deg,
+          rgba(255,236,161,.28) 44deg 46deg,
+          transparent 47deg 88deg,
+          rgba(255,236,161,.28) 89deg 91deg,
+          transparent 92deg 133deg,
+          rgba(255,236,161,.28) 134deg 136deg,
+          transparent 137deg 178deg,
+          rgba(255,236,161,.28) 179deg 181deg,
+          transparent 182deg 223deg,
+          rgba(255,236,161,.28) 224deg 226deg,
+          transparent 227deg 268deg,
+          rgba(255,236,161,.28) 269deg 271deg,
+          transparent 272deg 313deg,
+          rgba(255,236,161,.28) 314deg 316deg,
+          transparent 317deg
         );
 
       box-shadow:
         0 0 20px
-        rgba(255,206,84,.28),
-        0 0 50px
-        rgba(255,175,50,.13),
+        rgba(255,206,84,.35),
+        0 0 60px
+        rgba(255,177,48,.2),
         inset 0 0 35px
-        rgba(255,225,121,.12);
+        rgba(255,225,121,.15);
 
       animation:
-        arenaPulse 3s
+        arenaRunePulse 2.5s
         ease-in-out
         infinite alternate;
     }
 
-    @keyframes arenaPulse {
+    @keyframes arenaRunePulse {
       from {
-        opacity: .55;
-
-        filter:
-          brightness(.8);
+        opacity: .58;
+        filter: brightness(.85);
       }
 
       to {
         opacity: 1;
-
-        filter:
-          brightness(1.35);
+        filter: brightness(1.5);
       }
     }
 
+    /* 遺跡の柱 */
 
-    /* ========================================
-       敵とプレイヤー
-    ======================================== */
+    .ruin-pillar {
+      width: 42px;
+      height: 115px;
+
+      position: absolute;
+
+      bottom: 63px;
+
+      z-index: 1;
+
+      opacity: .7;
+
+      background:
+        linear-gradient(
+          90deg,
+          #5d533d,
+          #aa956b 45%,
+          #6d5b3e
+        );
+
+      border:
+        2px solid
+        rgba(255,232,168,.2);
+
+      box-shadow:
+        inset 0 0 10px
+        rgba(0,0,0,.35),
+        0 8px 15px
+        rgba(0,0,0,.2);
+    }
+
+    .ruin-pillar::before {
+      content: "";
+
+      width: 58px;
+      height: 15px;
+
+      position: absolute;
+
+      left: 50%;
+      top: -10px;
+
+      transform:
+        translateX(-50%);
+
+      background:
+        linear-gradient(
+          #ceb47a,
+          #746044
+        );
+
+      border-radius: 4px;
+    }
+
+    .ruin-left {
+      left: 4%;
+      transform: rotate(-4deg);
+    }
+
+    .ruin-right {
+      right: 4%;
+      transform: rotate(4deg);
+    }
+
+    /* 敵とプレイヤー */
 
     .enemy,
     .player {
@@ -821,7 +957,7 @@
 
       left: 50%;
 
-      z-index: 5;
+      z-index: 10;
 
       text-align: center;
 
@@ -830,12 +966,11 @@
     }
 
     .enemy {
-      top: 28px;
+      top: 25px;
     }
 
     .player {
-      bottom: 24px;
-
+      bottom: 22px;
       min-width: 235px;
     }
 
@@ -858,6 +993,8 @@
       border-radius: 14px;
 
       box-shadow:
+        inset 0 1px
+        rgba(255,255,255,.18),
         0 3px 8px
         rgba(0,0,0,.35);
 
@@ -873,6 +1010,10 @@
           #60364e,
           #301b31
         );
+
+      box-shadow:
+        0 0 12px
+        rgba(255,74,100,.25);
     }
 
     .player .unit-name {
@@ -885,6 +1026,10 @@
         );
 
       border-color: #d5e8ff;
+
+      box-shadow:
+        0 0 12px
+        rgba(91,151,255,.28);
     }
 
     /* HP */
@@ -935,7 +1080,7 @@
 
       box-shadow:
         0 0 8px
-        rgba(255,58,71,.6);
+        rgba(255,58,71,.7);
     }
 
     .player-hp i {
@@ -949,7 +1094,7 @@
 
       box-shadow:
         0 0 8px
-        rgba(53,231,111,.6);
+        rgba(53,231,111,.65);
     }
 
     .player-hp.warning i {
@@ -974,8 +1119,7 @@
 
     @keyframes dangerPulse {
       to {
-        filter:
-          brightness(1.5);
+        filter: brightness(1.5);
       }
     }
 
@@ -1002,27 +1146,34 @@
       background:
         rgba(69,35,48,.88);
 
-      border-color:
-        #ff7781;
+      border-color: #ff7781;
     }
 
-    /* 敵オーラ */
+    /* オーラ */
+
+    .enemy-art,
+    .player-art {
+      position: relative;
+      z-index: 11;
+    }
 
     .enemy-art {
       margin: 16px auto;
-
-      position: relative;
 
       animation:
         enemyFloat 1.7s
         infinite alternate;
     }
 
+    .player-art {
+      margin: 10px auto 0;
+    }
+
     .enemy-art::before {
       content: "";
 
-      width: 135px;
-      height: 135px;
+      width: 145px;
+      height: 145px;
 
       position: absolute;
 
@@ -1039,35 +1190,27 @@
       background:
         radial-gradient(
           circle,
-          rgba(255,91,113,.17),
-          rgba(142,50,199,.12) 40%,
-          transparent 68%
+          rgba(255,91,113,.22),
+          rgba(142,50,199,.15) 40%,
+          transparent 70%
         );
 
       box-shadow:
-        0 0 20px
-        rgba(255,55,90,.25),
-        0 0 45px
-        rgba(126,50,200,.25);
+        0 0 25px
+        rgba(255,55,90,.32),
+        0 0 55px
+        rgba(126,50,200,.3);
 
       animation:
         enemyAura 1.6s
         infinite alternate;
     }
 
-    /* プレイヤーオーラ */
-
-    .player-art {
-      margin: 10px auto 0;
-
-      position: relative;
-    }
-
     .player-art::before {
       content: "";
 
-      width: 110px;
-      height: 110px;
+      width: 118px;
+      height: 118px;
 
       position: absolute;
 
@@ -1084,16 +1227,16 @@
       background:
         radial-gradient(
           circle,
-          rgba(177,225,255,.21),
-          rgba(78,125,255,.12) 42%,
+          rgba(177,225,255,.27),
+          rgba(78,125,255,.14) 42%,
           transparent 70%
         );
 
       box-shadow:
-        0 0 18px
-        rgba(117,187,255,.25),
-        0 0 40px
-        rgba(75,98,255,.15);
+        0 0 20px
+        rgba(117,187,255,.32),
+        0 0 48px
+        rgba(75,98,255,.2);
 
       animation:
         playerAura 2.1s
@@ -1112,15 +1255,15 @@
       from {
         transform:
           translate(-50%,-50%)
-          scale(.9);
+          scale(.88);
 
-        opacity: .6;
+        opacity: .58;
       }
 
       to {
         transform:
           translate(-50%,-50%)
-          scale(1.15);
+          scale(1.17);
 
         opacity: 1;
       }
@@ -1130,9 +1273,9 @@
       to {
         transform:
           translate(-50%,-50%)
-          scale(1.14);
+          scale(1.16);
 
-        opacity: .72;
+        opacity: .75;
       }
     }
 
@@ -1164,10 +1307,7 @@
       }
     }
 
-
-    /* ========================================
-       攻撃エフェクト
-    ======================================== */
+    /* 攻撃エフェクト */
 
     .battle-effect,
     .damage-number {
@@ -1184,24 +1324,44 @@
     }
 
     .battle-effect {
-      font-size: 90px;
+      font-size: 92px;
 
       filter:
         drop-shadow(
           0 0 6px white
         )
         drop-shadow(
-          0 0 15px #ffbc54
+          0 0 16px #ffbc54
         )
         drop-shadow(
-          0 0 28px
-          rgba(255,88,42,.65)
+          0 0 30px
+          rgba(255,88,42,.7)
         );
     }
 
     .battle-effect.show {
       animation:
         impact .45s;
+    }
+
+    .damage-number {
+      color: #fff9d4;
+
+      font-size: 35px;
+      font-weight: 1000;
+
+      -webkit-text-stroke:
+        1px #7f281e;
+
+      text-shadow:
+        0 3px #a23428,
+        0 0 6px #fff5b3,
+        0 0 15px #ff603b;
+    }
+
+    .damage-number.show {
+      animation:
+        damagePopup .7s;
     }
 
     @keyframes impact {
@@ -1216,28 +1376,6 @@
           scale(1.8)
           rotate(25deg);
       }
-    }
-
-    .damage-number {
-      color: #fff9d4;
-
-      font-size: 34px;
-      font-weight: 1000;
-
-      -webkit-text-stroke:
-        1px #7f281e;
-
-      text-shadow:
-        0 3px #a23428,
-        0 0 6px #fff5b3,
-        0 0 13px #ff603b,
-        0 0 22px
-        rgba(255,75,35,.7);
-    }
-
-    .damage-number.show {
-      animation:
-        damagePopup .7s;
     }
 
     @keyframes damagePopup {
@@ -1257,10 +1395,7 @@
       }
     }
 
-
-    /* ========================================
-       戦闘下部
-    ======================================== */
+    /* 戦闘下部 */
 
     .battle-log {
       min-height: 40px;
@@ -1305,9 +1440,6 @@
           #7256b9,
           #3c276f
         );
-
-      border-bottom:
-        3px solid #21143f;
     }
 
     .power {
@@ -1338,18 +1470,18 @@
     .boss-button {
       flex: 1.7;
 
+      padding: 13px;
+
       position: relative;
 
       overflow: hidden;
-
-      padding: 13px;
 
       color: #592f16;
 
       background:
         radial-gradient(
           circle at 50% 0,
-          rgba(255,255,255,.65),
+          rgba(255,255,255,.7),
           transparent 38%
         ),
         linear-gradient(
@@ -1377,22 +1509,21 @@
     .boss-button::after {
       content: "";
 
+      width: 38%;
+      height: 180%;
+
       position: absolute;
 
       top: -40%;
       left: -45%;
 
-      width: 38%;
-      height: 180%;
-
-      transform:
-        rotate(24deg);
+      transform: rotate(24deg);
 
       background:
         linear-gradient(
           90deg,
           transparent,
-          rgba(255,255,255,.78),
+          rgba(255,255,255,.8),
           transparent
         );
 
@@ -1456,11 +1587,6 @@
       color: #ffe565;
     }
 
-
-    /* ========================================
-       EXP
-    ======================================== */
-
     .exp-panel {
       padding: 10px 13px;
 
@@ -1471,12 +1597,6 @@
           #ffeabd,
           #d5b474
         );
-
-      border-top:
-        2px solid #fff2cf;
-
-      border-bottom:
-        2px solid #92713e;
 
       font-size: 11px;
       font-weight: 700;
@@ -1510,10 +1630,7 @@
         );
     }
 
-
-    /* ========================================
-       強化カード
-    ======================================== */
+    /* 強化 */
 
     .upgrade-grid {
       display: grid;
@@ -1531,17 +1648,13 @@
           #e9d09a,
           #bd9255
         );
-
-      border-bottom:
-        3px solid #7d572c;
     }
 
     .upgrade-card {
       min-width: 0;
       min-height: 132px;
 
-      padding:
-        9px 4px 6px;
+      padding: 9px 4px 6px;
 
       color: white;
 
@@ -1564,8 +1677,6 @@
         20px 20px 8px 8px;
 
       box-shadow:
-        inset 0 1px
-        rgba(255,255,255,.25),
         0 4px 0 #664371;
 
       text-align: center;
@@ -1600,19 +1711,13 @@
           #d79626
         );
 
-      border:
-        1px solid #fff7c6;
-
       border-radius: 7px;
 
       font-size: 10px;
       font-weight: 900;
     }
 
-
-    /* ========================================
-       星魂盤
-    ======================================== */
+    /* 星魂盤 */
 
     .tree-page {
       background: #050605;
@@ -1642,13 +1747,11 @@
 
     .tree-header h2 {
       margin: 2px;
-
       font-size: 17px;
     }
 
     .tree-header small {
       color: #cdb486;
-
       font-size: 9px;
     }
 
@@ -1668,7 +1771,6 @@
 
     .tree-back {
       width: 42px;
-
       border-radius: 50%;
     }
 
@@ -1714,12 +1816,7 @@
     .tree-tools {
       display: flex;
       align-items: center;
-
       gap: 4px;
-    }
-
-    .tree-tools span {
-      font-size: 10px;
     }
 
     .tree-filters {
@@ -1729,8 +1826,7 @@
 
       overflow-x: auto;
 
-      padding:
-        8px 7px;
+      padding: 8px 7px;
 
       background: #090806;
     }
@@ -1738,8 +1834,7 @@
     .tree-filters button {
       flex: 0 0 auto;
 
-      padding:
-        7px 12px;
+      padding: 7px 12px;
 
       color: #c6b696;
 
@@ -1771,8 +1866,8 @@
 
       overflow: hidden;
 
-      cursor: grab;
       touch-action: none;
+      cursor: grab;
 
       background:
         radial-gradient(
@@ -1811,7 +1906,6 @@
 
     .tree-lines {
       position: absolute;
-
       inset: 0;
 
       pointer-events: none;
@@ -1829,7 +1923,6 @@
 
     .tree-line.active {
       stroke: #ffd45e;
-
       stroke-width: 7;
 
       filter:
@@ -1840,7 +1933,6 @@
 
     .tree-nodes {
       position: absolute;
-
       inset: 0;
     }
 
@@ -1897,34 +1989,6 @@
         rgba(255,128,32,.95);
 
       font-size: 42px;
-
-      animation:
-        corePulse 2s
-        infinite alternate;
-    }
-
-    @keyframes corePulse {
-      to {
-        transform:
-          scale(1.07);
-
-        filter:
-          brightness(1.2);
-      }
-    }
-
-    .tree-node.keystone
-    .rpg-icon::before {
-      animation:
-        runeSpin 18s
-        linear infinite;
-    }
-
-    @keyframes runeSpin {
-      to {
-        transform:
-          rotate(360deg);
-      }
     }
 
     .tree-node.locked .rpg-icon {
@@ -1943,11 +2007,8 @@
 
     @keyframes nodePulse {
       to {
-        transform:
-          scale(1.1);
-
-        filter:
-          brightness(1.4);
+        transform: scale(1.1);
+        filter: brightness(1.4);
       }
     }
 
@@ -1974,8 +2035,7 @@
       outline-offset: 10px;
     }
 
-    .tree-node.search-hit
-    .rpg-icon {
+    .tree-node.search-hit .rpg-icon {
       outline:
         4px solid white;
 
@@ -1984,7 +2044,6 @@
 
     .tree-node.filtered {
       opacity: .05;
-
       pointer-events: none;
     }
 
@@ -2009,8 +2068,7 @@
 
       gap: 12px;
 
-      padding:
-        11px 14px;
+      padding: 11px 14px;
 
       transform:
         translateX(-50%);
@@ -2025,10 +2083,6 @@
         2px solid #d3a858;
 
       border-radius: 13px;
-
-      box-shadow:
-        0 9px 35px
-        rgba(0,0,0,.75);
     }
 
     .node-detail p {
@@ -2040,8 +2094,7 @@
     }
 
     .node-detail button {
-      padding:
-        6px 13px;
+      padding: 6px 13px;
 
       color: #30200d;
 
@@ -2059,10 +2112,7 @@
       font-weight: 900;
     }
 
-
-    /* ========================================
-       ガチャ・転生
-    ======================================== */
+    /* ガチャ・転生 */
 
     .sub-header {
       height: 70px;
@@ -2081,25 +2131,13 @@
           #664bad,
           #39276e
         );
-
-      border-bottom:
-        2px solid #d1ad61;
-    }
-
-    .sub-header h2 {
-      margin: 2px;
     }
 
     .summon-screen,
     .rebirth-screen {
       min-height: 550px;
 
-      position: relative;
-
-      overflow: hidden;
-
-      padding:
-        65px 20px;
+      padding: 65px 20px;
 
       text-align: center;
 
@@ -2109,61 +2147,6 @@
           #735bc8,
           #17152f 65%
         );
-    }
-
-    .summon-screen::before,
-    .rebirth-screen::before {
-      content: "";
-
-      width: 285px;
-      height: 285px;
-
-      position: absolute;
-
-      left: 50%;
-      top: 34%;
-
-      transform:
-        translate(-50%,-50%);
-
-      border:
-        2px solid
-        rgba(255,231,155,.4);
-
-      border-radius: 50%;
-
-      background:
-        conic-gradient(
-          transparent 0 17deg,
-          rgba(255,236,172,.3)
-          18deg 20deg,
-          transparent 21deg 42deg,
-          rgba(255,236,172,.3)
-          43deg 45deg,
-          transparent 46deg 88deg,
-          rgba(255,236,172,.3)
-          89deg 91deg,
-          transparent 92deg
-        );
-
-      animation:
-        summonRune 18s
-        linear infinite;
-    }
-
-    @keyframes summonRune {
-      to {
-        transform:
-          translate(-50%,-50%)
-          rotate(360deg);
-      }
-    }
-
-    .summon-screen > *,
-    .rebirth-screen > * {
-      position: relative;
-
-      z-index: 2;
     }
 
     .summon-screen .rpg-icon,
@@ -2229,11 +2212,7 @@
 
       text-align: center;
 
-      background:
-        linear-gradient(
-          #37305e,
-          #26213f
-        );
+      background: #302851;
 
       border:
         3px solid #aaa;
@@ -2261,13 +2240,11 @@
 
       gap: 7px;
 
-      margin:
-        30px 0;
+      margin: 30px 0;
     }
 
     .rebirth-stats div {
-      padding:
-        12px 4px;
+      padding: 12px 4px;
 
       background:
         rgba(7,7,25,.45);
@@ -2287,10 +2264,7 @@
       color: #ffeaa0;
     }
 
-
-    /* ========================================
-       下部ナビ
-    ======================================== */
+    /* ナビ */
 
     .bottom-nav {
       width:
@@ -2322,10 +2296,6 @@
 
       border-top:
         3px solid #f0c36a;
-
-      box-shadow:
-        0 -5px 18px
-        rgba(0,0,0,.45);
     }
 
     .bottom-nav button {
@@ -2350,14 +2320,8 @@
 
     .bottom-nav small {
       display: block;
-
       font-size: 10px;
     }
-
-
-    /* ========================================
-       通知
-    ======================================== */
 
     #toast {
       min-width: 180px;
@@ -2369,8 +2333,7 @@
 
       z-index: 500;
 
-      padding:
-        10px 17px;
+      padding: 10px 17px;
 
       opacity: 0;
 
@@ -2392,10 +2355,6 @@
 
       border-radius: 20px;
 
-      box-shadow:
-        0 6px 22px
-        rgba(0,0,0,.48);
-
       transition: .2s;
     }
 
@@ -2406,13 +2365,7 @@
         translate(-50%,0);
     }
 
-
-    /* ========================================
-       スマホ
-    ======================================== */
-
     @media (max-width: 480px) {
-
       .resources {
         gap: 3px;
       }
@@ -2420,21 +2373,24 @@
       .resources span {
         min-width: 49px;
 
-        padding:
-          7px 4px;
+        padding: 7px 4px;
 
         font-size: 9px;
       }
 
       .battle-field {
-        height: 420px;
+        height: 425px;
       }
 
-      .battle-field::after {
-        width: 330px;
+      .arena-rune {
+        width: 340px;
         height: 225px;
 
-        bottom: -140px;
+        bottom: -125px;
+      }
+
+      .battle-tower {
+        opacity: .5;
       }
 
       .hp-shell {
@@ -2464,13 +2420,7 @@
 
         min-height: 480px;
       }
-
-      .node-detail {
-        bottom: 82px;
-      }
-
     }
-
   </style>
 </head>
 
@@ -2478,57 +2428,39 @@
 
 <main class="game">
 
-  <!-- =====================================
-       上部メニュー
-  ====================================== -->
-
   <header class="top-bar">
 
     <div class="profile">
-
       <span class="rpg-icon sword small">
         ⚔
       </span>
 
       <div>
-
-        <small>
-          ASTRAL ADVENTURER
-        </small>
+        <small>ASTRAL ADVENTURER</small>
 
         <strong>
           Lv.<span id="level">1</span>
         </strong>
-
       </div>
-
     </div>
 
     <div class="resources">
-
       <span>
-        ◆
-        <b id="crystal">1000</b>
+        ◆ <b id="crystal">1000</b>
       </span>
 
       <span>
-        ●
-        <b id="gold">120</b>
+        ● <b id="gold">120</b>
       </span>
 
       <span>
-        ✦
-        <b id="soul">10</b>
+        ✦ <b id="soul">10</b>
       </span>
-
     </div>
 
   </header>
 
-
-  <!-- =====================================
-       冒険
-  ====================================== -->
+  <!-- 冒険 -->
 
   <section
     id="adventure"
@@ -2536,7 +2468,6 @@
   >
 
     <header class="stage-header">
-
       <small>
         星界遺跡・翠光の祭壇
       </small>
@@ -2547,7 +2478,6 @@
       </h1>
 
       <div class="stage-route">
-
         <span>⚔</span>
 
         <div class="route-bar">
@@ -2555,23 +2485,28 @@
         </div>
 
         <span>◆</span>
-
       </div>
-
     </header>
 
-
-    <!-- =====================================
-         豪華戦闘フィールド
-    ====================================== -->
+    <!-- 豪華戦闘フィールド -->
 
     <section class="battle-field">
 
-      <!-- 敵 -->
+      <div class="battle-sky-particles"></div>
+      <div class="battle-mountains"></div>
+      <div class="battle-tower tower-left"></div>
+      <div class="battle-tower tower-right"></div>
+      <div class="light-column"></div>
+      <div class="ruin-pillar ruin-left"></div>
+      <div class="ruin-pillar ruin-right"></div>
+      <div class="arena-rune"></div>
 
       <div class="enemy">
 
-        <div class="unit-name">
+        <div
+          id="enemyName"
+          class="unit-name"
+        >
           混沌の守護者
         </div>
 
@@ -2580,33 +2515,22 @@
         </div>
 
         <div class="hp-number">
-
           HP
-
-          <span id="enemyCurrentHp">
-            -
-          </span>
-
+          <span id="enemyCurrentHp">-</span>
           /
-
-          <span id="enemyMaximumHp">
-            -
-          </span>
-
+          <span id="enemyMaximumHp">-</span>
         </div>
 
         <div class="enemy-art">
-
-          <span class="rpg-icon war large">
+          <span
+            id="enemyIcon"
+            class="rpg-icon war large"
+          >
             ♠
           </span>
-
         </div>
 
       </div>
-
-
-      <!-- プレイヤー -->
 
       <div
         id="playerUnit"
@@ -2625,41 +2549,24 @@
         </div>
 
         <div class="hp-number">
-
           ♥ HP
-
-          <strong id="playerCurrentHp">
-            0
-          </strong>
-
+          <strong id="playerCurrentHp">0</strong>
           /
-
-          <strong id="playerMaximumHp">
-            0
-          </strong>
-
+          <strong id="playerMaximumHp">0</strong>
         </div>
 
         <div class="player-art">
-
           <span class="rpg-icon sword large">
             ⚔
           </span>
-
         </div>
 
       </div>
-
-
-      <!-- 攻撃エフェクト -->
 
       <div
         id="battleEffect"
         class="battle-effect"
       ></div>
-
-
-      <!-- ダメージ数字 -->
 
       <div
         id="damageNumber"
@@ -2668,9 +2575,6 @@
 
     </section>
 
-
-    <!-- 戦闘ログ -->
-
     <div
       id="battleLog"
       class="battle-log"
@@ -2678,19 +2582,11 @@
       星界遺跡へ到着した。
     </div>
 
-
-    <!-- ボス挑戦 -->
-
     <section class="battle-command">
 
       <div class="power">
-
         戦闘力
-
-        <strong id="power">
-          0
-        </strong>
-
+        <strong id="power">0</strong>
       </div>
 
       <button
@@ -2702,67 +2598,34 @@
 
     </section>
 
-
-    <!-- ステータス -->
-
     <section class="stats">
 
       <div>
         ♥
-
-        <small>
-          HP
-        </small>
-
-        <strong id="hpStat">
-          0
-        </strong>
+        <small>HP</small>
+        <strong id="hpStat">0</strong>
       </div>
-
 
       <div>
         ⚔
-
-        <small>
-          ATK
-        </small>
-
-        <strong id="attackStat">
-          0
-        </strong>
+        <small>ATK</small>
+        <strong id="attackStat">0</strong>
       </div>
-
 
       <div>
         ◆
-
-        <small>
-          DEF
-        </small>
-
-        <strong id="defenseStat">
-          0
-        </strong>
+        <small>DEF</small>
+        <strong id="defenseStat">0</strong>
       </div>
 
     </section>
 
-
-    <!-- EXP -->
-
     <section class="exp-panel">
 
       EXP
-
-      <b id="exp">
-        0
-      </b>
-
+      <b id="exp">0</b>
       /
-
-      <b id="expRequired">
-        100
-      </b>
+      <b id="expRequired">100</b>
 
       <div class="exp-bar">
         <i id="expBar"></i>
@@ -2770,129 +2633,86 @@
 
     </section>
 
-
-    <!-- 育成 -->
-
     <section class="upgrade-grid">
 
       <button
         id="upgradeAttack"
         class="upgrade-card"
       >
-
         <span class="rpg-icon war medium">
           ⚔
         </span>
 
-        <strong>
-          攻撃力
-        </strong>
+        <strong>攻撃力</strong>
 
         <small>
-          Lv.
-          <span id="attackLevel">
-            0
-          </span>
+          Lv.<span id="attackLevel">0</span>
         </small>
 
         <div class="upgrade-price">
-          ●
-          <span id="attackCost">
-            50
-          </span>
+          ● <span id="attackCost">50</span>
         </div>
-
       </button>
-
 
       <button
         id="upgradeDefense"
         class="upgrade-card"
       >
-
         <span class="rpg-icon guard medium">
           ◆
         </span>
 
-        <strong>
-          防御力
-        </strong>
+        <strong>防御力</strong>
 
         <small>
-          Lv.
-          <span id="defenseLevel">
-            0
-          </span>
+          Lv.<span id="defenseLevel">0</span>
         </small>
 
         <div class="upgrade-price">
-          ●
-          <span id="defenseCost">
-            50
-          </span>
+          ● <span id="defenseCost">50</span>
         </div>
-
       </button>
-
 
       <button
         id="claimIdle"
         class="upgrade-card"
       >
-
         <span class="rpg-icon moon medium">
           ☾
         </span>
 
-        <strong>
-          放置報酬
-        </strong>
+        <strong>放置報酬</strong>
 
         <small>
-          <span id="idleGold">
-            0
-          </span>
-          G
+          <span id="idleGold">0</span>G
         </small>
 
         <div class="upgrade-price">
           GET
         </div>
-
       </button>
-
 
       <button
         class="upgrade-card"
         onclick="openPage('tree')"
       >
-
         <span class="rpg-icon fate medium">
           ✦
         </span>
 
-        <strong>
-          星魂盤
-        </strong>
-
-        <small>
-          300+ NODE
-        </small>
+        <strong>星魂盤</strong>
+        <small>300+ NODE</small>
 
         <div class="upgrade-price">
           OPEN
         </div>
-
       </button>
 
     </section>
 
   </section>
 
-
-  <!-- =====================================
-       星魂盤
-  ====================================== -->
+  <!-- 星魂盤 -->
 
   <section
     id="tree"
@@ -2908,79 +2728,42 @@
         ←
       </button>
 
-
       <div>
-
-        <small>
-          ASTRAL CONSTELLATION
-        </small>
-
-        <h2>
-          巨大星魂盤
-        </h2>
-
+        <small>ASTRAL CONSTELLATION</small>
+        <h2>巨大星魂盤</h2>
       </div>
 
-
       <div>
-
-        ✦
-
-        <b id="treeSoul">
-          10
-        </b>
-
+        ✦ <b id="treeSoul">10</b>
       </div>
 
     </header>
 
-
     <div class="tree-toolbar">
 
       <label class="tree-search">
-
         ⌕
 
         <input
           id="nodeSearch"
           placeholder="ノード検索..."
         >
-
       </label>
 
-
       <div class="tree-tools">
-
-        <button id="zoomOut">
-          －
-        </button>
-
-        <span id="zoomDisplay">
-          58%
-        </span>
-
-        <button id="zoomIn">
-          ＋
-        </button>
-
-        <button id="centerTree">
-          ◎
-        </button>
-
-        <button id="resetTree">
-          ↺
-        </button>
-
+        <button id="zoomOut">－</button>
+        <span id="zoomDisplay">58%</span>
+        <button id="zoomIn">＋</button>
+        <button id="centerTree">◎</button>
+        <button id="resetTree">↺</button>
       </div>
 
     </div>
-
 
     <div
       id="treeFilters"
       class="tree-filters"
     >
-
       <button
         data-type="all"
         class="active"
@@ -2988,43 +2771,22 @@
         全て
       </button>
 
-      <button data-type="war">
-        闘争
-      </button>
-
-      <button data-type="guard">
-        守護
-      </button>
-
-      <button data-type="magic">
-        魔導
-      </button>
-
-      <button data-type="fate">
-        運命
-      </button>
-
-      <button data-type="astral">
-        星界
-      </button>
-
-      <button data-type="rebirth">
-        輪廻
-      </button>
-
+      <button data-type="war">闘争</button>
+      <button data-type="guard">守護</button>
+      <button data-type="magic">魔導</button>
+      <button data-type="fate">運命</button>
+      <button data-type="astral">星界</button>
+      <button data-type="rebirth">輪廻</button>
     </div>
-
 
     <div
       id="treeViewport"
       class="tree-viewport"
     >
-
       <div
         id="treeWorld"
         class="tree-world"
       >
-
         <svg
           id="treeLines"
           class="tree-lines"
@@ -3036,41 +2798,28 @@
           id="treeNodes"
           class="tree-nodes"
         ></div>
-
       </div>
-
     </div>
-
 
     <aside
       id="nodeDetail"
       class="node-detail"
     >
-
       <span class="rpg-icon fate medium">
         ✦
       </span>
 
       <div>
-
-        <b>
-          星魂盤
-        </b>
-
+        <b>星魂盤</b>
         <p>
           ノードを選択してください。
         </p>
-
       </div>
-
     </aside>
 
   </section>
 
-
-  <!-- =====================================
-       ガチャ
-  ====================================== -->
+  <!-- ガチャ -->
 
   <section
     id="gacha"
@@ -3078,66 +2827,40 @@
   >
 
     <header class="sub-header">
-
-      <button
-        onclick="openPage('adventure')"
-      >
+      <button onclick="openPage('adventure')">
         ←
       </button>
 
-      <h2>
-        星界召喚
-      </h2>
+      <h2>星界召喚</h2>
 
       <div>
-        ◆
-        <span id="gachaCrystal">
-          0
-        </span>
+        ◆ <span id="gachaCrystal">0</span>
       </div>
-
     </header>
 
-
     <div class="summon-screen">
-
       <span class="rpg-icon magic large">
         ✧
       </span>
 
-      <h2>
-        新たな力との出会い
-      </h2>
-
-      <p>
-        装備と秘奥義を召喚
-      </p>
-
+      <h2>新たな力との出会い</h2>
+      <p>装備と秘奥義を召喚</p>
     </div>
 
-
     <div class="summon-actions">
-
       <button id="pullOne">
-        1回召喚
-        <br>
-        ◆100
+        1回召喚<br>◆100
       </button>
 
       <button id="pullTen">
-        10回召喚
-        <br>
-        ◆900
+        10回召喚<br>◆900
       </button>
-
     </div>
-
 
     <div
       id="gachaResults"
       class="cards"
     ></div>
-
 
     <div
       id="gachaHistory"
@@ -3146,10 +2869,7 @@
 
   </section>
 
-
-  <!-- =====================================
-       転生
-  ====================================== -->
+  <!-- 転生 -->
 
   <section
     id="rebirth"
@@ -3157,23 +2877,13 @@
   >
 
     <header class="sub-header">
-
-      <button
-        onclick="openPage('adventure')"
-      >
+      <button onclick="openPage('adventure')">
         ←
       </button>
 
-      <h2>
-        星の輪廻
-      </h2>
-
-      <div>
-        ∞
-      </div>
-
+      <h2>星の輪廻</h2>
+      <div>∞</div>
     </header>
-
 
     <div class="rebirth-screen">
 
@@ -3181,61 +2891,37 @@
         ∞
       </span>
 
-      <h2>
-        転生
-      </h2>
+      <h2>転生</h2>
 
       <p>
         星魂と星魂盤を維持したまま、
         新たな冒険を始めます。
       </p>
 
-
       <div class="rebirth-stats">
 
         <div>
-
-          <small>
-            転生回数
-          </small>
-
-          <strong id="rebirthCount">
-            0
-          </strong>
-
+          <small>転生回数</small>
+          <strong id="rebirthCount">0</strong>
         </div>
 
-
         <div>
-
-          <small>
-            永久倍率
-          </small>
+          <small>永久倍率</small>
 
           <strong id="permanentMultiplier">
             1.00x
           </strong>
-
         </div>
 
-
         <div>
-
-          <small>
-            獲得星魂
-          </small>
+          <small>獲得星魂</small>
 
           <strong>
-            ✦
-            <span id="rebirthSoulGain">
-              0
-            </span>
+            ✦<span id="rebirthSoulGain">0</span>
           </strong>
-
         </div>
 
       </div>
-
 
       <button
         id="rebirthButton"
@@ -3248,10 +2934,7 @@
 
   </section>
 
-
-  <!-- =====================================
-       下部ナビ
-  ====================================== -->
+  <!-- ナビ -->
 
   <nav class="bottom-nav">
 
@@ -3264,7 +2947,6 @@
       <small>冒険</small>
     </button>
 
-
     <button
       data-page="tree"
       onclick="openPage('tree')"
@@ -3273,7 +2955,6 @@
       <small>星魂</small>
     </button>
 
-
     <button
       data-page="gacha"
       onclick="openPage('gacha')"
@@ -3281,7 +2962,6 @@
       ◆
       <small>召喚</small>
     </button>
-
 
     <button
       data-page="rebirth"
@@ -3295,46 +2975,33 @@
 
 </main>
 
-
-
+<div id="toast"></div>
 
 <script>
   "use strict";
-
-  /* =========================================================
-     基本設定
-  ========================================================= */
 
   const $ = (id) =>
     document.getElementById(id);
 
   const SAVE_KEY =
-    "astralRuinsRpgV9";
+    "astralRuinsCompleteV10";
 
-  const TREE_SIZE =
-    3300;
+  const TREE_SIZE = 3300;
 
   const TREE_CENTER = {
     x: TREE_SIZE / 2,
     y: TREE_SIZE / 2
   };
 
-
-  /* =========================================================
-     新規ゲーム
-  ========================================================= */
+  /* 初期データ */
 
   function createNewGame() {
     return {
-      version: 9,
-
       level: 1,
       exp: 0,
 
       gold: 120,
       crystal: 1000,
-
-      /* 最初にもらえる星魂 */
       soul: 10,
 
       stage: 1,
@@ -3347,7 +3014,6 @@
       idleBank: 0,
       lastSave: Date.now(),
 
-      /* 中央コアだけ取得済み */
       tree: {
         core: 1
       },
@@ -3356,172 +3022,46 @@
     };
   }
 
-
-  let game =
-    createNewGame();
-
-
-  /* =========================================================
-     セーブデータ読み込み
-  ========================================================= */
+  let game = createNewGame();
 
   try {
-    const savedData =
-      JSON.parse(
+    game = {
+      ...game,
+      ...JSON.parse(
         localStorage.getItem(
           SAVE_KEY
         ) || "{}"
-      );
-
-    game = {
-      ...game,
-      ...savedData
+      )
     };
   } catch (error) {
-    console.error(
-      "セーブデータの読み込みに失敗しました。",
-      error
-    );
+    console.error(error);
   }
 
-
-  /* =========================================================
-     セーブデータ修復
-  ========================================================= */
-
-  function repairSaveData() {
-    if (
-      !game.tree ||
-      Array.isArray(game.tree)
-    ) {
-      game.tree = {
-        core: 1
-      };
-    }
-
-    if (!game.tree.core) {
-      game.tree.core = 1;
-    }
-
-    if (
-      !Array.isArray(
-        game.items
-      )
-    ) {
-      game.items = [];
-    }
-
-    if (
-      !Number.isFinite(
-        game.level
-      )
-    ) {
-      game.level = 1;
-    }
-
-    if (
-      !Number.isFinite(
-        game.exp
-      )
-    ) {
-      game.exp = 0;
-    }
-
-    if (
-      !Number.isFinite(
-        game.gold
-      )
-    ) {
-      game.gold = 120;
-    }
-
-    if (
-      !Number.isFinite(
-        game.crystal
-      )
-    ) {
-      game.crystal = 1000;
-    }
-
-    if (
-      !Number.isFinite(
-        game.soul
-      )
-    ) {
-      game.soul = 10;
-    }
-
-    if (
-      !Number.isFinite(
-        game.stage
-      )
-    ) {
-      game.stage = 1;
-    }
-
-    if (
-      !Number.isFinite(
-        game.attackLevel
-      )
-    ) {
-      game.attackLevel = 0;
-    }
-
-    if (
-      !Number.isFinite(
-        game.defenseLevel
-      )
-    ) {
-      game.defenseLevel = 0;
-    }
-
-    if (
-      !Number.isFinite(
-        game.rebirths
-      )
-    ) {
-      game.rebirths = 0;
-    }
-
-    if (
-      !Number.isFinite(
-        game.idleBank
-      )
-    ) {
-      game.idleBank = 0;
-    }
-
-    if (
-      !Number.isFinite(
-        game.lastSave
-      )
-    ) {
-      game.lastSave =
-        Date.now();
-    }
+  if (
+    !game.tree ||
+    Array.isArray(game.tree)
+  ) {
+    game.tree = {
+      core: 1
+    };
   }
 
-  repairSaveData();
+  if (!game.tree.core) {
+    game.tree.core = 1;
+  }
 
-
-  /* =========================================================
-     保存
-  ========================================================= */
+  if (!Array.isArray(game.items)) {
+    game.items = [];
+  }
 
   function saveGame() {
-    game.lastSave =
-      Date.now();
+    game.lastSave = Date.now();
 
     localStorage.setItem(
       SAVE_KEY,
       JSON.stringify(game)
     );
   }
-
-
-  /* =========================================================
-     数字表示
-  ========================================================= */
 
   function formatNumber(value) {
     const number =
@@ -3531,140 +3071,79 @@
 
     if (
       number >=
-      1_000_000_000
+      1000000000
     ) {
       return (
         number /
-        1_000_000_000
+        1000000000
       ).toFixed(2) + "B";
     }
 
     if (
       number >=
-      1_000_000
+      1000000
     ) {
       return (
         number /
-        1_000_000
+        1000000
       ).toFixed(2) + "M";
     }
 
     if (
       number >=
-      10_000
+      10000
     ) {
       return (
         number /
-        1_000
+        1000
       ).toFixed(1) + "K";
     }
 
     return number
-      .toLocaleString(
-        "ja-JP"
-      );
+      .toLocaleString("ja-JP");
   }
 
+  /* 通知 */
 
-  /* =========================================================
-     通知
-  ========================================================= */
-
-  let toastTimer = null;
+  let toastTimer;
 
   function showToast(message) {
-    const toast =
-      $("toast");
-
-    toast.textContent =
+    $("toast").textContent =
       message;
 
-    toast.classList.add(
-      "show"
-    );
+    $("toast")
+      .classList
+      .add("show");
 
-    clearTimeout(
-      toastTimer
-    );
+    clearTimeout(toastTimer);
 
     toastTimer =
       setTimeout(
         () => {
-          toast.classList.remove(
-            "show"
-          );
+          $("toast")
+            .classList
+            .remove("show");
         },
         1800
       );
   }
 
-
-  /* =========================================================
-     紋章データ
-  ========================================================= */
+  /* 星魂盤 */
 
   const iconMap = {
-    core: {
-      symbol: "✦",
-      className: "rebirth"
-    },
-
-    war: {
-      symbol: "♠",
-      className: "war"
-    },
-
-    sword: {
-      symbol: "⚔",
-      className: "sword"
-    },
-
-    guard: {
-      symbol: "◆",
-      className: "guard"
-    },
-
-    magic: {
-      symbol: "✧",
-      className: "magic"
-    },
-
-    fate: {
-      symbol: "✦",
-      className: "fate"
-    },
-
-    astral: {
-      symbol: "◆",
-      className: "astral"
-    },
-
-    rebirth: {
-      symbol: "∞",
-      className: "rebirth"
-    },
-
-    death: {
-      symbol: "☠",
-      className: "death"
-    },
-
-    fire: {
-      symbol: "♨",
-      className: "fire"
-    },
-
-    thunder: {
-      symbol: "ϟ",
-      className: "thunder"
-    },
-
-    moon: {
-      symbol: "☾",
-      className: "moon"
-    }
+    core: ["✦", "rebirth"],
+    war: ["♠", "war"],
+    sword: ["⚔", "sword"],
+    guard: ["◆", "guard"],
+    magic: ["✧", "magic"],
+    fate: ["✦", "fate"],
+    astral: ["◆", "astral"],
+    rebirth: ["∞", "rebirth"],
+    death: ["☠", "death"],
+    fire: ["♨", "fire"],
+    thunder: ["ϟ", "thunder"],
+    moon: ["☾", "moon"]
   };
-
 
   function createEmblem(
     type,
@@ -3675,90 +3154,46 @@
       iconMap.fate;
 
     return `
-      <span
-        class="rpg-icon ${design.className} ${size}"
-        aria-hidden="true"
-      >
-        ${design.symbol}
+      <span class="rpg-icon ${design[1]} ${size}">
+        ${design[0]}
       </span>
     `;
   }
 
+  const treeNodes = [
+    {
+      id: "core",
+      name: "星魂の核",
+      icon: "core",
+      type: "core",
+      size: "core",
 
-  /* =========================================================
-     星魂盤データ
-  ========================================================= */
+      x: TREE_CENTER.x,
+      y: TREE_CENTER.y,
 
-  const treeNodes = [];
+      maxRank: 1,
+      baseCost: 0,
+
+      effect: "none",
+      value: 0,
+
+      required: null,
+
+      description:
+        "すべての星魂能力の起点。"
+    }
+  ];
+
   const treeEdges = [];
 
-
-  treeNodes.push({
-    id: "core",
-
-    name:
-      "星魂の核",
-
-    icon:
-      "core",
-
-    type:
-      "core",
-
-    size:
-      "core",
-
-    x:
-      TREE_CENTER.x,
-
-    y:
-      TREE_CENTER.y,
-
-    maxRank:
-      1,
-
-    baseCost:
-      0,
-
-    effect:
-      "none",
-
-    value:
-      0,
-
-    required:
-      null,
-
-    description:
-      "すべての星魂能力へつながる中心核。"
-  });
-
-
-  /* =========================================================
-     星魂盤の6系統
-  ========================================================= */
-
-  const treeBranches = [
+  const branches = [
     {
       id: "war",
       name: "闘争",
       angle: -155,
       effect: "attack",
       icon: "war",
-      keystoneIcon: "death",
-
-      labels: [
-        "猛攻",
-        "剣気",
-        "裂傷",
-        "破甲",
-        "連撃",
-        "会心眼",
-        "怒涛",
-        "武神",
-        "狂戦士",
-        "処刑星"
-      ]
+      keyIcon: "death"
     },
 
     {
@@ -3767,20 +3202,7 @@
       angle: 155,
       effect: "defense",
       icon: "guard",
-      keystoneIcon: "guard",
-
-      labels: [
-        "生命",
-        "堅牢",
-        "再生",
-        "鉄壁",
-        "耐性",
-        "活力",
-        "聖域",
-        "不屈",
-        "守護神",
-        "不死星"
-      ]
+      keyIcon: "guard"
     },
 
     {
@@ -3789,20 +3211,7 @@
       angle: -90,
       effect: "magic",
       icon: "magic",
-      keystoneIcon: "magic",
-
-      labels: [
-        "魔力",
-        "元素",
-        "集中",
-        "高速詠唱",
-        "炎術",
-        "雷術",
-        "氷術",
-        "秘術",
-        "大魔導",
-        "星界魔法"
-      ]
+      keyIcon: "magic"
     },
 
     {
@@ -3811,20 +3220,7 @@
       angle: 90,
       effect: "idle",
       icon: "fate",
-      keystoneIcon: "moon",
-
-      labels: [
-        "黄金律",
-        "経験知",
-        "幸運",
-        "時流",
-        "祝福",
-        "繁栄",
-        "加速",
-        "星の恩寵",
-        "運命改変",
-        "豊穣星"
-      ]
+      keyIcon: "moon"
     },
 
     {
@@ -3833,20 +3229,7 @@
       angle: -25,
       effect: "loot",
       icon: "astral",
-      keystoneIcon: "astral",
-
-      labels: [
-        "星石",
-        "宝運",
-        "装備共鳴",
-        "希少発見",
-        "秘宝",
-        "星光",
-        "水晶共鳴",
-        "星辰",
-        "奇跡",
-        "天星"
-      ]
+      keyIcon: "astral"
     },
 
     {
@@ -3855,27 +3238,9 @@
       angle: 25,
       effect: "rebirth",
       icon: "rebirth",
-      keystoneIcon: "rebirth",
-
-      labels: [
-        "魂",
-        "記憶",
-        "輪廻",
-        "再誕",
-        "転生",
-        "超越",
-        "永劫",
-        "星魂",
-        "神化",
-        "無限輪廻"
-      ]
+      keyIcon: "rebirth"
     }
   ];
-
-
-  /* =========================================================
-     派生ノードの効果
-  ========================================================= */
 
   function getSideEffect(
     type,
@@ -3911,19 +3276,10 @@
         : "crystal";
     }
 
-    if (type === "rebirth") {
-      return number % 2
-        ? "rebirth"
-        : "soulGain";
-    }
-
-    return "none";
+    return number % 2
+      ? "rebirth"
+      : "soulGain";
   }
-
-
-  /* =========================================================
-     派生ノードのアイコン
-  ========================================================= */
 
   function getSideIcon(
     type,
@@ -3935,22 +3291,13 @@
         : "fire";
     }
 
-    if (type === "guard") {
-      return "guard";
-    }
-
     if (type === "magic") {
-      const icons = [
+      return [
         "magic",
         "fire",
         "thunder",
         "moon"
-      ];
-
-      return icons[
-        number %
-        icons.length
-      ];
+      ][number % 4];
     }
 
     if (type === "fate") {
@@ -3959,33 +3306,24 @@
         : "fate";
     }
 
-    if (type === "astral") {
-      return "astral";
-    }
-
     if (type === "rebirth") {
       return number % 4
         ? "rebirth"
         : "death";
     }
 
-    return "fate";
+    return type;
   }
 
-
-  /* =========================================================
-     メインツリー生成
-  ========================================================= */
-
-  function buildMainTree() {
-    treeBranches.forEach(
+  function buildTree() {
+    branches.forEach(
       (branch) => {
         const angle =
           branch.angle *
           Math.PI /
           180;
 
-        let previousNodeId =
+        let previous =
           "core";
 
         for (
@@ -3994,14 +3332,14 @@
           level++
         ) {
           const distance =
-            135 +
-            level * 104;
+            130 +
+            level * 105;
 
           const curve =
             Math.sin(
-              level * 1.32
+              level * 1.3
             ) *
-            52;
+            48;
 
           const x =
             TREE_CENTER.x +
@@ -4023,77 +3361,40 @@
             ) *
             curve;
 
-          const nodeId =
+          const id =
             `${branch.id}_main_${level}`;
 
-          let size =
-            "small";
-
-          let maxRank =
-            3;
-
-          let value =
-            0.025 +
-            level * 0.004;
-
-          if (
-            level === 4 ||
-            level === 7
-          ) {
-            size =
-              "medium";
-
-            maxRank =
-              2;
-
-            value +=
-              0.04;
-          }
-
-          if (level === 9) {
-            size =
-              "major";
-
-            maxRank =
-              1;
-
-            value =
-              0.14;
-          }
-
-          if (level === 10) {
-            size =
-              "keystone";
-
-            maxRank =
-              1;
-
-            value =
-              0.3;
-          }
-
           treeNodes.push({
-            id: nodeId,
+            id,
 
             name:
-              branch.labels[
-                level - 1
-              ],
+              `${branch.name} ${level}`,
 
             icon:
               level === 10
-                ? branch.keystoneIcon
+                ? branch.keyIcon
                 : branch.icon,
 
             type:
               branch.id,
 
-            size,
+            size:
+              level === 10
+                ? "keystone"
+                : level === 9
+                  ? "major"
+                  : level === 4 ||
+                    level === 7
+                    ? "medium"
+                    : "small",
 
             x,
             y,
 
-            maxRank,
+            maxRank:
+              level >= 9
+                ? 1
+                : 3,
 
             baseCost:
               Math.max(
@@ -4106,152 +3407,129 @@
             effect:
               branch.effect,
 
-            value,
+            value:
+              level === 10
+                ? .3
+                : .03,
 
             required:
-              previousNodeId,
+              previous,
 
             description:
               `${branch.name}系統の能力を強化する。`
           });
 
           treeEdges.push({
-            from:
-              previousNodeId,
-
-            to:
-              nodeId
+            from: previous,
+            to: id
           });
 
+          previous = id;
+
           if (level >= 2) {
-            buildSideBranches(
+            buildSideNodes(
               branch,
-              nodeId,
+              id,
               x,
               y,
               angle,
               level
             );
           }
-
-          previousNodeId =
-            nodeId;
         }
       }
     );
+
+    buildOuterNodes();
   }
 
-
-  /* =========================================================
-     派生枝生成
-  ========================================================= */
-
-  function buildSideBranches(
+  function buildSideNodes(
     branch,
-    parentId,
+    parent,
     parentX,
     parentY,
     angle,
     level
   ) {
-    const branchCount =
+    const sideCount =
       level % 3 === 0
         ? 2
         : 1;
 
     for (
       let side = 0;
-      side < branchCount;
+      side < sideCount;
       side++
     ) {
-      let previousNodeId =
-        parentId;
+      let previous =
+        parent;
 
       const direction =
         side === 0
           ? 1
           : -1;
 
-      const branchLength =
+      const length =
         2 +
         level % 2;
 
       for (
         let index = 1;
-        index <= branchLength;
+        index <= length;
         index++
       ) {
-        const sideDistance =
-          72 *
-          index *
-          direction;
-
-        const forwardDistance =
-          34 *
-          index;
-
         const x =
           parentX +
           Math.cos(angle) *
-          forwardDistance +
+          35 *
+          index +
           Math.cos(
             angle +
             Math.PI / 2
           ) *
-          sideDistance;
+          70 *
+          index *
+          direction;
 
         const y =
           parentY +
           Math.sin(angle) *
-          forwardDistance +
+          35 *
+          index +
           Math.sin(
             angle +
             Math.PI / 2
           ) *
-          sideDistance;
+          70 *
+          index *
+          direction;
 
-        const nodeId =
+        const id =
           `${branch.id}_side_${level}_${side}_${index}`;
 
-        const isMajor =
-          index === branchLength &&
-          level % 4 === 0;
-
         treeNodes.push({
-          id: nodeId,
+          id,
 
           name:
-            `${branch.labels[
-              (
-                level +
-                index
-              ) %
-              branch.labels.length
-            ]}・派生`,
+            `${branch.name}派生 ${level}-${index}`,
 
           icon:
-            isMajor
-              ? branch.icon
-              : getSideIcon(
-                  branch.id,
-                  level + index
-                ),
+            getSideIcon(
+              branch.id,
+              level + index
+            ),
 
           type:
             branch.id,
 
           size:
-            isMajor
-              ? "major"
-              : "small",
+            "small",
 
           x,
           y,
 
           maxRank:
-            isMajor
-              ? 1
-              : 2,
+            2,
 
           baseCost:
             Math.max(
@@ -4268,37 +3546,26 @@
             ),
 
           value:
-            isMajor
-              ? 0.13
-              : 0.025,
+            .025,
 
           required:
-            previousNodeId,
+            previous,
 
           description:
-            `${branch.name}系統から派生した特殊能力。`
+            `${branch.name}系統の派生能力。`
         });
 
         treeEdges.push({
-          from:
-            previousNodeId,
-
-          to:
-            nodeId
+          from: previous,
+          to: id
         });
 
-        previousNodeId =
-          nodeId;
+        previous = id;
       }
     }
   }
 
-
-  /* =========================================================
-     外周100ノード生成
-  ========================================================= */
-
-  function buildOuterTree() {
+  function buildOuterNodes() {
     const rings = [
       {
         count: 40,
@@ -4319,14 +3586,14 @@
       }
     ];
 
-    let previousRingIds = [];
+    let previousRing = [];
 
     rings.forEach(
       (
         ring,
         ringIndex
       ) => {
-        const currentRingIds = [];
+        const current = [];
 
         for (
           let index = 0;
@@ -4334,9 +3601,9 @@
           index++
         ) {
           const branch =
-            treeBranches[
+            branches[
               index %
-              treeBranches.length
+              branches.length
             ];
 
           const angle =
@@ -4347,16 +3614,13 @@
             Math.PI /
             2;
 
-          const distortion =
-            Math.sin(
-              index * 1.73 +
-              ringIndex
-            ) *
-            48;
-
           const radius =
             ring.radius +
-            distortion;
+            Math.sin(
+              index * 1.7 +
+              ringIndex
+            ) *
+            45;
 
           const x =
             TREE_CENTER.x +
@@ -4368,46 +3632,34 @@
             Math.sin(angle) *
             radius;
 
-          const nodeId =
+          const id =
             `outer_${ring.prefix}_${index}`;
 
-          const isKeystone =
+          const required =
+            ringIndex === 0
+              ? `${branch.id}_main_${7 + index % 4}`
+              : previousRing[
+                  Math.floor(
+                    index /
+                    ring.count *
+                    previousRing.length
+                  ) %
+                  previousRing.length
+                ];
+
+          const keystone =
             ringIndex === 2 &&
             index % 6 === 0;
 
-          const isMajor =
-            index % 8 === 0;
-
-          let requiredNodeId;
-
-          if (ringIndex === 0) {
-            requiredNodeId =
-              `${branch.id}_main_${7 + index % 4}`;
-          } else {
-            const previousIndex =
-              Math.floor(
-                index /
-                ring.count *
-                previousRingIds.length
-              ) %
-              previousRingIds.length;
-
-            requiredNodeId =
-              previousRingIds[
-                previousIndex
-              ];
-          }
-
           treeNodes.push({
-            id:
-              nodeId,
+            id,
 
             name:
               `${branch.name}外周星座 ${index + 1}`,
 
             icon:
-              isKeystone
-                ? branch.keystoneIcon
+              keystone
+                ? branch.keyIcon
                 : getSideIcon(
                     branch.id,
                     index
@@ -4417,9 +3669,9 @@
               branch.id,
 
             size:
-              isKeystone
+              keystone
                 ? "keystone"
-                : isMajor
+                : index % 8 === 0
                   ? "major"
                   : "small",
 
@@ -4427,20 +3679,13 @@
             y,
 
             maxRank:
-              isKeystone
+              keystone
                 ? 1
-                : isMajor
-                  ? 2
-                  : 3,
+                : 3,
 
             baseCost:
               5 +
-              ringIndex * 3 +
-              (
-                isKeystone
-                  ? 5
-                  : 0
-              ),
+              ringIndex * 3,
 
             effect:
               getSideEffect(
@@ -4449,114 +3694,63 @@
               ),
 
             value:
-              isKeystone
-                ? 0.35
-                : isMajor
-                  ? 0.12
-                  : 0.035,
+              keystone
+                ? .35
+                : .035,
 
-            required:
-              requiredNodeId,
+            required,
 
             description:
-              `${branch.name}系統の外周に存在する上位星座能力。`
+              "外周星座に属する上位能力。"
           });
 
           treeEdges.push({
-            from:
-              requiredNodeId,
-
-            to:
-              nodeId
+            from: required,
+            to: id
           });
 
           if (index > 0) {
             treeEdges.push({
               from:
-                currentRingIds[
+                current[
                   index - 1
                 ],
 
-              to:
-                nodeId,
-
-              decorative:
-                true
+              to: id
             });
           }
 
-          currentRingIds.push(
-            nodeId
-          );
+          current.push(id);
         }
 
-        if (
-          currentRingIds.length >
-          2
-        ) {
-          treeEdges.push({
-            from:
-              currentRingIds[
-                currentRingIds.length -
-                1
-              ],
-
-            to:
-              currentRingIds[0],
-
-            decorative:
-              true
-          });
-        }
-
-        previousRingIds =
-          currentRingIds;
+        previousRing = current;
       }
     );
   }
 
+  buildTree();
 
-  buildMainTree();
-  buildOuterTree();
-
-
-  /* =========================================================
-     星魂盤計算
-  ========================================================= */
-
-  function getNodeRank(id) {
+  function getRank(id) {
     return Number(
       game.tree[id] || 0
     );
   }
 
-
-  function isNodeAvailable(node) {
-    if (node.id === "core") {
-      return true;
-    }
-
-    if (!node.required) {
-      return true;
-    }
-
+  function isAvailable(node) {
     return (
-      getNodeRank(
-        node.required
-      ) > 0
+      node.id === "core" ||
+      getRank(node.required) > 0
     );
   }
 
-
-  function getNodeCost(node) {
+  function nodeCost(node) {
     return (
       node.baseCost +
-      getNodeRank(node.id)
+      getRank(node.id)
     );
   }
 
-
-  function getTreeBonus(effect) {
+  function treeBonus(effect) {
     return treeNodes.reduce(
       (
         total,
@@ -4570,9 +3764,7 @@
 
         return (
           total +
-          getNodeRank(
-            node.id
-          ) *
+          getRank(node.id) *
           node.value
         );
       },
@@ -4580,92 +3772,64 @@
     );
   }
 
-
-  /* =========================================================
-     ステータス計算
-  ========================================================= */
+  /* ステータス */
 
   function calculateStats() {
-    const rebirthMultiplier =
+    const permanent =
       1 +
-      game.rebirths *
-      0.12 +
-      getTreeBonus(
-        "rebirth"
-      );
+      game.rebirths * .12 +
+      treeBonus("rebirth");
 
     const itemPower =
       game.items.reduce(
         (
           total,
           item
-        ) => {
-          return (
-            total +
-            Number(
-              item.power || 0
-            )
-          );
-        },
+        ) =>
+          total +
+          Number(item.power || 0),
         0
       );
 
-    const baseAttack =
-      25 +
-      game.level * 7 +
-      game.attackLevel * 8;
-
-    const baseDefense =
-      10 +
-      game.level * 3 +
-      game.defenseLevel * 6;
-
-    const baseHp =
-      180 +
-      game.level * 35;
-
     const attack =
-      baseAttack *
-      rebirthMultiplier *
+      (
+        25 +
+        game.level * 7 +
+        game.attackLevel * 8
+      ) *
+      permanent *
       (
         1 +
-        getTreeBonus(
-          "attack"
-        )
+        treeBonus("attack")
       ) +
       itemPower;
 
     const defense =
-      baseDefense *
-      rebirthMultiplier *
+      (
+        10 +
+        game.level * 3 +
+        game.defenseLevel * 6
+      ) *
+      permanent *
       (
         1 +
-        getTreeBonus(
-          "defense"
-        )
+        treeBonus("defense")
       ) +
       itemPower / 2;
 
     const hp =
-      baseHp *
-      rebirthMultiplier *
+      (
+        180 +
+        game.level * 35
+      ) *
+      permanent *
       (
         1 +
-        getTreeBonus(
-          "hp"
-        ) +
-        getTreeBonus(
-          "defense"
-        ) *
-        0.35
+        treeBonus("hp") +
+        treeBonus("defense") *
+        .35
       ) +
       itemPower * 3;
-
-    const power =
-      attack * 14 +
-      defense * 10 +
-      hp * 2 +
-      itemPower * 20;
 
     return {
       attack:
@@ -4678,21 +3842,19 @@
         Math.floor(hp),
 
       power:
-        Math.floor(power)
+        Math.floor(
+          attack * 14 +
+          defense * 10 +
+          hp * 2 +
+          itemPower * 20
+        )
     };
   }
 
+  /* ツリー描画 */
 
-  /* =========================================================
-     星魂盤描画
-  ========================================================= */
-
-  let activeFilter =
-    "all";
-
-  let selectedNodeId =
-    null;
-
+  let activeFilter = "all";
+  let selectedNodeId = null;
 
   function renderTree() {
     const container =
@@ -4703,12 +3865,12 @@
     treeNodes.forEach(
       (node) => {
         const rank =
-          getNodeRank(node.id);
+          getRank(node.id);
 
         const state =
           rank > 0
             ? "owned"
-            : isNodeAvailable(node)
+            : isAvailable(node)
               ? "available"
               : "locked";
 
@@ -4721,8 +3883,7 @@
           `tree-node ${node.type} ${node.size} ${state}`;
 
         if (
-          rank >=
-          node.maxRank
+          rank >= node.maxRank
         ) {
           button.classList.add(
             "maxed"
@@ -4758,14 +3919,11 @@
             node.icon
           );
 
-        button.addEventListener(
-          "click",
+        button.onclick =
           (event) => {
             event.stopPropagation();
-
             selectNode(node);
-          }
-        );
+          };
 
         container.appendChild(
           button
@@ -4773,13 +3931,12 @@
       }
     );
 
-    renderTreeLines();
-    applyTreeFilter();
-    applyNodeSearch();
+    renderLines();
+    applyFilter();
+    applySearch();
   }
 
-
-  function renderTreeLines() {
+  function renderLines() {
     const svg =
       $("treeLines");
 
@@ -4787,24 +3944,19 @@
 
     treeEdges.forEach(
       (edge) => {
-        const fromNode =
+        const from =
           treeNodes.find(
             (node) =>
-              node.id ===
-              edge.from
+              node.id === edge.from
           );
 
-        const toNode =
+        const to =
           treeNodes.find(
             (node) =>
-              node.id ===
-              edge.to
+              node.id === edge.to
           );
 
-        if (
-          !fromNode ||
-          !toNode
-        ) {
+        if (!from || !to) {
           return;
         }
 
@@ -4818,39 +3970,33 @@
           "tree-line";
 
         if (
-          getNodeRank(
-            toNode.id
-          ) > 0
+          getRank(to.id) > 0
         ) {
-          className +=
-            " active";
+          className += " active";
         } else if (
-          isNodeAvailable(
-            toNode
-          )
+          isAvailable(to)
         ) {
-          className +=
-            " available";
+          className += " available";
         }
 
         line.setAttribute(
           "x1",
-          fromNode.x
+          from.x
         );
 
         line.setAttribute(
           "y1",
-          fromNode.y
+          from.y
         );
 
         line.setAttribute(
           "x2",
-          toNode.x
+          to.x
         );
 
         line.setAttribute(
           "y2",
-          toNode.y
+          to.y
         );
 
         line.setAttribute(
@@ -4862,7 +4008,6 @@
       }
     );
   }
-
 
   function selectNode(node) {
     selectedNodeId =
@@ -4883,116 +4028,91 @@
       );
 
     const rank =
-      getNodeRank(node.id);
+      getRank(node.id);
 
     const cost =
-      getNodeCost(node);
+      nodeCost(node);
 
-    const maxed =
-      rank >=
-      node.maxRank;
+    const disabled =
+      node.id === "core" ||
+      rank >= node.maxRank ||
+      !isAvailable(node) ||
+      game.soul < cost;
 
-    const available =
-      isNodeAvailable(node);
-
-    let buttonText =
+    let label =
       `強化 ✦${cost}`;
 
-    let disabled =
-      false;
-
     if (node.id === "core") {
-      buttonText =
-        "起点ノード";
-
-      disabled =
-        true;
-    } else if (maxed) {
-      buttonText =
-        "最大ランク";
-
-      disabled =
-        true;
-    } else if (!available) {
-      buttonText =
-        "前提ノードが必要";
-
-      disabled =
-        true;
+      label = "起点ノード";
+    } else if (
+      rank >= node.maxRank
+    ) {
+      label = "最大ランク";
+    } else if (
+      !isAvailable(node)
+    ) {
+      label = "前提ノードが必要";
     } else if (
       game.soul < cost
     ) {
-      buttonText =
+      label =
         `星魂不足 ✦${cost}`;
-
-      disabled =
-        true;
     }
 
-    $("nodeDetail")
-      .innerHTML = `
-        ${createEmblem(
-          node.icon,
-          "medium"
-        )}
+    $("nodeDetail").innerHTML = `
+      ${createEmblem(
+        node.icon,
+        "medium"
+      )}
 
-        <div>
-          <b>
-            ${node.name}
-          </b>
+      <div>
+        <b>${node.name}</b>
 
-          <p>
-            ${node.description}
-          </p>
+        <p>${node.description}</p>
 
-          <p>
-            Rank ${rank}/${node.maxRank}
-            ・1ランク効果
-            +${Math.round(
-              node.value * 100
-            )}%
-          </p>
+        <p>
+          Rank ${rank}/${node.maxRank}
+          ・効果
+          +${Math.round(
+            node.value * 100
+          )}%
+        </p>
 
-          <button
-            id="buyNode"
-            ${disabled ? "disabled" : ""}
-          >
-            ${buttonText}
-          </button>
-        </div>
-      `;
+        <button
+          id="buyNode"
+          ${disabled ? "disabled" : ""}
+        >
+          ${label}
+        </button>
+      </div>
+    `;
 
     const buyButton =
       $("buyNode");
 
     if (buyButton) {
-      buyButton.addEventListener(
-        "click",
-        () => {
-          purchaseNode(node);
-        }
-      );
+      buyButton.onclick =
+        () =>
+          buyNode(node);
     }
   }
 
-
-  function purchaseNode(node) {
+  function buyNode(node) {
     const rank =
-      getNodeRank(node.id);
+      getRank(node.id);
 
     const cost =
-      getNodeCost(node);
+      nodeCost(node);
 
     if (
-      !isNodeAvailable(node) ||
+      !isAvailable(node) ||
       rank >= node.maxRank ||
       game.soul < cost
     ) {
       return;
     }
 
-    game.soul -=
-      cost;
+    game.soul -= cost;
 
     game.tree[node.id] =
       rank + 1;
@@ -5007,109 +4127,68 @@
     );
   }
 
+  $("resetTree").onclick =
+    () => {
+      let refund = 0;
 
-  /* =========================================================
-     星魂盤リセット
-  ========================================================= */
-
-  $("resetTree")
-    .addEventListener(
-      "click",
-      () => {
-        let refund = 0;
-
-        treeNodes.forEach(
-          (node) => {
-            if (
-              node.id ===
-              "core"
-            ) {
-              return;
-            }
-
-            const rank =
-              getNodeRank(
-                node.id
-              );
-
-            for (
-              let index = 0;
-              index < rank;
-              index++
-            ) {
-              refund +=
-                node.baseCost +
-                index;
-            }
+      treeNodes.forEach(
+        (node) => {
+          if (node.id === "core") {
+            return;
           }
-        );
 
-        if (refund <= 0) {
-          showToast(
-            "取得した能力がありません"
-          );
+          const rank =
+            getRank(node.id);
 
-          return;
+          for (
+            let i = 0;
+            i < rank;
+            i++
+          ) {
+            refund +=
+              node.baseCost +
+              i;
+          }
         }
+      );
 
-        const confirmed =
-          confirm(
-            `星魂盤をリセットして星魂${refund}個を払い戻しますか？`
-          );
-
-        if (!confirmed) {
-          return;
-        }
-
-        game.soul +=
-          refund;
-
-        game.tree = {
-          core: 1
-        };
-
-        selectedNodeId =
-          null;
-
-        saveGame();
-        renderGame();
-        renderTree();
-
-        $("nodeDetail")
-          .innerHTML = `
-            ${createEmblem(
-              "fate",
-              "medium"
-            )}
-
-            <div>
-              <b>星魂盤</b>
-
-              <p>
-                星魂盤を初期化しました。
-              </p>
-            </div>
-          `;
-
+      if (refund <= 0) {
         showToast(
-          `星魂${refund}個を払い戻しました`
+          "取得能力がありません"
         );
+
+        return;
       }
-    );
 
+      if (
+        !confirm(
+          `星魂盤をリセットして星魂${refund}個を払い戻しますか？`
+        )
+      ) {
+        return;
+      }
 
-  /* =========================================================
-     ノード検索
-  ========================================================= */
+      game.soul += refund;
 
-  $("nodeSearch")
-    .addEventListener(
-      "input",
-      applyNodeSearch
-    );
+      game.tree = {
+        core: 1
+      };
 
+      selectedNodeId = null;
 
-  function applyNodeSearch() {
+      saveGame();
+      renderGame();
+      renderTree();
+
+      showToast(
+        `星魂${refund}個を払い戻しました`
+      );
+    };
+
+  $("nodeSearch").oninput =
+    applySearch;
+
+  function applySearch() {
     const query =
       $("nodeSearch")
         .value
@@ -5122,317 +4201,322 @@
       )
       .forEach(
         (element) => {
-          const name =
-            element.dataset.name
-              .toLowerCase();
-
-          const match =
-            query.length > 0 &&
-            name.includes(query);
-
           element.classList.toggle(
             "search-hit",
-            match
+            Boolean(
+              query &&
+              element.dataset.name
+                .toLowerCase()
+                .includes(query)
+            )
           );
         }
       );
   }
 
+  $("treeFilters").onclick =
+    (event) => {
+      const button =
+        event.target.closest(
+          "button"
+        );
 
-  /* =========================================================
-     系統フィルター
-  ========================================================= */
-
-  $("treeFilters")
-    .addEventListener(
-      "click",
-      (event) => {
-        const button =
-          event.target.closest(
-            "button"
-          );
-
-        if (!button) {
-          return;
-        }
-
-        activeFilter =
-          button.dataset.type;
-
-        document
-          .querySelectorAll(
-            "#treeFilters button"
-          )
-          .forEach(
-            (filterButton) => {
-              filterButton
-                .classList
-                .toggle(
-                  "active",
-                  filterButton ===
-                    button
-                );
-            }
-          );
-
-        applyTreeFilter();
+      if (!button) {
+        return;
       }
-    );
 
+      activeFilter =
+        button.dataset.type;
 
-  function applyTreeFilter() {
+      document
+        .querySelectorAll(
+          "#treeFilters button"
+        )
+        .forEach(
+          (item) => {
+            item.classList.toggle(
+              "active",
+              item === button
+            );
+          }
+        );
+
+      applyFilter();
+    };
+
+  function applyFilter() {
     document
       .querySelectorAll(
         ".tree-node"
       )
       .forEach(
         (element) => {
-          const filtered =
+          element.classList.toggle(
+            "filtered",
             activeFilter !== "all" &&
             element.dataset.type !==
               activeFilter &&
             element.dataset.type !==
-              "core";
-
-          element.classList.toggle(
-            "filtered",
-            filtered
+              "core"
           );
         }
       );
   }
 
+  /* ツリー操作 */
 
-  /* =========================================================
-     ツリー移動とズーム
-  ========================================================= */
+  let treeScale = .58;
+  let treeX = 0;
+  let treeY = 0;
 
-  let treeScale =
-    0.58;
+  let dragging = false;
+  let startX = 0;
+  let startY = 0;
+  let cameraX = 0;
+  let cameraY = 0;
 
-  let treeX =
-    0;
-
-  let treeY =
-    0;
-
-  let treeDragging =
-    false;
-
-  let pointerStartX =
-    0;
-
-  let pointerStartY =
-    0;
-
-  let cameraStartX =
-    0;
-
-  let cameraStartY =
-    0;
-
-
-  const treeViewport =
+  const viewport =
     $("treeViewport");
 
-  const treeWorld =
+  const world =
     $("treeWorld");
 
-
   function updateTreeTransform() {
-    treeWorld.style.transform =
-      `translate(${treeX}px, ${treeY}px) scale(${treeScale})`;
+    world.style.transform =
+      `translate(${treeX}px,${treeY}px) scale(${treeScale})`;
 
-    $("zoomDisplay")
-      .textContent =
+    $("zoomDisplay").textContent =
       `${Math.round(
         treeScale * 100
       )}%`;
   }
 
-
   function centerTree() {
     treeX =
-      treeViewport.clientWidth /
-      2 -
+      viewport.clientWidth / 2 -
       TREE_CENTER.x *
       treeScale;
 
     treeY =
-      treeViewport.clientHeight /
-      2 -
+      viewport.clientHeight / 2 -
       TREE_CENTER.y *
       treeScale;
 
     updateTreeTransform();
   }
 
-
-  treeViewport
-    .addEventListener(
-      "pointerdown",
-      (event) => {
-        if (
-          event.target.closest(
-            ".tree-node"
-          )
-        ) {
-          return;
-        }
-
-        treeDragging =
-          true;
-
-        pointerStartX =
-          event.clientX;
-
-        pointerStartY =
-          event.clientY;
-
-        cameraStartX =
-          treeX;
-
-        cameraStartY =
-          treeY;
-
-        treeViewport
-          .setPointerCapture(
-            event.pointerId
-          );
+  viewport.onpointerdown =
+    (event) => {
+      if (
+        event.target.closest(
+          ".tree-node"
+        )
+      ) {
+        return;
       }
-    );
 
+      dragging = true;
 
-  treeViewport
-    .addEventListener(
-      "pointermove",
-      (event) => {
-        if (!treeDragging) {
-          return;
-        }
+      startX =
+        event.clientX;
 
-        treeX =
-          cameraStartX +
-          event.clientX -
-          pointerStartX;
+      startY =
+        event.clientY;
 
-        treeY =
-          cameraStartY +
-          event.clientY -
-          pointerStartY;
+      cameraX =
+        treeX;
 
-        updateTreeTransform();
+      cameraY =
+        treeY;
+
+      viewport.setPointerCapture(
+        event.pointerId
+      );
+    };
+
+  viewport.onpointermove =
+    (event) => {
+      if (!dragging) {
+        return;
       }
-    );
 
+      treeX =
+        cameraX +
+        event.clientX -
+        startX;
 
-  treeViewport
-    .addEventListener(
-      "pointerup",
-      () => {
-        treeDragging =
-          false;
-      }
-    );
+      treeY =
+        cameraY +
+        event.clientY -
+        startY;
 
+      updateTreeTransform();
+    };
 
-  treeViewport
-    .addEventListener(
-      "pointercancel",
-      () => {
-        treeDragging =
-          false;
-      }
-    );
+  viewport.onpointerup =
+    () => {
+      dragging = false;
+    };
 
+  viewport.onpointercancel =
+    () => {
+      dragging = false;
+    };
 
-  treeViewport
-    .addEventListener(
-      "wheel",
-      (event) => {
-        event.preventDefault();
+  viewport.addEventListener(
+    "wheel",
+    (event) => {
+      event.preventDefault();
 
-        treeScale +=
-          event.deltaY < 0
-            ? 0.06
-            : -0.06;
+      treeScale +=
+        event.deltaY < 0
+          ? .06
+          : -.06;
 
-        treeScale =
-          Math.max(
-            0.25,
-            Math.min(
-              1.5,
-              treeScale
-            )
-          );
-
-        updateTreeTransform();
-      },
-      {
-        passive: false
-      }
-    );
-
-
-  $("zoomIn")
-    .addEventListener(
-      "click",
-      () => {
-        treeScale =
+      treeScale =
+        Math.max(
+          .25,
           Math.min(
             1.5,
-            treeScale + 0.1
-          );
+            treeScale
+          )
+        );
 
-        updateTreeTransform();
-      }
+      updateTreeTransform();
+    },
+    {
+      passive: false
+    }
+  );
+
+  $("zoomIn").onclick =
+    () => {
+      treeScale =
+        Math.min(
+          1.5,
+          treeScale + .1
+        );
+
+      updateTreeTransform();
+    };
+
+  $("zoomOut").onclick =
+    () => {
+      treeScale =
+        Math.max(
+          .25,
+          treeScale - .1
+        );
+
+      updateTreeTransform();
+    };
+
+  $("centerTree").onclick =
+    centerTree;
+
+  /* ボスデータ */
+
+  const bosses = [
+    {
+      name: "混沌の守護者",
+      symbol: "♠",
+      className: "war"
+    },
+
+    {
+      name: "蒼雷の巨像",
+      symbol: "ϟ",
+      className: "thunder"
+    },
+
+    {
+      name: "紅蓮の魔獣",
+      symbol: "♨",
+      className: "fire"
+    },
+
+    {
+      name: "月影の魔導王",
+      symbol: "☾",
+      className: "moon"
+    },
+
+    {
+      name: "輪廻の死神",
+      symbol: "☠",
+      className: "death"
+    },
+
+    {
+      name: "星界の審判者",
+      symbol: "✦",
+      className: "astral"
+    }
+  ];
+
+  function currentBoss() {
+    return bosses[
+      (
+        game.stage -
+        1
+      ) %
+      bosses.length
+    ];
+  }
+
+  function enemyMaximumHp() {
+    return Math.floor(
+      180 *
+      Math.pow(
+        1.28,
+        game.stage - 1
+      )
     );
+  }
 
+  function updateBossDisplay(
+    showFullHp = true
+  ) {
+    const boss =
+      currentBoss();
 
-  $("zoomOut")
-    .addEventListener(
-      "click",
-      () => {
-        treeScale =
-          Math.max(
-            0.25,
-            treeScale - 0.1
-          );
+    $("enemyName").textContent =
+      boss.name;
 
-        updateTreeTransform();
-      }
-    );
+    $("enemyIcon").textContent =
+      boss.symbol;
 
+    $("enemyIcon").className =
+      `rpg-icon ${boss.className} large`;
 
-  $("centerTree")
-    .addEventListener(
-      "click",
-      centerTree
-    );
+    const maximum =
+      enemyMaximumHp();
 
+    $("enemyMaximumHp")
+      .textContent =
+      formatNumber(maximum);
 
-  /* =========================================================
-     戦闘状態
-  ========================================================= */
+    if (showFullHp) {
+      $("enemyCurrentHp")
+        .textContent =
+        formatNumber(maximum);
 
-  let battleInProgress =
-    false;
+      $("enemyHpBar")
+        .style
+        .width =
+        "100%";
+    }
+  }
 
-  let battleTimer =
-    null;
+  /* 戦闘 */
 
-  let playerCurrentHp =
-    0;
+  let battleInProgress = false;
+  let battleTimer = null;
 
-  let playerMaximumHp =
-    1;
+  let playerCurrentHp = 0;
+  let playerMaximumHp = 1;
 
-
-  /* =========================================================
-     プレイヤーHP表示
-  ========================================================= */
-
-  function updatePlayerHpDisplay() {
+  function updatePlayerHp() {
     playerMaximumHp =
       Math.max(
         1,
@@ -5478,9 +4562,7 @@
       "danger"
     );
 
-    if (
-      percentage <= 25
-    ) {
+    if (percentage <= 25) {
       shell.classList.add(
         "danger"
       );
@@ -5492,31 +4574,6 @@
       );
     }
   }
-
-
-  /* =========================================================
-     被ダメージ演出
-  ========================================================= */
-
-  function playPlayerHit() {
-    const player =
-      $("playerUnit");
-
-    player.classList.remove(
-      "hit"
-    );
-
-    void player.offsetWidth;
-
-    player.classList.add(
-      "hit"
-    );
-  }
-
-
-  /* =========================================================
-     ダメージ数字
-  ========================================================= */
 
   function showDamageNumber(
     damage
@@ -5538,11 +4595,6 @@
     );
   }
 
-
-  /* =========================================================
-     攻撃エフェクト
-  ========================================================= */
-
   function showBattleEffect(
     symbol
   ) {
@@ -5563,47 +4615,60 @@
     );
   }
 
+  function playPlayerHit() {
+    const player =
+      $("playerUnit");
 
-  /* =========================================================
-     ボス戦開始
-  ========================================================= */
-
-  $("fightButton")
-    .addEventListener(
-      "click",
-      startBattle
+    player.classList.remove(
+      "hit"
     );
 
+    void player.offsetWidth;
+
+    player.classList.add(
+      "hit"
+    );
+  }
+
+  $("fightButton").onclick =
+    startBattle;
 
   function startBattle() {
     if (battleInProgress) {
       return;
     }
 
-    battleInProgress =
+    /*
+      前の戦闘タイマーが残っていても
+      必ず停止する
+    */
+
+    if (battleTimer) {
+      clearInterval(
+        battleTimer
+      );
+
+      battleTimer = null;
+    }
+
+    battleInProgress = true;
+
+    $("fightButton").disabled =
       true;
 
-    $("fightButton")
-      .disabled =
-      true;
+    $("fightButton").textContent =
+      "⚔ 戦闘中...";
 
     const playerStats =
       calculateStats();
 
-    const enemyMaximumHp =
-      Math.floor(
-        180 *
-        Math.pow(
-          1.28,
-          game.stage - 1
-        )
-      );
+    const maximum =
+      enemyMaximumHp();
 
-    let enemyCurrentHp =
-      enemyMaximumHp;
+    let enemyCurrent =
+      maximum;
 
-    let turn =
-      0;
+    let turn = 0;
 
     playerMaximumHp =
       playerStats.hp;
@@ -5611,28 +4676,12 @@
     playerCurrentHp =
       playerMaximumHp;
 
-    updatePlayerHpDisplay();
+    updatePlayerHp();
 
-    $("enemyMaximumHp")
-      .textContent =
-      formatNumber(
-        enemyMaximumHp
-      );
+    updateBossDisplay(true);
 
-    $("enemyCurrentHp")
-      .textContent =
-      formatNumber(
-        enemyCurrentHp
-      );
-
-    $("enemyHpBar")
-      .style
-      .width =
-      "100%";
-
-    $("battleLog")
-      .textContent =
-      "星界遺跡の戦闘が始まった！";
+    $("battleLog").textContent =
+      `Stage ${game.stage} ボス戦開始！`;
 
     battleTimer =
       setInterval(
@@ -5641,65 +4690,48 @@
 
           const skills = [
             {
-              name:
-                "星剣斬り",
-
-              symbol:
-                "⚔",
-
-              multiplier:
-                1
+              name: "星剣斬り",
+              symbol: "⚔",
+              multiplier: 1
             },
 
             {
-              name:
-                "炎星撃",
-
-              symbol:
-                "♨",
+              name: "炎星撃",
+              symbol: "♨",
 
               multiplier:
                 1.2 +
-                getTreeBonus(
-                  "magic"
-                ) *
-                0.3
+                treeBonus("magic") *
+                .3
             },
 
             {
-              name:
-                "雷光剣",
-
-              symbol:
-                "ϟ",
+              name: "雷光剣",
+              symbol: "ϟ",
 
               multiplier:
                 1.15 +
-                getTreeBonus(
+                treeBonus(
                   "skillDamage"
                 )
             },
 
             {
-              name:
-                "星界奥義",
-
-              symbol:
-                "✦",
+              name: "星界奥義",
+              symbol: "✦",
 
               multiplier:
                 1.6 +
-                getTreeBonus(
-                  "magic"
-                ) *
-                0.5
+                treeBonus("magic") *
+                .5
             }
           ];
 
           const skill =
             skills[
               (
-                turn - 1
+                turn -
+                1
               ) %
               skills.length
             ];
@@ -5707,70 +4739,65 @@
           const damage =
             Math.max(
               1,
+
               Math.floor(
                 playerStats.attack *
                 skill.multiplier *
                 (
                   1 +
-                  getTreeBonus(
+                  treeBonus(
                     "bossDamage"
                   )
                 ) *
                 (
-                  0.9 +
+                  .9 +
                   Math.random() *
-                  0.2
+                  .2
                 )
               )
             );
 
-          enemyCurrentHp -=
-            damage;
+          enemyCurrent =
+            Math.max(
+              0,
+              enemyCurrent -
+              damage
+            );
 
-          showDamageNumber(
-            damage
-          );
-
+          showDamageNumber(damage);
           showBattleEffect(
             skill.symbol
           );
 
-          $("battleLog")
-            .textContent =
-            `${skill.name}！ ${formatNumber(damage)}ダメージ！`;
-
           $("enemyCurrentHp")
             .textContent =
             formatNumber(
-              Math.max(
-                0,
-                enemyCurrentHp
-              )
+              enemyCurrent
             );
 
           $("enemyHpBar")
             .style
             .width =
             `${
-              Math.max(
-                0,
-                enemyCurrentHp /
-                enemyMaximumHp *
-                100
-              )
+              enemyCurrent /
+              maximum *
+              100
             }%`;
 
+          $("battleLog")
+            .textContent =
+            `${skill.name}！ ${formatNumber(damage)}ダメージ！`;
+
           if (
-            enemyCurrentHp <= 0
+            enemyCurrent <= 0
           ) {
             clearInterval(
               battleTimer
             );
 
-            battleTimer =
-              null;
+            battleTimer = null;
 
-            finishBattleVictory();
+            finishVictory();
 
             return;
           }
@@ -5778,18 +4805,24 @@
           const enemyDamage =
             Math.max(
               3,
+
               Math.floor(
                 18 +
-                game.stage * 9 -
+                game.stage *
+                9 -
                 playerStats.defense *
-                0.32
+                .32
               )
             );
 
-          playerCurrentHp -=
-            enemyDamage;
+          playerCurrentHp =
+            Math.max(
+              0,
+              playerCurrentHp -
+              enemyDamage
+            );
 
-          updatePlayerHpDisplay();
+          updatePlayerHp();
           playPlayerHit();
 
           $("battleLog")
@@ -5803,33 +4836,42 @@
               battleTimer
             );
 
-            battleTimer =
-              null;
+            battleTimer = null;
 
-            finishBattleDefeat();
+            finishDefeat();
           }
         },
         620
       );
   }
 
+  /*
+    ステージ2以降も進める
+    修正版の勝利処理
+  */
 
-  /* =========================================================
-     戦闘勝利
-  ========================================================= */
+  function finishVictory() {
+    if (battleTimer) {
+      clearInterval(
+        battleTimer
+      );
 
-  function finishBattleVictory() {
+      battleTimer = null;
+    }
+
+    const clearedStage =
+      game.stage;
+
     const goldReward =
       Math.floor(
         (
           40 +
-          game.stage * 18
+          clearedStage *
+          18
         ) *
         (
           1 +
-          getTreeBonus(
-            "gold"
-          )
+          treeBonus("gold")
         )
       );
 
@@ -5837,27 +4879,25 @@
       Math.floor(
         (
           45 +
-          game.stage * 12
+          clearedStage *
+          12
         ) *
         (
           1 +
-          getTreeBonus(
-            "idle"
-          ) *
-          0.25
+          treeBonus("idle") *
+          .25
         )
       );
 
     const crystalReward =
       Math.max(
         15,
+
         Math.floor(
           15 *
           (
             1 +
-            getTreeBonus(
-              "crystal"
-            )
+            treeBonus("crystal")
           )
         )
       );
@@ -5871,307 +4911,242 @@
     game.crystal +=
       crystalReward;
 
-    game.stage++;
+    /*
+      次のステージへ確実に進める
+    */
+
+    game.stage =
+      clearedStage + 1;
 
     processLevelUps();
 
     battleInProgress =
       false;
 
-    $("fightButton")
-      .disabled =
+    $("fightButton").disabled =
       false;
 
-    $("battleLog")
-      .textContent =
-      `勝利！ +${formatNumber(goldReward)}G / +${formatNumber(expReward)}EXP / +${crystalReward}◆`;
+    $("fightButton").textContent =
+      "⚔ 次のボスに挑戦";
+
+    /*
+      次のボス表示を完全初期化
+    */
+
+    updateBossDisplay(true);
+
+    /*
+      勝利後にHP全回復
+    */
+
+    const newStats =
+      calculateStats();
+
+    playerMaximumHp =
+      newStats.hp;
+
+    playerCurrentHp =
+      newStats.hp;
+
+    updatePlayerHp();
+
+    $("battleLog").textContent =
+      `Stage ${clearedStage} CLEAR！ Stage ${game.stage}のボスが出現した！`;
 
     saveGame();
     renderGame();
-  }
 
-
-  /* =========================================================
-     戦闘敗北
-  ========================================================= */
-
-  function finishBattleDefeat() {
-    battleInProgress =
-      false;
-
-    $("fightButton")
-      .disabled =
-      false;
-
-    $("battleLog")
-      .textContent =
-      "敗北した。強化や星魂盤を見直そう。";
-  }
-
-
-  /* =========================================================
-     レベルアップ
-  ========================================================= */
-
-  function getRequiredExp() {
-    return (
-      game.level * 100
+    showToast(
+      `Stage ${clearedStage} CLEAR！`
     );
   }
 
+  function finishDefeat() {
+    if (battleTimer) {
+      clearInterval(
+        battleTimer
+      );
+
+      battleTimer = null;
+    }
+
+    battleInProgress =
+      false;
+
+    $("fightButton").disabled =
+      false;
+
+    $("fightButton").textContent =
+      "⚔ 再挑戦";
+
+    $("battleLog").textContent =
+      `Stage ${game.stage}で敗北。強化して再挑戦しよう。`;
+
+    saveGame();
+  }
+
+  function requiredExp() {
+    return (
+      game.level *
+      100
+    );
+  }
 
   function processLevelUps() {
-    let leveledUp =
-      false;
+    let levelUp = false;
 
     while (
       game.exp >=
-      getRequiredExp()
+      requiredExp()
     ) {
       game.exp -=
-        getRequiredExp();
+        requiredExp();
 
       game.level++;
 
-      leveledUp =
-        true;
+      levelUp = true;
     }
 
-    if (leveledUp) {
+    if (levelUp) {
       showToast(
         `レベル${game.level}になった！`
       );
     }
   }
 
+  /* 通常強化 */
 
-  /* =========================================================
-     攻撃・防御強化
-  ========================================================= */
-
-  function getAttackCost() {
+  function attackCost() {
     return (
       50 +
-      game.attackLevel * 40
+      game.attackLevel *
+      40
     );
   }
 
-
-  function getDefenseCost() {
+  function defenseCost() {
     return (
       50 +
-      game.defenseLevel * 40
+      game.defenseLevel *
+      40
     );
   }
 
+  $("upgradeAttack").onclick =
+    () => {
+      const cost =
+        attackCost();
 
-  $("upgradeAttack")
-    .addEventListener(
-      "click",
-      () => {
-        const cost =
-          getAttackCost();
-
-        if (
-          game.gold < cost
-        ) {
-          showToast(
-            "ゴールド不足"
-          );
-
-          return;
-        }
-
-        game.gold -=
-          cost;
-
-        game.attackLevel++;
-
-        saveGame();
-        renderGame();
-
+      if (game.gold < cost) {
         showToast(
-          "攻撃力を強化した！"
+          "ゴールド不足"
         );
+
+        return;
       }
-    );
 
+      game.gold -= cost;
+      game.attackLevel++;
 
-  $("upgradeDefense")
-    .addEventListener(
-      "click",
-      () => {
-        const cost =
-          getDefenseCost();
+      saveGame();
+      renderGame();
 
-        if (
-          game.gold < cost
-        ) {
-          showToast(
-            "ゴールド不足"
-          );
+      showToast(
+        "攻撃力を強化！"
+      );
+    };
 
-          return;
-        }
+  $("upgradeDefense").onclick =
+    () => {
+      const cost =
+        defenseCost();
 
-        game.gold -=
-          cost;
-
-        game.defenseLevel++;
-
-        saveGame();
-        renderGame();
-
+      if (game.gold < cost) {
         showToast(
-          "防御力を強化した！"
+          "ゴールド不足"
         );
+
+        return;
       }
-    );
 
+      game.gold -= cost;
+      game.defenseLevel++;
 
-  /* =========================================================
-     放置報酬
-  ========================================================= */
+      saveGame();
+      renderGame();
 
-  function getIdleRate() {
+      showToast(
+        "防御力を強化！"
+      );
+    };
+
+  /* 放置報酬 */
+
+  function idleRate() {
     return (
       1 +
-      game.stage * 0.22
+      game.stage *
+      .22
     ) *
     (
       1 +
-      getTreeBonus(
-        "idle"
-      )
+      treeBonus("idle")
     );
   }
 
-
-  $("claimIdle")
-    .addEventListener(
-      "click",
-      () => {
-        const reward =
-          Math.floor(
-            game.idleBank
-          );
-
-        if (
-          reward <= 0
-        ) {
-          showToast(
-            "報酬はまだありません"
-          );
-
-          return;
-        }
-
-        game.gold +=
-          reward;
-
-        game.idleBank =
-          0;
-
-        saveGame();
-        renderGame();
-
-        showToast(
-          `${formatNumber(reward)}Gを獲得！`
+  $("claimIdle").onclick =
+    () => {
+      const reward =
+        Math.floor(
+          game.idleBank
         );
+
+      if (reward <= 0) {
+        showToast(
+          "報酬はまだありません"
+        );
+
+        return;
       }
-    );
 
+      game.gold += reward;
+      game.idleBank = 0;
 
-  /* =========================================================
-     ガチャ
-  ========================================================= */
+      saveGame();
+      renderGame();
 
-  const gachaItems = [
-    {
-      name:
-        "星剣アルディオン"
-    },
+      showToast(
+        `${formatNumber(reward)}G獲得！`
+      );
+    };
 
-    {
-      name:
-        "月影の魔導書"
-    },
+  /* ガチャ */
 
-    {
-      name:
-        "天星の弓"
-    },
-
-    {
-      name:
-        "輪廻の指輪"
-    },
-
-    {
-      name:
-        "星界水晶"
-    },
-
-    {
-      name:
-        "炎帝の紋章"
-    },
-
-    {
-      name:
-        "雷神の護符"
-    },
-
-    {
-      name:
-        "不死鳥の羽"
-    }
+  const itemNames = [
+    "星剣アルディオン",
+    "月影の魔導書",
+    "天星の弓",
+    "輪廻の指輪",
+    "星界水晶",
+    "炎帝の紋章",
+    "雷神の護符",
+    "不死鳥の羽"
   ];
-
 
   function rollRarity() {
     const random =
       Math.random();
 
-    if (random < 0.05) {
+    if (random < .05) {
       return "SSR";
     }
 
-    if (random < 0.28) {
+    if (random < .28) {
       return "SR";
     }
 
     return "R";
   }
-
-
-  function getItemPower(rarity) {
-    const lootMultiplier =
-      1 +
-      getTreeBonus(
-        "loot"
-      );
-
-    if (rarity === "SSR") {
-      return Math.floor(
-        35 *
-        lootMultiplier
-      );
-    }
-
-    if (rarity === "SR") {
-      return Math.floor(
-        15 *
-        lootMultiplier
-      );
-    }
-
-    return Math.floor(
-      6 *
-      lootMultiplier
-    );
-  }
-
 
   function summon(
     count,
@@ -6188,8 +5163,7 @@
       return;
     }
 
-    game.crystal -=
-      price;
+    game.crystal -= price;
 
     const results = [];
 
@@ -6206,47 +5180,34 @@
         index === 9 &&
         rarity === "R"
       ) {
-        rarity =
-          "SR";
+        rarity = "SR";
       }
 
-      const baseItem =
-        gachaItems[
-          Math.floor(
-            Math.random() *
-            gachaItems.length
-          )
-        ];
-
       const item = {
-        id:
-          `${Date.now()}_${Math.random()}`,
-
         name:
-          baseItem.name,
+          itemNames[
+            Math.floor(
+              Math.random() *
+              itemNames.length
+            )
+          ],
 
         rarity,
 
-        power:
-          getItemPower(
-            rarity
-          )
+        power: {
+          R: 6,
+          SR: 15,
+          SSR: 35
+        }[rarity]
       };
 
-      game.items.push(
-        item
-      );
-
-      results.push(
-        item
-      );
+      game.items.push(item);
+      results.push(item);
     }
 
     $("gachaResults")
       .innerHTML =
-      createItemCards(
-        results
-      );
+      itemCards(results);
 
     saveGame();
     renderGame();
@@ -6256,33 +5217,17 @@
     );
   }
 
-
-  function createItemCards(
-    items
-  ) {
-    if (
-      !items ||
-      items.length === 0
-    ) {
-      return "";
-    }
-
+  function itemCards(items) {
     return items
       .slice()
       .reverse()
       .map(
         (item) => `
           <article class="card ${item.rarity}">
-            <b>
-              ${item.rarity}
-            </b>
-
+            <b>${item.rarity}</b>
             <br>
-
             ${item.name}
-
             <br>
-
             <small>
               戦力+${formatNumber(item.power)}
             </small>
@@ -6292,50 +5237,30 @@
       .join("");
   }
 
+  $("pullOne").onclick =
+    () =>
+      summon(1,100);
 
-  $("pullOne")
-    .addEventListener(
-      "click",
-      () => {
-        summon(
-          1,
-          100
-        );
-      }
-    );
+  $("pullTen").onclick =
+    () =>
+      summon(10,900);
 
+  /* 転生 */
 
-  $("pullTen")
-    .addEventListener(
-      "click",
-      () => {
-        summon(
-          10,
-          900
-        );
-      }
-    );
-
-
-  /* =========================================================
-     転生
-  ========================================================= */
-
-  function getRebirthSoulGain() {
-    if (
-      game.stage < 10
-    ) {
+  function rebirthSoulGain() {
+    if (game.stage < 10) {
       return 0;
     }
 
     return Math.max(
       1,
+
       Math.floor(
         game.stage /
         5 *
         (
           1 +
-          getTreeBonus(
+          treeBonus(
             "soulGain"
           )
         )
@@ -6343,171 +5268,109 @@
     );
   }
 
+  $("rebirthButton").onclick =
+    () => {
+      if (game.stage < 10) {
+        showToast(
+          "Stage 10で転生が解放されます"
+        );
 
-  $("rebirthButton")
-    .addEventListener(
-      "click",
-      processRebirth
-    );
+        return;
+      }
 
+      const gain =
+        rebirthSoulGain();
 
-  function processRebirth() {
-    if (
-      game.stage < 10
-    ) {
+      const confirmed =
+        confirm(
+          "転生しますか？\n\n" +
+          `獲得星魂：${gain}個\n\n` +
+          "【リセット】\n" +
+          "レベル、経験値、HP、通常強化、ステージ、ゴールド、放置報酬\n\n" +
+          "【引き継ぎ】\n" +
+          "所持星魂、星魂盤、クリスタル、ガチャ装備、転生回数"
+        );
+
+      if (!confirmed) {
+        return;
+      }
+
+      if (battleTimer) {
+        clearInterval(
+          battleTimer
+        );
+
+        battleTimer = null;
+      }
+
+      battleInProgress = false;
+
+      /*
+        星魂は加算
+        星魂盤は一切変更しない
+      */
+
+      game.soul += gain;
+      game.rebirths++;
+
+      game.level = 1;
+      game.exp = 0;
+      game.stage = 1;
+      game.gold = 120;
+      game.attackLevel = 0;
+      game.defenseLevel = 0;
+      game.idleBank = 0;
+
+      const newStats =
+        calculateStats();
+
+      playerMaximumHp =
+        newStats.hp;
+
+      playerCurrentHp =
+        newStats.hp;
+
+      updatePlayerHp();
+
+      $("fightButton").disabled =
+        false;
+
+      $("fightButton").textContent =
+        "⚔ ボスに挑戦";
+
+      updateBossDisplay(true);
+
+      $("battleLog").textContent =
+        "転生完了！星魂盤の力を引き継いだ。";
+
+      saveGame();
+      renderGame();
+      renderTree();
+
+      openPage(
+        "adventure"
+      );
+
       showToast(
-        "Stage 10で転生が解放されます"
+        `転生完了！ 星魂+${gain}`
       );
+    };
 
-      return;
-    }
-
-    const gain =
-      getRebirthSoulGain();
-
-    const confirmed =
-      confirm(
-        "転生しますか？\n\n" +
-        `獲得星魂：${gain}個\n\n` +
-        "【リセットされるもの】\n" +
-        "・レベル\n" +
-        "・経験値\n" +
-        "・現在HP\n" +
-        "・攻撃力強化\n" +
-        "・防御力強化\n" +
-        "・ステージ\n" +
-        "・ゴールド\n" +
-        "・放置報酬\n\n" +
-        "【引き継がれるもの】\n" +
-        "・所持星魂\n" +
-        "・星魂盤\n" +
-        "・クリスタル\n" +
-        "・ガチャ装備\n" +
-        "・転生回数"
-      );
-
-    if (!confirmed) {
-      return;
-    }
-
-    if (battleTimer) {
-      clearInterval(
-        battleTimer
-      );
-
-      battleTimer =
-        null;
-    }
-
-    battleInProgress =
-      false;
-
-    /*
-      所持星魂と星魂盤は維持する。
-      転生報酬だけ現在の星魂へ追加する。
-    */
-
-    game.soul +=
-      gain;
-
-    game.rebirths++;
-
-    game.level =
-      1;
-
-    game.exp =
-      0;
-
-    game.stage =
-      1;
-
-    game.gold =
-      120;
-
-    game.attackLevel =
-      0;
-
-    game.defenseLevel =
-      0;
-
-    game.idleBank =
-      0;
-
-    /*
-      game.treeは変更しない。
-      取得済みノードが引き継がれる。
-    */
-
-    const newStats =
-      calculateStats();
-
-    playerMaximumHp =
-      newStats.hp;
-
-    playerCurrentHp =
-      newStats.hp;
-
-    updatePlayerHpDisplay();
-
-    $("enemyCurrentHp")
-      .textContent =
-      "-";
-
-    $("enemyMaximumHp")
-      .textContent =
-      "-";
-
-    $("enemyHpBar")
-      .style
-      .width =
-      "100%";
-
-    $("fightButton")
-      .disabled =
-      false;
-
-    $("battleLog")
-      .textContent =
-      "転生完了！星魂盤の力を引き継いで、新たな冒険が始まる。";
-
-    saveGame();
-
-    renderGame();
-    renderTree();
-
-    openPage(
-      "adventure"
-    );
-
-    showToast(
-      `転生完了！ 星魂+${gain}`
-    );
-  }
-
-
-  /* =========================================================
-     メイン描画
-  ========================================================= */
+  /* 画面描画 */
 
   function renderGame() {
     const playerStats =
       calculateStats();
 
-    const requiredExp =
-      getRequiredExp();
-
-    $("level")
-      .textContent =
+    $("level").textContent =
       game.level;
 
-    $("gold")
-      .textContent =
+    $("gold").textContent =
       formatNumber(
         game.gold
       );
 
-    $("crystal")
-      .textContent =
+    $("crystal").textContent =
       formatNumber(
         game.crystal
       );
@@ -6518,66 +5381,55 @@
         game.crystal
       );
 
-    $("soul")
-      .textContent =
+    $("soul").textContent =
       formatNumber(
         game.soul
       );
 
-    $("treeSoul")
-      .textContent =
+    $("treeSoul").textContent =
       formatNumber(
         game.soul
       );
 
-    $("stage")
-      .textContent =
+    $("stage").textContent =
       game.stage;
 
-    $("power")
-      .textContent =
+    $("power").textContent =
       formatNumber(
         playerStats.power
       );
 
-    $("hpStat")
-      .textContent =
+    $("hpStat").textContent =
       formatNumber(
         playerStats.hp
       );
 
-    $("attackStat")
-      .textContent =
+    $("attackStat").textContent =
       formatNumber(
         playerStats.attack
       );
 
-    $("defenseStat")
-      .textContent =
+    $("defenseStat").textContent =
       formatNumber(
         playerStats.defense
       );
 
-    $("exp")
-      .textContent =
+    $("exp").textContent =
       formatNumber(
         game.exp
       );
 
-    $("expRequired")
-      .textContent =
+    $("expRequired").textContent =
       formatNumber(
-        requiredExp
+        requiredExp()
       );
 
-    $("expBar")
-      .style
-      .width =
+    $("expBar").style.width =
       `${
         Math.min(
           100,
           game.exp /
-          requiredExp *
+          requiredExp() *
           100
         )
       }%`;
@@ -6608,13 +5460,13 @@
     $("attackCost")
       .textContent =
       formatNumber(
-        getAttackCost()
+        attackCost()
       );
 
     $("defenseCost")
       .textContent =
       formatNumber(
-        getDefenseCost()
+        defenseCost()
       );
 
     $("idleGold")
@@ -6633,24 +5485,21 @@
         (
           1 +
           game.rebirths *
-          0.12 +
-          getTreeBonus(
-            "rebirth"
-          )
+          .12 +
+          treeBonus("rebirth")
         ).toFixed(2)
       }x`;
 
     $("rebirthSoulGain")
       .textContent =
-      getRebirthSoulGain();
+      rebirthSoulGain();
 
-    $("rebirthButton")
-      .disabled =
+    $("rebirthButton").disabled =
       game.stage < 10;
 
     $("gachaHistory")
       .innerHTML =
-      createItemCards(
+      itemCards(
         game.items.slice(-20)
       );
 
@@ -6661,14 +5510,20 @@
       playerCurrentHp =
         playerStats.hp;
 
-      updatePlayerHpDisplay();
+      updatePlayerHp();
+    }
+
+    /*
+      戦闘中でなければ、
+      現在ステージのボス表示を維持
+    */
+
+    if (!battleInProgress) {
+      updateBossDisplay(true);
     }
   }
 
-
-  /* =========================================================
-     ページ切り替え
-  ========================================================= */
+  /* ページ切替 */
 
   function openPage(pageId) {
     document
@@ -6683,14 +5538,11 @@
         }
       );
 
-    const selectedPage =
-      $(pageId);
-
-    if (selectedPage) {
-      selectedPage.classList.add(
+    $(pageId)
+      .classList
+      .add(
         "active"
       );
-    }
 
     document
       .querySelectorAll(
@@ -6706,9 +5558,7 @@
         }
       );
 
-    if (
-      pageId === "tree"
-    ) {
+    if (pageId === "tree") {
       renderTree();
 
       setTimeout(
@@ -6717,61 +5567,30 @@
       );
     }
 
-    if (
-      pageId === "gacha"
-    ) {
-      $("gachaHistory")
-        .innerHTML =
-        createItemCards(
-          game.items.slice(-20)
-        );
-    }
+    window.scrollTo(0,0);
+  }
 
-    window.scrollTo(
-      0,
-      0
+  /* オフライン報酬 */
+
+  const elapsed =
+    Math.min(
+      8 * 60 * 60,
+
+      Math.max(
+        0,
+        (
+          Date.now() -
+          game.lastSave
+        ) /
+        1000
+      )
     );
-  }
 
-
-  /* =========================================================
-     オフライン報酬
-  ========================================================= */
-
-  function calculateOfflineReward() {
-    const now =
-      Date.now();
-
-    const elapsedSeconds =
-      Math.min(
-        8 * 60 * 60,
-        Math.max(
-          0,
-          (
-            now -
-            game.lastSave
-          ) /
-          1000
-        )
-      );
-
-    const reward =
-      Math.floor(
-        elapsedSeconds *
-        getIdleRate()
-      );
-
-    game.idleBank +=
-      reward;
-
-    game.lastSave =
-      now;
-  }
-
-
-  /* =========================================================
-     毎秒の放置報酬
-  ========================================================= */
+  game.idleBank +=
+    Math.floor(
+      elapsed *
+      idleRate()
+    );
 
   setInterval(
     () => {
@@ -6779,7 +5598,7 @@
         Math.max(
           1,
           Math.floor(
-            getIdleRate()
+            idleRate()
           )
         );
 
@@ -6792,57 +5611,22 @@
     1000
   );
 
-
-  /* =========================================================
-     自動保存
-  ========================================================= */
-
   setInterval(
     saveGame,
     15000
   );
-
 
   window.addEventListener(
     "beforeunload",
     saveGame
   );
 
-
-  /* =========================================================
-     画面サイズ変更
-  ========================================================= */
-
-  window.addEventListener(
-    "resize",
-    () => {
-      if (
-        $("tree")
-          .classList
-          .contains(
-            "active"
-          )
-      ) {
-        centerTree();
-      }
-    }
-  );
-
-
-  /* =========================================================
-     起動
-  ========================================================= */
-
-  calculateOfflineReward();
+  /* 起動 */
 
   saveGame();
-
   renderGame();
   renderTree();
-
-  openPage(
-    "adventure"
-  );
+  openPage("adventure");
 </script>
 
 </body>
